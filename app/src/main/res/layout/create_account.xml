@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="first name"
+        android:ems="10"
+        android:id="@+id/editText" />
+
+    <EditText
+        android:layout_width="194dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="last name"
+        android:ems="10"
+        android:id="@+id/editText4" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/editText5"
+        android:text="email" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="password"
+        android:ems="10"
+        android:id="@+id/editText7" />
+
+    <Button
+        android:text="CREATE ACCOUNT"
+        android:onClick="oncLick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button3"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Colored" />
+
+</LinearLayout>

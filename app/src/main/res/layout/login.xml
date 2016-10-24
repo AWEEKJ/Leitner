@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:text="LEITNER"
+        android:layout_width="175dp"
+        android:layout_height="101dp"
+        android:id="@+id/textView2"
+        android:layout_weight="0.34" />
+
+    <TextView
+        android:text="USERMAIL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_weight="0.26" />
+
+    <EditText
+        android:layout_width="340dp"
+        android:layout_height="75dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:text="letiner@gmail.com" />
+
+    <TextView
+        android:text="PASSWORD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/editText2"
+        android:hint="********" />
+
+    <Button
+        android:text="LOGIN"
+        android:layout_width="174dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/button" />
+
+    <Button
+        android:text="CREATE NEW ACCOUNT"
+        android:layout_width="wrap_content"
+        android:onClick="onClick"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
+</LinearLayout>
