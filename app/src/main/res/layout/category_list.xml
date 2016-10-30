@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="6dip" android:orientation="vertical">
 
-<!--카테고리 리스트 보여주는 형식-->
+        <!--카테고리 리스트 구성 형식 : 타이틀, 시간만 나옴-->
         <TextView
             android:id="@+id/Category_Name"
             android:layout_width="fill_parent"
@@ -17,5 +17,4 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"/>
-
 </LinearLayout>
