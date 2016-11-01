@@ -8,7 +8,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--리스트 뷰. CategoryView 클래스에서 제어-->
     <RelativeLayout
+        android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

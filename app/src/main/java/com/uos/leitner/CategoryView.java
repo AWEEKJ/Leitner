@@ -1,18 +1,19 @@
 package com.uos.leitner;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 /**
@@ -20,6 +21,9 @@ import java.util.ArrayList;
  */
 
 public class CategoryView extends Fragment {
+    private int count=1;
+    Communicator hermes = null;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +31,11 @@ public class CategoryView extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View  view = inflater.inflate(R.layout.categort_view, null);
+
+        View  view = inflater.inflate(R.layout.category_view, null);
 
         final ArrayList<Category> categoryList = new ArrayList<Category>();
-        CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.category_list, categoryList) ;
+        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.category_list, categoryList) ;
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
 
@@ -40,6 +45,7 @@ public class CategoryView extends Fragment {
         final EditText insertName = (EditText)view.findViewById(R.id.insertName);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        // 추가버튼 클릭 이벤트
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
             @Override
             public void onClick(View view) {
@@ -49,22 +55,64 @@ public class CategoryView extends Fragment {
             }
         });
 
-        insertButton.setOnClickListener(new View.OnClickListener() {    // 추가 확인 버튼 눌렀을 때
+        // 추가 확인버튼 클릭 이벤트
+        insertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String name = insertName.getText().toString();
-                Category tmp = new Category(name, "0분");
-
-                categoryList.add(tmp);
-
                 ly.setVisibility(View.GONE);
-                insertName.setText("");
-                insertName.clearFocus();
                 imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+                if(count <= ((MainActivity)getActivity()).MAX) {
+
+                    String name = insertName.getText().toString();
+                    Category contents = new Category(name, "0분");
+                    categoryList.add(contents);
+
+                    insertName.setText("");
+                    insertName.clearFocus();
+
+                    //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
+                    hermes.addCategory();
+                    hermes.setCategoryInfo(name, count++);
+                }
+                else
+                    Toast.makeText(getContext(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        // 리스트 항목 클릭 이벤트
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                hermes.showNext(position);
+                Toast.makeText(getContext(), "페이저로 이동", Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
     }
-}
 
+    public static CategoryView newInstance(){
+        CategoryView fragment = new CategoryView();
+        Bundle args =  new Bundle();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    /* MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출 */
+    public interface Communicator {
+        public void addCategory();
+        public void setCategoryInfo(String name, int position);
+        public void showNext(int position);
+    }
+
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if(context instanceof Communicator)
+            hermes = (Communicator)context;
+        else
+            throw new ClassCastException();
+    }
+}
