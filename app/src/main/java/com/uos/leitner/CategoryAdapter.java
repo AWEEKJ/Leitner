@@ -27,7 +27,7 @@ class CategoryAdapter extends ArrayAdapter<Category> {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.category_list, null);
+            view = inflater.inflate(R.layout.listview_category, null);
         }
 
         Category c = items.get(position);

@@ -32,10 +32,10 @@ public class CategoryView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View  view = inflater.inflate(R.layout.category_view, null);
+        View  view = inflater.inflate(R.layout.fragment_category, null);
 
         final ArrayList<Category> categoryList = new ArrayList<Category>();
-        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.category_list, categoryList) ;
+        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, categoryList) ;
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
 
@@ -72,8 +72,8 @@ public class CategoryView extends Fragment {
                     insertName.clearFocus();
 
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
-                    hermes.addCategory();
-                    hermes.setCategoryInfo(name, count++);
+                    hermes.addCategory(name);
+                    count++;
                 }
                 else
                     Toast.makeText(getContext(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
@@ -102,8 +102,7 @@ public class CategoryView extends Fragment {
 
     /* MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출 */
     public interface Communicator {
-        public void addCategory();
-        public void setCategoryInfo(String name, int position);
+        public void addCategory(String name);
         public void showNext(int position);
     }
 

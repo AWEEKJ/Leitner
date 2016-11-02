@@ -38,23 +38,15 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
     //1. 세부항목별 페이지 생성
     @Override
-    public void addCategory() {
-        if(pagerAdapter.getCount() <= MAX)
-            pagerAdapter.add(new DetailView());
+    public void addCategory(String name) {
+        if(pagerAdapter.getCount() <= MAX) {
+            Fragment fragment = MeasureView.newInstance(name);
+            pagerAdapter.add(fragment);
+        }
 
     }
 
-    //2. 카테고리 생성 시, 페이지에 이름 설정
-    @Override
-    public void setCategoryInfo(String name, int position) {
-
-        Fragment fragment = pagerAdapter.getItem(position); // 새로 생성된 프레그먼트에 대한 참조를 가져오는 곳. 중요.
-        TextView TV = (TextView)fragment.getView().findViewById(R.id.tv);
-        TV.setTextSize(25);
-        TV.setText(name+" 측정 페이지입니다");
-    }
-
-    //3. 리스트 클릭하면 해당 페이지로 이동
+    //2. 리스트 클릭하면 해당 페이지로 이동
     @Override
     public void showNext(int position) {
         //position 0번은 메인페이지

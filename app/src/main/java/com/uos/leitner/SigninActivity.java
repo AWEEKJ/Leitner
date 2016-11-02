@@ -7,12 +7,12 @@ import android.os.Bundle;
  * Created by JungJee on 2016. 10. 24..
  */
 
-public class CreateAccountActivity extends Activity{
+public class SigninActivity extends Activity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_account);
+        setContentView(R.layout.activity_signin);
     }
 }

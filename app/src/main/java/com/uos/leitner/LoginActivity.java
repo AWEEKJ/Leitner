@@ -13,11 +13,11 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.activity_login);
     }
 
     public void onClick(View view) {
-        Intent intent = new Intent(this, CreateAccountActivity.class);
+        Intent intent = new Intent(this, SigninActivity.class);
 
         startActivity(intent);
     }
