@@ -12,13 +12,16 @@ import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 /**
  * Created by HANJU on 2016. 11. 2..
  */
 
 public class TimerView extends Fragment{
 
-    private long goalTime = 802000; // Time Setup for temporary, 13m 22s to milliseconds
+    private long goalTime = 802000; // Time Setup for temporary, 13m 22s is 802000 milliseconds
+    private long remainTime;
 
     private static final String FORMAT = "%02d";
     private CountDownTimer cTimer;
@@ -27,6 +30,7 @@ public class TimerView extends Fragment{
     private TextView secondsTV;
     private Button startBtn;
     private Button stopBtn;
+    private DonutProgress progressBar;
 
     public TimerView() {
         // Required empty public constructor
@@ -39,6 +43,7 @@ public class TimerView extends Fragment{
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
         startBtn = (Button) view.findViewById(R.id.startButton);
         stopBtn = (Button) view.findViewById(R.id.stopButton);
+        progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
         return view;
     }
@@ -47,6 +52,9 @@ public class TimerView extends Fragment{
     public void onStart() {
         super.onStart();
         // TODO 경고 메세지 안 뜨도록 수정할 것
+
+        remainTime = goalTime;
+
         minutesTV.setText(""+String.format(FORMAT,
                 TimeUnit.MILLISECONDS.toMinutes(goalTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(goalTime))));
 
@@ -56,7 +64,7 @@ public class TimerView extends Fragment{
         startBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                cTimer = new CountDownTimer(goalTime, 1000) { // adjust the milli seconds here
+                cTimer = new CountDownTimer(remainTime, 1000) { // adjust the milli seconds here
 
                     public void onTick(long millisUntilFinished) {
                         minutesTV.setText(""+String.format(FORMAT,
@@ -65,7 +73,9 @@ public class TimerView extends Fragment{
                         secondsTV.setText(""+String.format(FORMAT,
                                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
 
-                        goalTime = millisUntilFinished;
+                        progressBar.setProgress((int)((goalTime-millisUntilFinished)*100/goalTime));
+
+                        remainTime = millisUntilFinished;
                     }
 
                     public void onFinish() {
