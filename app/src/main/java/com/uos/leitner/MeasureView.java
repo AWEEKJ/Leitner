@@ -2,6 +2,7 @@ package com.uos.leitner;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class MeasureView extends Fragment {
         return view;
     }
 
+
     public static MeasureView newInstance(String name){
         MeasureView fragment = new MeasureView();
         Bundle args =  new Bundle();
@@ -45,9 +47,5 @@ public class MeasureView extends Fragment {
         if (bundle != null) {
             category = bundle.getString("category");
         }
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 }
