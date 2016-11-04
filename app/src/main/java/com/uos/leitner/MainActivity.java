@@ -52,4 +52,5 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         //position 0번은 메인페이지
         viewPager.setCurrentItem(position+1, true);
     }
+
 }

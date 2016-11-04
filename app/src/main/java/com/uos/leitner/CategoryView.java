@@ -3,6 +3,7 @@ package com.uos.leitner;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,20 @@ import java.util.ArrayList;
  */
 
 public class CategoryView extends Fragment {
+
     private int count=1;
     Communicator hermes = null;
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,26 @@ public class CategoryView extends Fragment {
         final Button insertButton = (Button)view.findViewById(R.id.insertButton);
         final EditText insertName = (EditText)view.findViewById(R.id.insertName);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+
+//        final Button stat_Button = (Button)view.findViewById(R.id.stat_Button); // 통계로 넘어가는 버튼
+//
+//        StatPagerAdapter statPagerAdapter = new StatPagerAdapter(getChildFragmentManager());
+//        ViewPager  viewPager = (ViewPager) view.findViewById(R.id.stat_pager);
+//
+//
+//        viewPager.setAdapter(statPagerAdapter);
+//        viewPager.setOffscreenPageLimit(5);
+//        statPagerAdapter.add(StatView.newInstance());
+
+
+
+
+
+
+
+
+
 
         // 추가버튼 클릭 이벤트
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
@@ -74,7 +107,18 @@ public class CategoryView extends Fragment {
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
                     hermes.addCategory(name);
                     count++;
+
+
+
+
+
+
+
+
+//                    statPagerAdapter.add(new StatView());
+
                 }
+
                 else
                     Toast.makeText(getContext(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
             }
