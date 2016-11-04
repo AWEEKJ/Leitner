@@ -1,59 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     android:weightSum="1">
 
-    <TextView
-        android:text="LEITNER"
-        android:layout_width="175dp"
-        android:layout_height="101dp"
-        android:id="@+id/textView2"
-        android:layout_weight="0.34" />
 
-    <TextView
-        android:text="USERMAIL"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:layout_weight="0.26" />
+        android:orientation="vertical"
+        android:id="@+id/linearLayout"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true">
 
-    <EditText
-        android:layout_width="340dp"
-        android:layout_height="75dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/editText3"
-        android:text="letiner@gmail.com" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:id="@+id/login_email"
+            android:hint="Enter Email"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="17dp"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:text="PASSWORD"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView4" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/login_password"
+            android:hint="********"
+            android:layout_margin="15dp"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:hint="********" />
+        <Button
+            android:text="LOGIN"
+            android:layout_width="174dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_button"
+            android:onClick="onClick"
+            android:layout_marginTop="20dp"
 
-    <Button
-        android:text="LOGIN"
-        android:layout_width="174dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/loginButton" />
-    <Button
-        android:text="CREATE NEW ACCOUNT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:onClick="onClick" />
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp"/>
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        <Button
+            android:text="     Sign in via email     "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_in_email_button"
+            android:onClick="onClick"
+            android:layout_marginLeft="90dp"
+            android:layout_marginRight="90dp" />
+
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_google_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

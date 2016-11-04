@@ -40,15 +40,11 @@ public class GoogleSigninActivity extends AppCompatActivity implements GoogleApi
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+//        setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -89,15 +85,7 @@ public class GoogleSigninActivity extends AppCompatActivity implements GoogleApi
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        Button googleBtn = (Button) findViewById(R.id.sign_in_button);
-
-        googleBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                signIn();
-
-            }
-        });
+        signIn();
     }
 
     private void signIn() {
