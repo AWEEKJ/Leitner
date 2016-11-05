@@ -17,6 +17,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 /**
  * Created by JungJee on 2016. 11. 04..
+ *
+ * FIN.
  */
 
 public class SigninActivity extends AppCompatActivity implements View.OnClickListener{
