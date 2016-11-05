@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 
 public class CategoryView extends Fragment {
+
     private int count=1;
     Communicator hermes = null;
 
@@ -73,10 +74,12 @@ public class CategoryView extends Fragment {
 
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
                     hermes.addCategory(name);
+
                     count++;
                 }
+
                 else
-                    Toast.makeText(getContext(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -85,7 +88,7 @@ public class CategoryView extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 hermes.showNext(position);
-                Toast.makeText(getContext(), "페이저로 이동", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "페이저로 이동", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,7 +110,7 @@ public class CategoryView extends Fragment {
     }
 
     public void onAttach(Context context) {
-        super.onAttach(context);
+        super.onAttach(getActivity());
 
         if(context instanceof Communicator)
             hermes = (Communicator)context;

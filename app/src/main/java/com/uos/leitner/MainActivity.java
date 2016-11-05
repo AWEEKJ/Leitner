@@ -10,6 +10,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     protected int MAX = 5;   // 생성가능한 페이지 갯수
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +21,10 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         viewPager = (ViewPager) findViewById(R.id.main_pager);
 
         viewPager.setAdapter(pagerAdapter);
-
         viewPager.setOffscreenPageLimit(MAX);
-        pagerAdapter.add(new CategoryView());   // 처음 메인화면 생성
-    }
 
+        pagerAdapter.add(new VerticalActivity());   // 처음 메인화면 생성
+    }
 
     //뒤로가기 버튼 눌렀을 때
     @Override
@@ -34,22 +34,22 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
-    /* CategoryView의 인터페이스를 구현해서 정보교환*/
+    //CategoryView의 인터페이스를 구현해서 정보교환
 
     //1. 세부항목별 페이지 생성
     @Override
     public void addCategory(String name) {
-        if(pagerAdapter.getCount() <= MAX) {
-            Fragment fragment = MeasureView.newInstance(name);
+        if (pagerAdapter.getCount() <= 10) {
+            Fragment fragment = VerticalActivity.newInstance(name);
+
             pagerAdapter.add(fragment);
         }
-
     }
 
     //2. 리스트 클릭하면 해당 페이지로 이동
     @Override
     public void showNext(int position) {
         //position 0번은 메인페이지
-        viewPager.setCurrentItem(position+1, true);
+        viewPager.setCurrentItem(position + 1, true);
     }
 }
