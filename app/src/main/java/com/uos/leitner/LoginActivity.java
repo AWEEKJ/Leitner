@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +49,7 @@ implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(activity_login);
 
+        progressDialog = new ProgressDialog(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -115,9 +117,9 @@ implements View.OnClickListener{
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
-//        if (!validateForm()) {
-//            return;
-//        }
+        if (!validateForm()) {
+            return;
+        }
 
 //        showProgressDialog();
 
@@ -138,9 +140,14 @@ implements View.OnClickListener{
 //                        }
 
                         if(task.isSuccessful()) {
+
+                            Toast.makeText(LoginActivity.this,"Log in Successed.", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             startActivity(intent);
+                        } else{
+                            Toast.makeText(LoginActivity.this,"Log in Failed.", Toast.LENGTH_LONG).show();
+
                         }
                      }
                 });
@@ -165,6 +172,28 @@ implements View.OnClickListener{
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String email = mEmailField.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            mEmailField.setError("Doesn't match equired form.");
+            valid = false;
+        } else {
+            mEmailField.setError(null);
+        }
+
+        String password = mPasswordField.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            mPasswordField.setError("Doesn't match equired form.");
+            valid = false;
+        } else {
+            mPasswordField.setError(null);
+        }
+
+        return valid;
     }
 
 }
