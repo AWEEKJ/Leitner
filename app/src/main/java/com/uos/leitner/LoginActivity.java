@@ -21,8 +21,10 @@ import com.google.firebase.auth.FirebaseUser;
 
 import static com.uos.leitner.R.layout.activity_login;
 
-/*
+/**
  * Created by JungJee on 2016. 10. 24..
+ *
+ * FIN. on 11.05.
  */
 
 public class LoginActivity extends AppCompatActivity
@@ -40,9 +42,6 @@ implements View.OnClickListener{
 
     //tmp
     private ProgressDialog progressDialog;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
