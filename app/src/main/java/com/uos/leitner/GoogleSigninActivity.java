@@ -29,7 +29,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
  * Created by JungJee on 2016. 11. 4..
  */
 
-public class GoogleSigninActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class GoogleSigninActivity extends AppCompatActivity
+        implements GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
@@ -73,10 +74,6 @@ public class GoogleSigninActivity extends AppCompatActivity implements GoogleApi
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
-
-
-
 
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
@@ -159,10 +156,10 @@ public class GoogleSigninActivity extends AppCompatActivity implements GoogleApi
 
 
 
-    public void onClick(View v) {
-        signIn();
-
-    }
+//    public void onClick(View v) {
+//        signIn();
+//
+//    }
 
     @Override
     public void onStart() {
