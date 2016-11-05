@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "904645515647",
+    "firebase_url": "https://jj-firebase.firebaseio.com",
+    "project_id": "jj-firebase",
+    "storage_bucket": "jj-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904645515647:android:dd0075db89333c5e",
+        "android_client_info": {
+          "package_name": "com.uos.leitner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904645515647-hibkv1vdo11a9b95a4v4ak8tm2ba1esj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uos.leitner",
+            "certificate_hash": "5EA81466309EA3B87AB34BAA099EA0E46ABD0431"
+          }
+        },
+        {
+          "client_id": "904645515647-cu27ljdehi1f9l3v801lqcj44q1n1bk9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKZ3mwc6zfpjuwewao2cmsSjdbegRpg9U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904645515647-cu27ljdehi1f9l3v801lqcj44q1n1bk9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

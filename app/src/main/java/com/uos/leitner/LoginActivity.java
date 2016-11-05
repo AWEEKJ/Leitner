@@ -11,7 +11,7 @@ import android.widget.Button;
  * Created by JungJee on 2016. 10. 24..
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
