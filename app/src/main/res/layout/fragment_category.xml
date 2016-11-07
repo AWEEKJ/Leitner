@@ -52,7 +52,7 @@
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="#77AAAAAA"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <EditText
@@ -61,6 +61,20 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:hint="추가할 항목 이름을 입력하세요."/>
+
+        <EditText
+            android:id="@+id/maxTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:hint="목표 시간을 설정하세요"/>
+
+        <EditText
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:hint="초기 레벨을 설정하세요."/>
 
         <Button
             android:id="@+id/insertButton"
