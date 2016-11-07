@@ -43,6 +43,7 @@ public class VerticalActivity extends Fragment {
             pagerAdapter.add(MeasureView.newInstance(categoryName));
             pagerAdapter.add(StatisticView.newInstance());
         }
+
         return view;
     }
 
@@ -60,4 +61,12 @@ public class VerticalActivity extends Fragment {
             categoryName = bundle.getString("category");
         }
     }
+
+
+
+
+
+
+
+
 }

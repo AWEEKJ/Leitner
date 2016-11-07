@@ -36,15 +36,18 @@ public class CategoryView extends Fragment {
         View  view = inflater.inflate(R.layout.fragment_category, null);
 
         final ArrayList<Category> categoryList = new ArrayList<Category>();
-        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, categoryList) ;
+        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, categoryList);
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
+
+        hermes.initialize(categoryList);
 
         final Button addButton = (Button)view.findViewById(R.id.addButton);
         final LinearLayout ly = (LinearLayout)view.findViewById(R.id.insertPopup);
         final Button insertButton = (Button)view.findViewById(R.id.insertButton);
         final EditText insertName = (EditText)view.findViewById(R.id.insertName);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
 
         // 추가버튼 클릭 이벤트
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
@@ -67,13 +70,16 @@ public class CategoryView extends Fragment {
 
                     String name = insertName.getText().toString();
                     Category contents = new Category(name, "0분");
+
                     categoryList.add(contents);
 
                     insertName.setText("");
                     insertName.clearFocus();
 
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
-                    hermes.addCategory(name);
+                    hermes.addCategory(categoryList, adapter.getCount());
+
+                    adapter.getItemViewType(count);
 
                     count++;
                 }
@@ -105,7 +111,8 @@ public class CategoryView extends Fragment {
 
     /* MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출 */
     public interface Communicator {
-        public void addCategory(String name);
+        public void initialize(ArrayList<Category> list);
+        public void addCategory(ArrayList<Category> categoryList, int positon);   // 여기서 생성
         public void showNext(int position);
     }
 
