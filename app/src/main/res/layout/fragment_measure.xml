@@ -25,4 +25,5 @@
         android:name="com.uos.leitner.TimerView"
         android:layout_centerVertical="true" />
 
+
 </RelativeLayout>

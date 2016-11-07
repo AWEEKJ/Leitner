@@ -4,18 +4,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
     protected int MAX = 5;   // 생성가능한 페이지 갯수
 
     private DatabaseHelper db;
+
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
@@ -53,11 +52,14 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     public  void initialize(ArrayList<Category> categoryList) {
 
         ArrayList<Category> cts = db.getAllCategories();
-        categoryList = cts;
+
+        for(Category c : cts) {
+            categoryList.add(c);
+        }
 
         if (!categoryList.isEmpty()) {
             for (int i = 0; i < categoryList.size(); i++) {
-                Fragment fragment = VerticalActivity.newInstance(categoryList.get(i).getSubject_Name());
+                Fragment fragment = VerticalActivity.newInstance(categoryList.get(i).getSubject_ID());
                 pagerAdapter.add(fragment);
             }
         }
@@ -67,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     @Override
     public void addCategory(ArrayList<Category> categoryList, int position) {
         if (pagerAdapter.getCount() <= 10) {
-            Log.d("TEST", Integer.toString(position));
-            Fragment fragment = VerticalActivity.newInstance(categoryList.get(position-1).getSubject_Name());
+            Fragment fragment = VerticalActivity.newInstance(categoryList.get(position-1).getSubject_ID());
 
             pagerAdapter.add(fragment);
         }

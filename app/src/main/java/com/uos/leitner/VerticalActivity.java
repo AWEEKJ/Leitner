@@ -2,7 +2,6 @@ package com.uos.leitner;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,19 @@ public class VerticalActivity extends Fragment {
     private MyPagerAdapter pagerAdapter;
     private fr.castorflex.android.verticalviewpager.VerticalViewPager viewPager;
 
-    private String categoryName;
+    private long ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_vertical, viewPager);
+
         readBundle(getArguments());
 
         pagerAdapter = new MyPagerAdapter(getChildFragmentManager());
@@ -39,18 +41,17 @@ public class VerticalActivity extends Fragment {
         }
 
         else if(((MainActivity)getActivity()).flag ==true) {
-//            Log.d("test", getArguments().toString() );
-            pagerAdapter.add(MeasureView.newInstance(categoryName));
+            pagerAdapter.add(MeasureView.newInstance(ID));
             pagerAdapter.add(StatisticView.newInstance());
         }
 
         return view;
     }
 
-    public static VerticalActivity newInstance(String name) {
+    public static VerticalActivity newInstance(long subject_id) {
         VerticalActivity fragment = new VerticalActivity();
         Bundle args = new Bundle();
-        args.putString("category", name);
+        args.putLong("ID", subject_id);
         fragment.setArguments(args);
 
         return fragment;
@@ -58,15 +59,7 @@ public class VerticalActivity extends Fragment {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            categoryName = bundle.getString("category");
+            ID = bundle.getLong("ID");
         }
     }
-
-
-
-
-
-
-
-
 }

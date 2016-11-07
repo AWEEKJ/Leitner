@@ -10,23 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-
-import com.github.lzyzsd.circleprogress.DonutProgress;
 
 /**
  * Created by HANJU on 2016. 11. 2..
  */
 
-public class TimerView extends Fragment{
+public class TimerView extends Fragment {
 
     private long goalTime = 6000; // Time Setup for temporary, 13m 22s is 802000 milliseconds
     private long remainTime;
 
     private static final String FORMAT = "%02d";
     private CountDownTimer cTimer;
-
     private TextView minutesTV;
     private TextView secondsTV;
     private Button startBtn;

@@ -45,7 +45,6 @@ public class CategoryView extends Fragment {
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
 
-//        hermes.initialize(categoryList);
 
         final Button addButton = (Button)view.findViewById(R.id.addButton);
         final LinearLayout ly = (LinearLayout)view.findViewById(R.id.insertPopup);
@@ -55,6 +54,7 @@ public class CategoryView extends Fragment {
         final EditText level = (EditText)view.findViewById(R.id.level);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        hermes.initialize(categoryList);
 
         // 추가버튼 클릭 이벤트
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
@@ -89,7 +89,6 @@ public class CategoryView extends Fragment {
                     insertName.clearFocus();
 
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
-
                     hermes.addCategory(categoryList, adapter.getCount());
 
                     adapter.getItemViewType(count);
