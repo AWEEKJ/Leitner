@@ -19,11 +19,10 @@ import java.util.List;
 
 class CategoryAdapter extends ArrayAdapter<Category> {
     private List<Category> items;
-    DatabaseHelper db;
+
 
     public CategoryAdapter(Context context, int textViewResourceId, List<Category> items) {
         super(context, textViewResourceId, items);
-        db = new DatabaseHelper(getContext());
 
         //items = db.getAllCategories();
         this.items = items;
