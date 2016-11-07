@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class CategoryView extends Fragment {
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
 
+
         final Button addButton = (Button)view.findViewById(R.id.addButton);
         final LinearLayout ly = (LinearLayout)view.findViewById(R.id.insertPopup);
         final Button insertButton = (Button)view.findViewById(R.id.insertButton);
@@ -59,6 +61,31 @@ public class CategoryView extends Fragment {
         final EditText maxTime = (EditText)view.findViewById(R.id.maxTime);
         final EditText level = (EditText)view.findViewById(R.id.level);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        db = new DatabaseHelper(getContext());
+
+
+        /*
+        // Creating categories
+        Category study = new Category("STUDY");
+        Category meditation  = new Category("MEDITATION");
+        Category reading = new Category("READING");
+
+        // Inserting categories in db
+        long category1_id = db.createCategory(study);
+        long category2_id = db.createCategory(meditation);
+        long category3_id = db.createCategory(reading);
+        */
+
+
+        List<Category> cts = db.getAllCategories();
+
+        if(cts != null) {
+            for(Category c : cts) {
+                cl.add(c);
+            }
+        }
+
 
         // 추가버튼 클릭 이벤트
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때

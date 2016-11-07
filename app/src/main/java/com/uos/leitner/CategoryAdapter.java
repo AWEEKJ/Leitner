@@ -25,8 +25,8 @@ class CategoryAdapter extends ArrayAdapter<Category> {
         super(context, textViewResourceId, items);
         db = new DatabaseHelper(getContext());
 
-        items = db.getAllCategories();
-        //this.items = items;
+        //items = db.getAllCategories();
+        this.items = items;
     }
 
     @Override
