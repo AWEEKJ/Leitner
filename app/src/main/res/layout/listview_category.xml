@@ -13,8 +13,13 @@
             android:textSize="20dp"/>
 
         <TextView
-            android:id="@+id/Category_Time"
+            android:id="@+id/Category_Level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"/>
+
+        <TextView
+            android:id="@+id/Category_MaxTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 </LinearLayout>

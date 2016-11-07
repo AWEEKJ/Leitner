@@ -1,7 +1,9 @@
 package com.uos.leitner;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Category;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by changhyeon on 2016. 10. 30..
@@ -23,10 +29,16 @@ import java.util.ArrayList;
 public class CategoryView extends Fragment {
     private int count=1;
     Communicator hermes = null;
+    DatabaseHelper db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        // getApplicationContext() vs getContext()
+        db = new DatabaseHelper(getContext());
+
     }
 
     @Override
@@ -34,8 +46,9 @@ public class CategoryView extends Fragment {
 
         View  view = inflater.inflate(R.layout.fragment_category, null);
 
-        final ArrayList<Category> categoryList = new ArrayList<Category>();
-        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, categoryList) ;
+        // final ArrayList<Category> categoryList = new ArrayList<Category>();
+        final List<Category> cl = new ArrayList<Category>();
+        final CategoryAdapter adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, cl);
         final ListView listView = (ListView)view.findViewById(R.id.ListView);   //  ListView는 XML ListView
         listView.setAdapter(adapter);
 
@@ -43,6 +56,8 @@ public class CategoryView extends Fragment {
         final LinearLayout ly = (LinearLayout)view.findViewById(R.id.insertPopup);
         final Button insertButton = (Button)view.findViewById(R.id.insertButton);
         final EditText insertName = (EditText)view.findViewById(R.id.insertName);
+        final EditText maxTime = (EditText)view.findViewById(R.id.maxTime);
+        final EditText level = (EditText)view.findViewById(R.id.level);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
         // 추가버튼 클릭 이벤트
@@ -65,11 +80,23 @@ public class CategoryView extends Fragment {
                 if(count <= ((MainActivity)getActivity()).MAX) {
 
                     String name = insertName.getText().toString();
-                    Category contents = new Category(name, "0분");
-                    categoryList.add(contents);
+                    int goalTime = Integer.parseInt(maxTime.getText().toString());
+                    int currentLevel = Integer.parseInt(level.getText().toString());
+
+                    Category ct = new Category(name, goalTime, currentLevel);
+                    db.createCategory(ct);
+
+
+
+                    //Category contents = new Category(name, "0분");
+                    //categoryList.add(contents);
 
                     insertName.setText("");
+                    maxTime.setText("");
+                    level.setText("");
                     insertName.clearFocus();
+
+
 
                     //((MainActivity) getActivity()).addCategory();   // 세부항목 페이지 추가
                     hermes.addCategory(name);
