@@ -4,22 +4,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
 
+// 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
-    protected int MAX = 5;   // 생성가능한 페이지 갯수
 
+    protected int MAX = 5;   // 생성가능한 페이지 갯수
+    protected boolean flag = false;
     private DatabaseHelper db;
 
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
-
-    boolean flag = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(MAX);
 
-        pagerAdapter.add(new VerticalActivity());   // 처음 메인화면 생성
+        pagerAdapter.add(new VerticalActivity());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
     }
 
     //뒤로가기 버튼 눌렀을 때
@@ -45,9 +45,8 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
-    //CategoryView의 인터페이스를 구현해서 정보교환
-
-    //1. DB로부터 초기화
+    // CategoryView의 인터페이스 구현
+    //1. DB 정보를 받아서 초기화
     @Override
     public  void initialize(ArrayList<Category> categoryList) {
 
@@ -65,11 +64,11 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
     }
 
-    //2. 세부항목별 페이지 생성
+    //2. 새로운 카테고리의 세부 페이지 생성
     @Override
-    public void addCategory(ArrayList<Category> categoryList, int position) {
+    public void addCategory(long id) {
         if (pagerAdapter.getCount() <= 10) {
-            Fragment fragment = VerticalActivity.newInstance(categoryList.get(position-1).getSubject_ID());
+            Fragment fragment = VerticalActivity.newInstance(id);
 
             pagerAdapter.add(fragment);
         }
@@ -83,7 +82,11 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     }
 
     @Override
-    public void InsertDB(Category contents) {
-        db.createCategory(contents);
+    public void update(int position) {
+//        VerticalActivity a = new VerticalActivity();
+//        a.del(position);
+
+        pagerAdapter.remove(position);
+        pagerAdapter.notifyDataSetChanged();
     }
 }

@@ -41,6 +41,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="항목 추가"/>
+
+            <Button
+                android:id="@+id/delButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="삭제"/>
         </LinearLayout>
 
     </RelativeLayout>
@@ -56,21 +63,21 @@
         android:visibility="gone">
 
         <EditText
-            android:id="@+id/insertName"
+            android:id="@+id/inputName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:hint="추가할 항목 이름을 입력하세요."/>
 
         <EditText
-            android:id="@+id/maxTime"
+            android:id="@+id/inputTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:hint="목표 시간을 설정하세요"/>
 
         <EditText
-            android:id="@+id/level"
+            android:id="@+id/inputLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

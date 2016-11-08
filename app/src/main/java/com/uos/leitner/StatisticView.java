@@ -18,7 +18,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-
 /**
  * Created by HANJU on 2016. 11. 7..
  */

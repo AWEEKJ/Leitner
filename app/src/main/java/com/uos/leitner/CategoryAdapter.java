@@ -1,5 +1,6 @@
 package com.uos.leitner;
 
+import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 
 class CategoryAdapter extends ArrayAdapter<Category> {
+
     private ArrayList<Category> items;
 
     public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Category> items) {
@@ -43,13 +45,22 @@ class CategoryAdapter extends ArrayAdapter<Category> {
             if (subject_Name != null)
                 subject_Name.setText(c.getSubject_Name());
 
+            if (subject_MaxTime != null)
+                subject_MaxTime.setText("목표 시간: " + c.getMaxTime());
+
             if (subject_Level != null)
                 subject_Level.setText("현재 레벨: " + c.getCurrentLevel());
-
-            if (subject_MaxTime != null)
-                subject_Level.setText("목표 시간: " + c.getMaxTime());
         }
 
         return view;
+    }
+
+    void removeItem(ArrayList<Category> categoryList, int index) {
+        categoryList.remove(index);
+        ((MainActivity)getContext()).runOnUiThread(new Runnable() {
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
     }
 }

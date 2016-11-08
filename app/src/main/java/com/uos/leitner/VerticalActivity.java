@@ -1,10 +1,17 @@
 package com.uos.leitner;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.uos.leitner.model.Category;
+
+import java.util.ArrayList;
 
 /**
  * Created by changhyeon on 2016. 11. 6..
@@ -13,14 +20,11 @@ import android.view.ViewGroup;
 public class VerticalActivity extends Fragment {
     private MyPagerAdapter pagerAdapter;
     private fr.castorflex.android.verticalviewpager.VerticalViewPager viewPager;
-
     private long ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -40,10 +44,13 @@ public class VerticalActivity extends Fragment {
             ((MainActivity)getActivity()).flag =true;
         }
 
-        else if(((MainActivity)getActivity()).flag ==true) {
+         else if(((MainActivity)getActivity()).flag ==true) {
             pagerAdapter.add(MeasureView.newInstance(ID));
             pagerAdapter.add(StatisticView.newInstance());
         }
+
+        int x = pagerAdapter.getCount();
+        Log.d("몇개야야야야", Integer.toString(x));
 
         return view;
     }
@@ -61,5 +68,19 @@ public class VerticalActivity extends Fragment {
         if (bundle != null) {
             ID = bundle.getLong("ID");
         }
+    }
+
+    public void del(int position) {
+        Log.d("VERTICAL VIEW", Integer.toString(position));
+//        PagerAdapter.POSITION_NONE;
+//        int index = 2*position+2;
+//        pagerAdapter.remove(0);
+//        pagerAdapter.remove(1);
+//        pagerAdapter.remove(position+2);
+
+//        pagerAdapter.notifyDataSetChanged();
+//        if (pagerAdapter.getCount()) {}
+
+
     }
 }

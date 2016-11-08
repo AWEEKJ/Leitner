@@ -1,23 +1,20 @@
 package com.uos.leitner;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.ListFragment;
-import android.support.v4.view.ViewPager;
-import android.view.View;
+import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by changhyeon on 2016. 10. 31..
  */
 
-class MyPagerAdapter extends FragmentPagerAdapter { //FragmentStatePagerAdpater
+
+class MyPagerAdapter extends FragmentPagerAdapter {
+
     private ArrayList<Fragment> listFragment = new ArrayList<>();
 
     public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
@@ -34,46 +31,29 @@ class MyPagerAdapter extends FragmentPagerAdapter { //FragmentStatePagerAdpater
         return listFragment.size();
     }
 
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        FragmentManager manager = ((Fragment) object).getFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove((Fragment) object);
+        trans.commit();
+
+        super.destroyItem(container, position, object);
+    }
+
+//    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
+
+    // 동적으로 fragment를 추가하기 위해 필요한 부분
     public void add(Fragment f) {
         listFragment.add(f);
         notifyDataSetChanged();
     }
-}
 
-    /* 혹시 몰라
-    private ArrayList<WeakReference<Fragment>> registeredFragments = new ArrayList<WeakReference<Fragment>>();
-
-    public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
-        super(fm);
-    }
-
-    @Override
-    public Fragment getItem(int position) {
-        WeakReference<Fragment> weakReference = registeredFragments.get(position);
-        return weakReference.get();
-    }
-
-    @Override
-    public int getCount() {
-        return registeredFragments.size();
-    }
-
-    public void add(Fragment f){
-        registeredFragments.add(new WeakReference<Fragment>(f));
+    public void remove(int position) {
+        listFragment.remove(position);
         notifyDataSetChanged();
     }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        // TODO View를 추가할때 호출됨
-        // View를 리턴합니다.
-        return super.instantiateItem(container, position);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        // TODO View를 삭제할때 호출됨
-        super.destroyItem(container, position, object);
-    }
 }
-    */
