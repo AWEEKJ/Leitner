@@ -124,7 +124,7 @@ public class CategoryView extends Fragment {
     /* MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출 */
     public interface Communicator {
         public void initialize(ArrayList<Category> list);
-        public void addCategory(ArrayList<Category> categoryList, int positon);   // 여기서 생성
+        public void addCategory(ArrayList<Category> categoryList, int position);   // 여기서 생성
         public void showNext(int position);
         public void InsertDB(Category contents);
     }
