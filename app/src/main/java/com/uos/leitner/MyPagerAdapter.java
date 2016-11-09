@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import com.uos.leitner.model.Category;
+
 import java.util.ArrayList;
 
 /**
@@ -61,5 +63,22 @@ class MyPagerAdapter extends FragmentPagerAdapter {
     public void remove(int position) {
         listFragment.remove(position);
         notifyDataSetChanged();
+    }
+
+    public void remove_all(ArrayList<Category> categoryList) {
+
+//        while(listFragment.size()>1) {
+//            listFragment.remove(listFragment.size());
+//            notifyDataSetChanged();
+//        }
+//        for (int i =0; i <zzz; i++) {
+//            Log.d("i", Integer.toString(i));
+//            Log.d("frag", Integer.toString(listFragment.size()));
+//            Log.d("size", Integer.toString(zzz));
+//
+//            listFragment.remove(i);
+//            notifyDataSetChanged();
+//        }
+
     }
 }

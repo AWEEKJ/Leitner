@@ -1,10 +1,13 @@
 package com.uos.leitner;
 
 import android.content.Context;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 import com.uos.leitner.helper.DatabaseHelper;
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     }
 
     @Override
-    public void refresh(ArrayList<Category> categoryList) {
+    public void refresh_List(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
         categoryList.clear();
 
@@ -84,6 +87,19 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
 
         pagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void refresh_View(ArrayList<Category> categoryList) {
+//        pagerAdapter.remove_all(categoryList);
+//        VerticalActivity n = new VerticalActivity();
+//        n.aaa();
+//        for(int i=0; i<categoryList.size(); i++) {
+//            long db_id=categoryList.get(i).getSubject_ID();
+//            pagerAdapter.add(VerticalActivity.newInstance(db_id));
+//        }
+//
+//        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override

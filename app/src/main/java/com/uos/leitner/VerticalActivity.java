@@ -41,7 +41,7 @@ public class VerticalActivity extends Fragment {
 
         else if (((MainActivity) getActivity()).flag == true) {
             pagerAdapter.add(MeasureView.newInstance(ID));
-            pagerAdapter.add(StatisticView_Detail.newInstance());
+            pagerAdapter.add(StatisticView_Detail.newInstance(ID));
         }
 
         return view;
