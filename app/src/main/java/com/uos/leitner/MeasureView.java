@@ -17,7 +17,10 @@ import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Subject_log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +30,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MeasureView extends Fragment {
     private DatabaseHelper db;
-    private Long id;
-    private String category;
+
+    private Long categoryId;
+    private String categoryName;
 
     private long goalTime; // Time Setup for temporary, 13m 22s is 802000 milliseconds
     private long remainTime;
@@ -44,8 +48,6 @@ public class MeasureView extends Fragment {
     private Button stopBtn;
     private DonutProgress progressBar;
 
-    private TextView TV; // 남은 시간 테스트
-
     public static MeasureView newInstance(Long ID) {
         MeasureView fragment = new MeasureView();
         Bundle args = new Bundle();
@@ -57,49 +59,10 @@ public class MeasureView extends Fragment {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            id = bundle.getLong("id");
+            categoryId = bundle.getLong("id");
         }
     }
 
-    BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (!isTimerRunning){
-                cTimer = new CountDownTimer(goalTime, 100) {
-
-                    public void onTick(long millisUntilFinished) {
-                        isTimerRunning = true;
-                        if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
-                            remainTime = Math.round((float) millisUntilFinished / 1000.0f);
-
-                            progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
-
-                            minutesTV.setText("" + String.format(Locale.US, FORMAT,
-                                    TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
-
-                            secondsTV.setText("" + String.format(Locale.US, FORMAT,
-                                    TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
-                        }
-                    }
-                    public void onFinish() {
-                        isTimerRunning = false;
-                        progressBar.setProgress(100);
-                    }
-                }.start();
-            }
-
-        }
-    };
-
-    BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (isTimerRunning) {
-                isTimerRunning = false;
-                cTimer.cancel();
-            }
-        }
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,12 +79,12 @@ public class MeasureView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_measure, null);
         readBundle(getArguments());
 
-        category = db.getCategory(id).getSubject_Name();
+        categoryName = db.getCategory(categoryId).getSubject_Name();
         categoryNameTV = (TextView) view.findViewById(R.id.categoryNameTextView);
         categoryNameTV.setTextSize(25);
-        categoryNameTV.setText(category);
+        categoryNameTV.setText(categoryName);
 
-        goalTime = db.getCategory(id).getMaxTime()*61000;
+        goalTime = db.getCategory(categoryId).getMaxTime()*60000;
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
@@ -129,9 +92,7 @@ public class MeasureView extends Fragment {
         stopBtn = (Button) view.findViewById(R.id.stopButton);
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
-        TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
-
-        Log.d("TimeCheck", Long.toString(goalTime));
+        //Log.d("TimeCheck", Long.toString(goalTime));
 
         return view;
     }
@@ -153,42 +114,74 @@ public class MeasureView extends Fragment {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isTimerRunning){
-                    cTimer = new CountDownTimer(goalTime, 100) {
-
-                        public void onTick(long millisUntilFinished) {
-                            isTimerRunning = true;
-                            if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
-                                remainTime = Math.round((float) millisUntilFinished / 1000.0f);
-
-                                progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
-
-                                minutesTV.setText("" + String.format(Locale.US, FORMAT,
-                                        TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
-
-                                secondsTV.setText("" + String.format(Locale.US, FORMAT,
-                                        TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
-                            }
-                        }
-                        public void onFinish() {
-                            isTimerRunning = false;
-                            progressBar.setProgress(100);
-                        }
-                    }.start();
-                }
+                runTimer();
             }
         });
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isTimerRunning) {
-                    isTimerRunning = false;
-                    cTimer.cancel();
-                    // TV.setText("seconds remaining: " + remainTime); // 남은 시간 테스트
-                }
+                stopTimer();
             }
         });
+    }
+
+    BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            runTimer();
+        }
+    };
+
+    BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            stopTimer();
+        }
+    };
+
+    private void runTimer() {
+        if (!isTimerRunning){
+            cTimer = new CountDownTimer(goalTime, 100) {
+
+                public void onTick(long millisUntilFinished) {
+                    isTimerRunning = true;
+                    if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
+                        remainTime = Math.round((float) millisUntilFinished / 1000.0f);
+
+                        progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
+
+                        minutesTV.setText("" + String.format(Locale.US, FORMAT,
+                                TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
+
+                        secondsTV.setText("" + String.format(Locale.US, FORMAT,
+                                TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
+                    }
+                }
+                public void onFinish() {
+                    isTimerRunning = false;
+                    progressBar.setProgress(100);
+                }
+            }.start();
+        }
+    }
+
+    private void stopTimer() {
+        if (isTimerRunning) {
+            isTimerRunning = false;
+            cTimer.cancel();
+            //Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
+
+            int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
+            int time_to_complete = (int) (goalTime / 1000); // seconds
+            int pass_or_fail = 1;
+            if (remainTime > 0) pass_or_fail = 0;
+            String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            int subject_id = categoryId.intValue();
+
+            Subject_log log = new Subject_log(time_to_try, time_to_complete, pass_or_fail, date, subject_id);
+            db.createSubjectLog(log);
+        }
     }
 
     @Override
