@@ -4,11 +4,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-<<<<<<< HEAD
-=======
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +16,6 @@ import com.uos.leitner.helper.DatabaseHelper;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-<<<<<<< HEAD
-=======
-
-import static java.lang.Math.toIntExact;
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
 
 /**
  * Created by HANJU on 2016. 11. 2..
@@ -67,11 +57,7 @@ public class MeasureView extends Fragment {
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(category);
 
-<<<<<<< HEAD
         goalTime = db.getCategory(id).getMaxTime()*61000;
-=======
-        goalTime = db.getCategory(id).getMaxTime();
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
@@ -81,10 +67,7 @@ public class MeasureView extends Fragment {
 
         TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
 
-<<<<<<< HEAD
         Log.d("TimeCheck", Long.toString(goalTime));
-=======
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
 
         return view;
     }
@@ -119,22 +102,11 @@ public class MeasureView extends Fragment {
 
                             secondsTV.setText(""+String.format(Locale.US, FORMAT,
                                     TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
-<<<<<<< HEAD
                         }
                     }
                     public void onFinish() {
                         progressBar.setProgress(100);
                     }
-=======
-
-                        }
-                    }
-
-                    public void onFinish() {
-                        progressBar.setProgress(100);
-                    }
-
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
                 }.start();
             }
         });
@@ -146,10 +118,6 @@ public class MeasureView extends Fragment {
                 // TV.setText("seconds remaining: " + remainTime); // 남은 시간 테스트
             }
         });
-<<<<<<< HEAD
-=======
-
->>>>>>> b18e07650a34fa096000b4e4a61110f0c8e4ab23
     }
 
     @Override
