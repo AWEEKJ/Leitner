@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.uos.leitner.model.Category;
+import com.uos.leitner.model.Subject_log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_TIME_TO_COMPLETE = "time_to_complete";
     private static final String KEY_PASS_OR_FAIL = "pass_or_fail";
     private static final String KEY_DATE = "date";
+    private static final String KEY_SUBJ_ID = "subject_id";
 
     // Table create statement
     // CATEGORY table create statement
@@ -183,6 +185,40 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         db.close();
     }
+
+
+    /*
+    * 특정 카테고리에 속하는 subject_log 읽기
+    * */
+    public List<Subject_log> getSomeSubject_log(long subject_id) {
+        List<Subject_log> sl = new ArrayList<Subject_log>();
+        String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG + " WHERE SUBJECT_ID = " + subject_id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if(c.moveToFirst()) {
+            do {
+                Subject_log s = new Subject_log();
+                s.setLog_no(c.getInt(c.getColumnIndex(KEY_LOG_NO)));
+                s.setTime_to_try(c.getInt(c.getColumnIndex(KEY_TIME_TO_TRY)));
+                s.setTime_to_complete(c.getInt(c.getColumnIndex(KEY_TIME_TO_COMPLETE)));
+                s.setPass_or_fail(c.getInt(c.getColumnIndex(KEY_PASS_OR_FAIL)));
+                s.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+                s.setSubject_id(c.getInt(c.getColumnIndex(KEY_SUBJ_ID)));
+
+                // adding to subject_log list
+                sl.add(s);
+            } while(c.moveToNext());
+        }
+
+        return sl;
+    }
+
+
 
 
 }

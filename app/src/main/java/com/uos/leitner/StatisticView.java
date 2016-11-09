@@ -1,5 +1,6 @@
 package com.uos.leitner;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,12 +11,15 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Subject_log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -24,10 +28,12 @@ import java.util.Random;
 
 public class StatisticView extends Fragment {
 
+    // Bar chart
     BarChart barChart;
-    ArrayList<String> dates;
-    Random random;
     ArrayList<BarEntry> barEntries;
+
+    DatabaseHelper db;
+    private Long id;
 
     public static StatisticView newInstance() {
         StatisticView fragment = new StatisticView();
@@ -44,72 +50,51 @@ public class StatisticView extends Fragment {
 
         barChart = (BarChart) view.findViewById(R.id.bar_chart);
 
-        // 이 둘 날짜 사이의 값을 그래프로 보기 위함
-        createRandomBarGraph("2016/06/01", "2016/07/31");
+        db = new DatabaseHelper(getContext());
 
-        // 여기서 통계회면을 제어
+        /* 11월 9일
+        * 그래프를 그리기 위해서는 특정 카테고리의 아이디 값을 전달해야하는데 MeasureView 에서 처럼
+        * id 값을 받을 수 있도록 연동 해야한다.
+        * */
+        //createBarGraph(id);
 
         return view;
     }
 
-    public void createRandomBarGraph(String Date1, String Date2) {
-        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            Date date1 = simpleDataFormat.parse(Date1);
-            Date date2 = simpleDataFormat.parse(Date2);
+    public void createBarGraph(Long subject_id) {
 
-            Calendar mData1 = Calendar.getInstance();
-            Calendar mData2 = Calendar.getInstance();
-            mData1.clear();
-            mData2.clear();
+        barEntries = new ArrayList<>();
 
-            mData1.setTime(date1);
-            mData2.setTime(date2);
+        List<Subject_log> sls = db.getSomeSubject_log(subject_id);
 
-            dates = new ArrayList<>();
-            dates = getList(mData1, mData2);
-
-            barEntries = new ArrayList<>();
-            float max = 0f;
-            float value = 0f;
-            Random random = new Random();
-            for(int j = 0; j < dates.size(); j++) {
-                max = 100f;
-                value = random.nextFloat() * max;
-                barEntries.add(new BarEntry(value, j));
-            }
-
-        } catch(ParseException e) {
-            e.printStackTrace();
+        for(Subject_log sl : sls) {
+            // 그래프 그릴 값을 할당
+            barEntries.add(new BarEntry(sl.getLog_no(), new float[] {sl.getTime_to_complete(),
+                    sl.getTime_to_try()-sl.getTime_to_complete()}));
         }
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        //BarData barData = new BarData(dates, barDataSet);
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Time to Try");
+        barDataSet.setColors(getColors());
         BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
-        //barChart.setDescription("My First Bar Graph");
     }
 
-    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        ArrayList<String> list = new ArrayList<>();
-        while(startDate.compareTo(endDate) <= 0) {
-            list.add(getDate(startDate));
-            startDate.add(Calendar.DAY_OF_MONTH,1);
+    private int[] getColors() {
+        int stacksize = 2;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+        /*
+        for (int i = 0; i < colors.length; i++) {
+            colors[i] = ColorTemplate.COLORFUL_COLORS[i];
         }
+        */
+        colors[0] = Color.GREEN;
+        colors[1] = Color.RED;
 
-        return list;
+
+        return colors;
     }
 
-    public String getDate(Calendar cld) {
-        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH) + 1) + "/"
-                + cld.get(Calendar.DAY_OF_MONTH);
-        try {
-            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
-            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
-        } catch(ParseException e) {
-            e.printStackTrace();
-        }
-
-        return curDate;
-    }
 }
