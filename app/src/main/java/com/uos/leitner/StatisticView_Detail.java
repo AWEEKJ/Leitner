@@ -2,6 +2,7 @@ package com.uos.leitner;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,32 +23,38 @@ import java.util.Random;
  * Created by HANJU on 2016. 11. 7..
  */
 
-public class StatisticView extends Fragment {
+public class StatisticView_Detail extends Fragment {
 
-    BarChart barChart;
-    ArrayList<String> dates;
-    Random random;
-    ArrayList<BarEntry> barEntries;
+    private BarChart barChart;
+    private ArrayList<String> dates;
+    private Random random;
+    private ArrayList<BarEntry> barEntries;
+    private long id;
 
-    public static StatisticView newInstance() {
-        StatisticView fragment = new StatisticView();
+    public static StatisticView_Detail newInstance(Long ID) {
+        StatisticView_Detail fragment = new StatisticView_Detail();
         Bundle args = new Bundle();
+        args.putLong("id", ID);
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            id = bundle.getLong("id");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_statistic, null);
+        readBundle(getArguments());
 
         barChart = (BarChart) view.findViewById(R.id.bar_chart);
 
-        // 이 둘 날짜 사이의 값을 그래프로 보기 위함
         createRandomBarGraph("2016/06/01", "2016/07/31");
-
-        // 여기서 통계회면을 제어
 
         return view;
     }

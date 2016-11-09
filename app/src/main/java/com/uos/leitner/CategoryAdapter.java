@@ -1,6 +1,5 @@
 package com.uos.leitner;
 
-import android.app.Application;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by changhyeon on 2016. 10. 30..
@@ -55,8 +53,8 @@ class CategoryAdapter extends ArrayAdapter<Category> {
         return view;
     }
 
-    void removeItem(ArrayList<Category> categoryList, int index) {
-        categoryList.remove(index);
+    void removeItem(int index) {
+        items.remove(index);
         ((MainActivity)getContext()).runOnUiThread(new Runnable() {
             public void run() {
                 notifyDataSetChanged();
