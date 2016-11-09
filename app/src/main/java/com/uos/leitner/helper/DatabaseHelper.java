@@ -159,18 +159,33 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     /*
     * Updating a category
     * */
-    public int updateCategory(Category category) {
+//    public int updateCategory(Category category) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        ContentValues values = new ContentValues();
+//        values.put(KEY_SUBJECT_NAME, category.getSubject_Name());
+//        values.put(KEY_CURRENT_LEVEL, category.getCurrentLevel());
+//        values.put(KEY_MAX_TIME, category.getMaxTime());
+//
+//        db.close();
+//        // updating row
+//        return db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + " = ?",
+//                new String[] {String.valueOf(category.getSubject_ID())});
+//    }
+
+
+    /*
+    * Updating a category 수정했습니다
+    * */
+    public void updateCategory(int id, String newName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_SUBJECT_NAME, category.getSubject_Name());
-        values.put(KEY_CURRENT_LEVEL, category.getCurrentLevel());
-        values.put(KEY_MAX_TIME, category.getMaxTime());
+        values.put(KEY_SUBJECT_NAME, newName);
+
+        db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + "='"+id+"'", null);
 
         db.close();
-        // updating row
-        return db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + " = ?",
-                new String[] {String.valueOf(category.getSubject_ID())});
     }
 
     /*
