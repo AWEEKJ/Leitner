@@ -51,8 +51,6 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-
     private void registerUser(){
 
         //getting email and password from edit texts

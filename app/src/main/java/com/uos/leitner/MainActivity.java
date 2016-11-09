@@ -4,29 +4,38 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
+import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Category;
+
+import java.util.ArrayList;
+
+// 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
-    protected int MAX = 5;   // 생성가능한 페이지 갯수
+
+    private DatabaseHelper db;
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
-    boolean flag = false;
+
+    protected int MAX = 5; // 생성 가능한 페이지 수
+    protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = new DatabaseHelper(getApplicationContext());
+
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.main_pager);
-
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(MAX);
 
-        pagerAdapter.add(new VerticalActivity());   // 처음 메인화면 생성
+        pagerAdapter.add(new VerticalActivity());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
     }
 
-    //뒤로가기 버튼 눌렀을 때
+    //뒤로가기 클릭
     @Override
     public void onBackPressed() {
         if (viewPager.getCurrentItem() == 0) super.onBackPressed();
@@ -34,23 +43,52 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
 
-    //CategoryView의 인터페이스를 구현해서 정보교환
-
-    //1. 세부항목별 페이지 생성
+    // CategoryView 인터페이스 구현
     @Override
-    public void addCategory(String name) {
-        if (pagerAdapter.getCount() <= 10) {
-            Fragment fragment = VerticalActivity.newInstance(name);
+    public  void initialize(ArrayList<Category> categoryList) {
+        ArrayList<Category> cts = db.getAllCategories();
 
-            pagerAdapter.add(fragment);
+        for(Category c : cts) {
+            categoryList.add(c);
+        }
+
+        if (!categoryList.isEmpty()) {
+            for (int i = 0; i < categoryList.size(); i++) {
+                Fragment fragment = VerticalActivity.newInstance(categoryList.get(i).getSubject_ID());
+                pagerAdapter.add(fragment);
+            }
         }
     }
 
-    //2. 리스트 클릭하면 해당 페이지로 이동
+    @Override
+    public void addCategory(long id) {
+        if (pagerAdapter.getCount() <= MAX+1) {
+
+            Fragment fragment = VerticalActivity.newInstance(id);
+            pagerAdapter.add(fragment);
+            pagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void refresh(ArrayList<Category> categoryList) {
+        ArrayList<Category> cts = db.getAllCategories();
+        categoryList.clear();
+
+        for(Category c : cts) {
+            categoryList.add(c);
+        }
+    }
+
     @Override
     public void showNext(int position) {
         //position 0번은 메인페이지
         viewPager.setCurrentItem(position + 1, true);
     }
 
+    @Override
+    public void delete(int position) {
+        viewPager.removeViewAt(position+1);
+        pagerAdapter.remove(position+1);
+    }
 }

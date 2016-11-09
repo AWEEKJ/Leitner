@@ -2,7 +2,6 @@ package com.uos.leitner;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import android.view.ViewGroup;
 public class VerticalActivity extends Fragment {
     private MyPagerAdapter pagerAdapter;
     private fr.castorflex.android.verticalviewpager.VerticalViewPager viewPager;
+    private long ID;
+    private static final int MAX=10;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,35 +25,37 @@ public class VerticalActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_vertical, viewPager);
 
+        readBundle(getArguments());
+
         pagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         viewPager = (fr.castorflex.android.verticalviewpager.VerticalViewPager) view.findViewById(R.id.vertical_pager);
 
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setOffscreenPageLimit(10);
+        viewPager.setOffscreenPageLimit(MAX);
 
-        if(((MainActivity)getActivity()).flag == false) {
-            pagerAdapter.add(new CategoryView());   // 처음 메인화면 생성
-            ((MainActivity)getActivity()).flag =true;
-        }
-
-        else if(((MainActivity)getActivity()).flag ==true) {
-//            Log.d("test", getArguments().toString() );
-            Fragment fragment = MeasureView.newInstance(getArguments().toString());
-            pagerAdapter.add(fragment);
-
-        }
-
-        pagerAdapter.add(new StatisticView());
+            if (((MainActivity) getActivity()).flag == false) {
+                pagerAdapter.add(new CategoryView());   // 처음 메인화면 생성
+                ((MainActivity) getActivity()).flag = true;
+            } else if (((MainActivity) getActivity()).flag == true) {
+                pagerAdapter.add(MeasureView.newInstance(ID));
+                pagerAdapter.add(StatisticView.newInstance());
+            }
 
         return view;
     }
 
-    public static VerticalActivity newInstance(String name) {
+    public static VerticalActivity newInstance(long subject_id) {
         VerticalActivity fragment = new VerticalActivity();
         Bundle args = new Bundle();
-        args.putString("", name);
+        args.putLong("ID", subject_id);
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            ID = bundle.getLong("ID");
+        }
     }
 }

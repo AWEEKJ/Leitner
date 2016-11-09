@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.uos.leitner.model.Category;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,7 @@ import java.util.ArrayList;
  */
 
 class CategoryAdapter extends ArrayAdapter<Category> {
+
     private ArrayList<Category> items;
 
     public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Category> items) {
@@ -33,16 +36,29 @@ class CategoryAdapter extends ArrayAdapter<Category> {
         Category c = items.get(position);
 
         if (c != null) {
-            TextView tvName = (TextView) view.findViewById(R.id.Category_Name);
-            TextView tvTime = (TextView) view.findViewById(R.id.Category_Time);
+            TextView subject_Name = (TextView) view.findViewById(R.id.Category_Name);
+            TextView subject_Level = (TextView) view.findViewById(R.id.Category_Level);
+            TextView subject_MaxTime = (TextView) view.findViewById(R.id.Category_MaxTime);
 
-            if (tvName != null)
-                tvName.setText(c.getName());
+            if (subject_Name != null)
+                subject_Name.setText(c.getSubject_Name());
 
-            if (tvTime != null)
-                tvTime.setText("집중 시간: " + c.getTime());
+            if (subject_MaxTime != null)
+                subject_MaxTime.setText("목표 시간: " + c.getMaxTime());
+
+            if (subject_Level != null)
+                subject_Level.setText("현재 레벨: " + c.getCurrentLevel());
         }
 
         return view;
+    }
+
+    void removeItem(int index) {
+        items.remove(index);
+        ((MainActivity)getContext()).runOnUiThread(new Runnable() {
+            public void run() {
+                notifyDataSetChanged();
+            }
+        });
     }
 }
