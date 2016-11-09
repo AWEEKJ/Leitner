@@ -22,15 +22,15 @@ import java.util.Random;
  * Created by HANJU on 2016. 11. 7..
  */
 
-public class StatisticView extends Fragment {
+public class StatisticView_Total extends Fragment {
 
     BarChart barChart;
     ArrayList<String> dates;
     Random random;
     ArrayList<BarEntry> barEntries;
 
-    public static StatisticView newInstance() {
-        StatisticView fragment = new StatisticView();
+    public static StatisticView_Total newInstance() {
+        StatisticView_Total fragment = new StatisticView_Total();
         Bundle args = new Bundle();
         fragment.setArguments(args);
 
@@ -40,9 +40,9 @@ public class StatisticView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_statistic, null);
+        View view = inflater.inflate(R.layout.fragment_total_statistic, null);
 
-        barChart = (BarChart) view.findViewById(R.id.bar_chart);
+        barChart = (BarChart) view.findViewById(R.id.bar_chart2);
 
         // 이 둘 날짜 사이의 값을 그래프로 보기 위함
         createRandomBarGraph("2016/06/01", "2016/07/31");

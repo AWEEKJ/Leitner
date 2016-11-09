@@ -35,13 +35,13 @@ public class VerticalActivity extends Fragment {
 
         if (((MainActivity) getActivity()).flag == false) {
             pagerAdapter.add(new CategoryView());   // 처음 메인화면 생성
-            pagerAdapter.add(new Total_StatisticView());
+            pagerAdapter.add(new StatisticView_Total());
             ((MainActivity) getActivity()).flag = true;
         }
 
         else if (((MainActivity) getActivity()).flag == true) {
             pagerAdapter.add(MeasureView.newInstance(ID));
-            pagerAdapter.add(StatisticView.newInstance());
+            pagerAdapter.add(StatisticView_Detail.newInstance());
         }
 
         return view;

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
             super.onBackPressed();
         }
 
-        else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        else viewPager.setCurrentItem(0);
     }
 
     // CategoryView 인터페이스 구현
@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         for(Category c : cts) {
             categoryList.add(c);
         }
+
+        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override

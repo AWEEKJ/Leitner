@@ -174,6 +174,7 @@ public class CategoryView extends Fragment {
                 db.deleteCategory(db_id); // DB에서 지우기
 
                 count--;
+
                 return true;
 
             default:
