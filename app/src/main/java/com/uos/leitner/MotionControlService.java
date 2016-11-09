@@ -77,10 +77,11 @@ public class MotionControlService extends Service implements SensorEventListener
                         mEventCountSinceGZChanged = 0;
                         if (gz > 0) {
                             Log.d(TAG, "now screen is facing up.");
-                            this.sendBroadcast(new Intent().setAction("startTimer"));
+                            this.sendBroadcast(new Intent().setAction("stopTimer"));
 
                         } else if (gz < 0) {
                             Log.d(TAG, "now screen is facing down.");
+                            this.sendBroadcast(new Intent().setAction("startTimer"));
                         }
                     }
                 } else {

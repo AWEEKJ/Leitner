@@ -59,12 +59,12 @@ public class MeasureView extends Fragment {
         }
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // here you can update your db with new messages and update the ui (chat message list)
-            //Log.d("Measure Timer", intent);
-            Log.d("Measure Timer", "start Timer!!!");
+//            Log.d("Measure Timer", ""+intent);
+//            Log.d("Measure Timer", "start Timer!!!");
             cTimer = new CountDownTimer(goalTime, 100) {
 
                 public void onTick(long millisUntilFinished) {
@@ -91,11 +91,22 @@ public class MeasureView extends Fragment {
         }
     };
 
+    BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // here you can update your db with new messages and update the ui (chat message list)
+//            Log.d("Measure Timer", ""+intent);
+//            Log.d("Measure Timer", "start Timer!!!");
+            cTimer.cancel();
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().startService(new Intent(getActivity(), MotionControlService.class));
-        getActivity().registerReceiver(this.broadcastReceiver, new IntentFilter("startTimer"));
+        getActivity().registerReceiver(this.broadcastReceiverStart, new IntentFilter("startTimer"));
+        getActivity().registerReceiver(this.broadcastReceiverStop, new IntentFilter("stopTimer"));
     }
 
     @Override
@@ -183,6 +194,7 @@ public class MeasureView extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         getActivity().stopService(new Intent(getActivity(), MotionControlService.class));
-        getActivity().unregisterReceiver(broadcastReceiver);
+        getActivity().unregisterReceiver(broadcastReceiverStart);
+        getActivity().unregisterReceiver(broadcastReceiverStop);
     }
 }
