@@ -26,6 +26,12 @@
         <activity android:name=".GoogleSigninActivity">
 
         </activity>
+
+        <service
+            android:name="com.uos.leitner.MotionControlService"
+            android:enabled="true"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>
