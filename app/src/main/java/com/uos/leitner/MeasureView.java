@@ -68,6 +68,7 @@ public class MeasureView extends Fragment {
         TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
 
         Log.d("TimeCheck", Long.toString(goalTime));
+
         return view;
     }
 
