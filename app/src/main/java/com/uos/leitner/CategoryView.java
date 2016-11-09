@@ -69,33 +69,6 @@ public class CategoryView extends Fragment {
 //        final EditText level = (EditText)view.findViewById(R.id.inputLevel);
         final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        /**
-         * 11.09 추가.
-         *
-
-         final Spinner spinner_time = (Spinner)findViewById(R.id.spinner_time);
-         final Spinner spinner_level = (Spinner)findViewById(R.id.spinner_level);
-
-         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-
-         this, R.array.Spinner_time, android.R.layout.simple_spinner_item);
-
-         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-         spinner_time.setAdapter(adapter);
-
-
-
-         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
-
-         this, R.array.Spinner_level, android.R.layout.simple_spinner_item);
-
-         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-         spinner_level.setAdapter(adapter2);
-
-         */
-
         String[] optionLavala = getResources().getStringArray(R.array.SpinnerArray_time);
         ArrayAdapter<String> adapter_time = new ArrayAdapter<>
                 (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, optionLavala);
@@ -108,14 +81,6 @@ public class CategoryView extends Fragment {
                 (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, optionLavala_level);
         final Spinner obj_level = (Spinner)view.findViewById(R.id.spinner_level);
         obj_level.setAdapter(adapter_level);
-//
-//        obj_time.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
-
 
         hermes.initialize(categoryList);    // DB로 부터 정보를 읽어와 listView를 초기화
 
@@ -140,26 +105,24 @@ public class CategoryView extends Fragment {
 
                     // EditText에서 입력을 받아옴
                     String name = insertName.getText().toString();
+                    int goal_tmp = obj_time.getSelectedItemPosition();
+                    int current_tmp = obj_level.getSelectedItemPosition();
 
+                    int goaltime = Integer.parseInt((String)obj_time.getAdapter().getItem(goal_tmp));
+                    int currentLevel = Integer.parseInt((String)obj_level.getAdapter().getItem(current_tmp));
 
-//                    int goaltime = Integer.parseInt(maxTime.getText().toString());
-//                    int currentLevel = Integer.parseInt(level.getText().toString());
-
-
-
-                    int goaltime = obj_time.getSelectedItemPosition();
-                    int currentLevel = obj_level.getSelectedItemPosition();
-
-//                    int goaltime = Integer.parseInt(obj_time.getText().toString());
-//                    int currentLevel = Integer.parseInt(obj_level.getText().toString());
 
 
                     // 입력받은 정보를 categoryList에 추가. 이때 listView 항목에 나타나게 됨
                     Category contents = new Category(name, goaltime, currentLevel);
                     categoryList.add(contents);
 
-//                    insertName.setText(""); maxTime.setText(""); level.setText("");
-//                    insertName.clearFocus();
+                    insertName.setText("");
+                    insertName.clearFocus();
+
+                    obj_time.setSelection(0);
+                    obj_level.setSelection(0);
+
 
                     // 생성된 항목 DB 저장 & 측정 페이지를 생성
                     hermes.addCategory(db.createCategory(contents));

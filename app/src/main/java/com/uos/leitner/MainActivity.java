@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     //뒤로가기 버튼 눌렀을 때
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) super.onBackPressed();
+        if (viewPager.getCurrentItem() == 0) {}
 
         else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
     }
