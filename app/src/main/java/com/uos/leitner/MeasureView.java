@@ -35,6 +35,8 @@ public class MeasureView extends Fragment {
 
     private static final String FORMAT = "%02d";
     private CountDownTimer cTimer;
+    private boolean isTimerRunning = false;
+
     private TextView categoryNameTV;
     private TextView minutesTV;
     private TextView secondsTV;
@@ -62,31 +64,29 @@ public class MeasureView extends Fragment {
     BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // here you can update your db with new messages and update the ui (chat message list)
-//            Log.d("Measure Timer", ""+intent);
-//            Log.d("Measure Timer", "start Timer!!!");
-            cTimer = new CountDownTimer(goalTime, 100) {
+            if (!isTimerRunning){
+                cTimer = new CountDownTimer(goalTime, 100) {
 
-                public void onTick(long millisUntilFinished) {
-                    if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
-                        remainTime = Math.round((float) millisUntilFinished / 1000.0f);
+                    public void onTick(long millisUntilFinished) {
+                        isTimerRunning = true;
+                        if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
+                            remainTime = Math.round((float) millisUntilFinished / 1000.0f);
 
-                        progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
+                            progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
 
-                        minutesTV.setText("" + String.format(Locale.US, FORMAT,
-                                TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
+                            minutesTV.setText("" + String.format(Locale.US, FORMAT,
+                                    TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
 
-                        secondsTV.setText("" + String.format(Locale.US, FORMAT,
-                                TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
-
+                            secondsTV.setText("" + String.format(Locale.US, FORMAT,
+                                    TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
+                        }
                     }
-                }
-
-                public void onFinish() {
-                    progressBar.setProgress(100);
-                }
-
-            }.start();
+                    public void onFinish() {
+                        isTimerRunning = false;
+                        progressBar.setProgress(100);
+                    }
+                }.start();
+            }
 
         }
     };
@@ -94,10 +94,10 @@ public class MeasureView extends Fragment {
     BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // here you can update your db with new messages and update the ui (chat message list)
-//            Log.d("Measure Timer", ""+intent);
-//            Log.d("Measure Timer", "start Timer!!!");
-            cTimer.cancel();
+            if (isTimerRunning) {
+                isTimerRunning = false;
+                cTimer.cancel();
+            }
         }
     };
 
@@ -153,33 +153,40 @@ public class MeasureView extends Fragment {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cTimer = new CountDownTimer(goalTime, 100) {
+                if (!isTimerRunning){
+                    cTimer = new CountDownTimer(goalTime, 100) {
 
-                    public void onTick(long millisUntilFinished) {
-                        if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
-                            remainTime = Math.round((float) millisUntilFinished / 1000.0f);
+                        public void onTick(long millisUntilFinished) {
+                            isTimerRunning = true;
+                            if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
+                                remainTime = Math.round((float) millisUntilFinished / 1000.0f);
 
-                            progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
+                                progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
 
-                            minutesTV.setText("" + String.format(Locale.US, FORMAT,
-                                    TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
+                                minutesTV.setText("" + String.format(Locale.US, FORMAT,
+                                        TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
 
-                            secondsTV.setText("" + String.format(Locale.US, FORMAT,
-                                    TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
+                                secondsTV.setText("" + String.format(Locale.US, FORMAT,
+                                        TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
+                            }
                         }
-                    }
-                    public void onFinish() {
-                        progressBar.setProgress(100);
-                    }
-                }.start();
+                        public void onFinish() {
+                            isTimerRunning = false;
+                            progressBar.setProgress(100);
+                        }
+                    }.start();
+                }
             }
         });
 
         stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cTimer.cancel();
-                // TV.setText("seconds remaining: " + remainTime); // 남은 시간 테스트
+                if (isTimerRunning) {
+                    isTimerRunning = false;
+                    cTimer.cancel();
+                    // TV.setText("seconds remaining: " + remainTime); // 남은 시간 테스트
+                }
             }
         });
     }
