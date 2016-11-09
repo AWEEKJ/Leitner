@@ -1,5 +1,9 @@
 package com.uos.leitner;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -40,9 +44,69 @@ public class MeasureView extends Fragment {
 
     private TextView TV; // 남은 시간 테스트
 
+    public static MeasureView newInstance(Long ID) {
+        MeasureView fragment = new MeasureView();
+        Bundle args = new Bundle();
+        args.putLong("id", ID);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            id = bundle.getLong("id");
+        }
+    }
+
+    BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // here you can update your db with new messages and update the ui (chat message list)
+//            Log.d("Measure Timer", ""+intent);
+//            Log.d("Measure Timer", "start Timer!!!");
+            cTimer = new CountDownTimer(goalTime, 100) {
+
+                public void onTick(long millisUntilFinished) {
+                    if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
+                        remainTime = Math.round((float) millisUntilFinished / 1000.0f);
+
+                        progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
+
+                        minutesTV.setText("" + String.format(Locale.US, FORMAT,
+                                TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
+
+                        secondsTV.setText("" + String.format(Locale.US, FORMAT,
+                                TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
+
+                    }
+                }
+
+                public void onFinish() {
+                    progressBar.setProgress(100);
+                }
+
+            }.start();
+
+        }
+    };
+
+    BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // here you can update your db with new messages and update the ui (chat message list)
+//            Log.d("Measure Timer", ""+intent);
+//            Log.d("Measure Timer", "start Timer!!!");
+            cTimer.cancel();
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().startService(new Intent(getActivity(), MotionControlService.class));
+        getActivity().registerReceiver(this.broadcastReceiverStart, new IntentFilter("startTimer"));
+        getActivity().registerReceiver(this.broadcastReceiverStop, new IntentFilter("stopTimer"));
     }
 
     @Override
@@ -78,29 +142,29 @@ public class MeasureView extends Fragment {
 
         remainTime = goalTime;
 
-        minutesTV.setText(""+String.format(Locale.US, FORMAT,
+        minutesTV.setText("" + String.format(Locale.US, FORMAT,
                 TimeUnit.MILLISECONDS.toMinutes(goalTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(goalTime))));
 
-        secondsTV.setText(""+String.format(Locale.US, FORMAT,
+        secondsTV.setText("" + String.format(Locale.US, FORMAT,
                 TimeUnit.MILLISECONDS.toSeconds(goalTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(goalTime))));
 
         progressBar.setProgress(0);
 
-        startBtn.setOnClickListener(new View.OnClickListener(){
+        startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cTimer = new CountDownTimer(goalTime, 100) {
 
                     public void onTick(long millisUntilFinished) {
-                        if (Math.round((float)millisUntilFinished / 1000.0f) != remainTime) {
-                            remainTime = Math.round((float)millisUntilFinished / 1000.0f);
+                        if (Math.round((float) millisUntilFinished / 1000.0f) != remainTime) {
+                            remainTime = Math.round((float) millisUntilFinished / 1000.0f);
 
-                            progressBar.setProgress((int)((goalTime-remainTime*1000)*100/goalTime));
+                            progressBar.setProgress((int) ((goalTime - remainTime * 1000) * 100 / goalTime));
 
-                            minutesTV.setText(""+String.format(Locale.US, FORMAT,
+                            minutesTV.setText("" + String.format(Locale.US, FORMAT,
                                     TimeUnit.SECONDS.toMinutes(remainTime) - TimeUnit.HOURS.toMinutes(TimeUnit.SECONDS.toHours(remainTime))));
 
-                            secondsTV.setText(""+String.format(Locale.US, FORMAT,
+                            secondsTV.setText("" + String.format(Locale.US, FORMAT,
                                     TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
                         }
                     }
@@ -111,7 +175,7 @@ public class MeasureView extends Fragment {
             }
         });
 
-        stopBtn.setOnClickListener(new View.OnClickListener(){
+        stopBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 cTimer.cancel();
@@ -125,18 +189,11 @@ public class MeasureView extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public static MeasureView newInstance(Long ID){
-        MeasureView fragment = new MeasureView();
-        Bundle args =  new Bundle();
-        args.putLong("id", ID);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
-    private void readBundle(Bundle bundle) {
-        if (bundle != null) {
-            id = bundle.getLong("id");
-        }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().stopService(new Intent(getActivity(), MotionControlService.class));
+        getActivity().unregisterReceiver(broadcastReceiverStart);
+        getActivity().unregisterReceiver(broadcastReceiverStop);
     }
 }
