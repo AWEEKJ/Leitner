@@ -72,19 +72,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
     }
 
-    @Override
-    public void addCategory(long id) {
-        if (pagerAdapter.getCount() <= MAX+1) {
-
-            Fragment fragment = VerticalActivity.newInstance(id);
-            pagerAdapter.add(fragment);
-            pagerAdapter.notifyDataSetChanged();
-        }
-    }
-
-
-    @Override
-    public void refresh_List1(ArrayList<Category> categoryList) {
+    public void refresh_List(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
         categoryList.clear();
 
@@ -92,91 +80,6 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
             categoryList.add(c);
         }
 
-        pagerAdapter.notifyDataSetChanged();
-    }
-
-    /*
-    @Override
-    public void refresh_List2(int pos) {
-
-//        Fragment a = VerticalActivity.newInstance(id);
-//        getSupportFragmentManager().beginTransaction().detach(a).attach(a).commit();
-//        viewPager.setAdapter(null);
-//        viewPager.setAdapter(pagerAdapter);
-
-
-        List<Fragment> a = getSupportFragmentManager().getFragments();
-
-        Fragment b = a.get(pos+1);
-        View v = viewPager.getChildAt(pos+1);
-
-        getSupportFragmentManager().beginTransaction().detach(b);
-        viewPager.removeViewAt(pos+1);
-        v.destroyDrawingCache();
-        viewPager.addView(v);
-//        pagerAdapter.getadd(b);
-//        pagerAdapter.remove(pos+1);
-        pagerAdapter.notifyDataSetChanged();
-
-//        pagerAdapter.remove(pos);
-
-//        pagerAdapter.add(b);
-//        viewPager.addView(v);
-//        pagerAdapter.add(b);
-
-//        getSupportFragmentManager().beginTransaction().attach(b).commit();
-//        pagerAdapter.notifyDataSetChanged();
-    }
-    */
-
-    @Override
-    public void refresh_List2() {
-        MyPagerAdapter temp = new MyPagerAdapter(getSupportFragmentManager());
-        int n = pagerAdapter.getCount()-1;
-
-//        Log.d("ㅇㅇㅇㅇㅇㅇㅇㅇ", Integer.toString(n));
-//
-//        for(int i=1; i<n; i++) {
-//            temp.add(pagerAdapter.getItem(i));
-//        }
-
-        for(int i=n; i!=0; i--) {
-//            temp.add(pagerAdapter.getItem(i));
-//            this.getSupportFragmentManager().beginTransaction().detach(pagerAdapter.getItem(i)).commitNowAllowingStateLoss();
-            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
-            FragmentTransaction trans = manager.beginTransaction();
-            trans.remove(pagerAdapter.getItem(i));
-            trans.commit();
-        }
-
-        for(int i=n; i!=0; i--) {
-//            pagerAdapter.remove(i);
-//            this.getSupportFragmentManager().beginTransaction().attach(pagerAdapter.getItem(i)).commitNow();
-            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
-            FragmentTransaction trans = manager.beginTransaction();
-            trans.add(R.id.main_pager, pagerAdapter.getItem(i));
-            trans.commit();
-        }
-
-//        viewPager.setAdapter(temp);
-//            for(int i=(temp.getCount()-1); i!=0; i--) {
-//                pagerAdapter.add(temp.getItem(i));
-//            }
-
-        pagerAdapter.notifyDataSetChanged();
-//        temp.notifyDataSetChanged();
-    }
-
-    @Override
-    public void refresh_View(ArrayList<Category> categoryList) {
-//        pagerAdapter.remove_all(categoryList);
-//        VerticalActivity n = new VerticalActivity();
-//        n.aaa();
-//        for(int i=0; i<categoryList.size(); i++) {
-//            long db_id=categoryList.get(i).getSubject_ID();
-//            pagerAdapter.add(VerticalActivity.newInstance(db_id));
-//        }
-//
         pagerAdapter.notifyDataSetChanged();
     }
 
@@ -191,4 +94,5 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         viewPager.removeViewAt(position+1);
         pagerAdapter.remove(position+1);
     }
+
 }

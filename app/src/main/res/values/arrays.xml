@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="SpinnerArray_time">
-        <item >"목표 시간을 설정하세요."</item>
+        <item >"초기 레벨을 설정하세요."</item>
         <item >1</item>
         <item>2</item>
         <item >3</item>
@@ -39,7 +39,7 @@
     </string-array>
 
     <string-array name="SpinnerArray_level">
-        <item >"초기 레벨을 설정하세요."</item>
+        <item >"목표 시간을 설정하세요."</item>
         <item >1</item>
         <item>2</item>
         <item >3</item>
