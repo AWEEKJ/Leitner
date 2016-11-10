@@ -1,0 +1,7 @@
+#Thu Nov 10 22:32:59 KST 2016
+base.0=/Users/JungJee/StudioProjects/Leitner/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_facc313e217331b77e9fb983bf14455456a0fe30
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/JungJee/StudioProjects/Leitner/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_564d43d8eb9666a173d5151a10b95acef944fdeb/classes.dex
+base.1=/Users/JungJee/StudioProjects/Leitner/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_564d43d8eb9666a173d5151a10b95acef944fdeb
+file.0=/Users/JungJee/StudioProjects/Leitner/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_facc313e217331b77e9fb983bf14455456a0fe30/classes.dex

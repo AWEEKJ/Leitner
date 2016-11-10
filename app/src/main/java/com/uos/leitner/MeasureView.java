@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,9 +170,11 @@ public class MeasureView extends Fragment {
         if (isTimerRunning) {
             isTimerRunning = false;
             cTimer.cancel();
-            //Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
 
-            int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
+            Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
+
+//            int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
+            int time_to_try = (int) (remainTime); // seconds
             int time_to_complete = (int) (goalTime / 1000); // seconds
             int pass_or_fail = 1;
             if (remainTime > 0) pass_or_fail = 0;
