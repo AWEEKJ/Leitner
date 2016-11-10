@@ -164,7 +164,7 @@ public class CategoryView extends Fragment {
                 db.updateCategory(db_id, "편집테스트");
 
 //                hermes.refresh_List1(categoryList);
-//                hermes.refresh_List2();
+                hermes.refresh_List2();
 //                hermes.refresh_View(categoryList);
 
                 return true;

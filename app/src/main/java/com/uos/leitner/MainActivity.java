@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -128,27 +130,40 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
     @Override
     public void refresh_List2() {
-//        MyPagerAdapter temp = new MyPagerAdapter(getSupportFragmentManager());
-//        int n=pagerAdapter.getCount();
+        MyPagerAdapter temp = new MyPagerAdapter(getSupportFragmentManager());
+        int n = pagerAdapter.getCount()-1;
+
 //        Log.d("ㅇㅇㅇㅇㅇㅇㅇㅇ", Integer.toString(n));
 //
-//        for(int i=0; i<n; i++) {
+//        for(int i=1; i<n; i++) {
 //            temp.add(pagerAdapter.getItem(i));
-////            Log.d("ㄴㄴㄴㄴㄴ", Integer.toString(i));
 //        }
-//
-//        for(int i=0; i<n; i++) {
-////            pagerAdapter.remove(i);
-//            viewPager.removeViewAt(i);
-//
-//            Log.d("ㄴㄴㄴㄴㄴ", temp.getCount()+"\n"+pagerAdapter.getCount());
-//        }
-//
-//        for(int i=0; i<n; i++) {
-//            pagerAdapter.add(temp.getItem(i));
-//        }
-//
-//        pagerAdapter.notifyDataSetChanged();
+
+        for(int i=n; i!=0; i--) {
+//            temp.add(pagerAdapter.getItem(i));
+//            this.getSupportFragmentManager().beginTransaction().detach(pagerAdapter.getItem(i)).commitNowAllowingStateLoss();
+            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove(pagerAdapter.getItem(i));
+            trans.commit();
+        }
+
+        for(int i=n; i!=0; i--) {
+//            pagerAdapter.remove(i);
+//            this.getSupportFragmentManager().beginTransaction().attach(pagerAdapter.getItem(i)).commitNow();
+            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.add(R.id.main_pager, pagerAdapter.getItem(i));
+            trans.commit();
+        }
+
+//        viewPager.setAdapter(temp);
+//            for(int i=(temp.getCount()-1); i!=0; i--) {
+//                pagerAdapter.add(temp.getItem(i));
+//            }
+
+        pagerAdapter.notifyDataSetChanged();
+//        temp.notifyDataSetChanged();
     }
 
     @Override
