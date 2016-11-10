@@ -1,5 +1,6 @@
 package com.uos.leitner;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,12 +12,22 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.StackedValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Subject_log;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -25,11 +36,14 @@ import java.util.Random;
 
 public class StatisticView_Detail extends Fragment {
 
-    private BarChart barChart;
-    private ArrayList<String> dates;
-    private Random random;
-    private ArrayList<BarEntry> barEntries;
     private long id;
+
+    // BarChart
+    BarChart barChart;
+    ArrayList<BarEntry> barEntries;
+
+    // Database Helper
+    DatabaseHelper db;
 
     public static StatisticView_Detail newInstance(Long ID) {
         StatisticView_Detail fragment = new StatisticView_Detail();
@@ -41,7 +55,7 @@ public class StatisticView_Detail extends Fragment {
     }
 
     private void readBundle(Bundle bundle) {
-        if (bundle != null) {
+        if(bundle != null) {
             id = bundle.getLong("id");
         }
     }
@@ -53,70 +67,67 @@ public class StatisticView_Detail extends Fragment {
         readBundle(getArguments());
 
         barChart = (BarChart) view.findViewById(R.id.bar_chart);
+        db = new DatabaseHelper(getContext());
 
-        createRandomBarGraph("2016/06/01", "2016/07/31");
+        createBarGraph(id);
 
         return view;
     }
+    public void createBarGraph(long subject_id) {
 
-    public void createRandomBarGraph(String Date1, String Date2) {
-        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            Date date1 = simpleDataFormat.parse(Date1);
-            Date date2 = simpleDataFormat.parse(Date2);
+        barEntries = new ArrayList<>();
+        List<Subject_log> sls = db.getSomeSubject_log(subject_id);
+        int index = 1;
 
-            Calendar mData1 = Calendar.getInstance();
-            Calendar mData2 = Calendar.getInstance();
-            mData1.clear();
-            mData2.clear();
-
-            mData1.setTime(date1);
-            mData2.setTime(date2);
-
-            dates = new ArrayList<>();
-            dates = getList(mData1, mData2);
-
-            barEntries = new ArrayList<>();
-            float max = 0f;
-            float value = 0f;
-            Random random = new Random();
-            for(int j = 0; j < dates.size(); j++) {
-                max = 100f;
-                value = random.nextFloat() * max;
-                barEntries.add(new BarEntry(value, j));
+        if (!sls.isEmpty()) {
+            for (Subject_log sl : sls) {
+                // 그래프 그릴 값을 할당
+                barEntries.add(new BarEntry(index++, new float[]{sl.getTime_to_complete(),
+                        sl.getTime_to_try() - sl.getTime_to_complete()}));
             }
 
-        } catch(ParseException e) {
-            e.printStackTrace();
+            BarDataSet barDataSet = new BarDataSet(barEntries, db.getCategory(subject_id).getSubject_Name());
+            barDataSet.setStackLabels(new String[] {"Time To Try", "Time To Complete"});
+            barDataSet.setColors(getColors());
+            barDataSet.setValueTextSize(12f);
+            barDataSet.setValueFormatter(new MyValueFormatter());
+
+            BarData barData = new BarData(barDataSet);
+            barChart.setData(barData);
+            barChart.animateY(3000);
+            barChart.invalidate();
         }
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        //BarData barData = new BarData(dates, barDataSet);
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        //barChart.setDescription("My First Bar Graph");
     }
 
-    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        ArrayList<String> list = new ArrayList<>();
-        while(startDate.compareTo(endDate) <= 0) {
-            list.add(getDate(startDate));
-            startDate.add(Calendar.DAY_OF_MONTH,1);
+    private int[] getColors() {
+        int stacksize = 2;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+
+        colors[0] = Color.rgb(58,172,250);
+        colors[1] = Color.rgb(250,88,00);
+
+
+        return colors;
+    }
+
+    public class MyValueFormatter implements IValueFormatter {
+        private DecimalFormat mFormat;
+
+        public MyValueFormatter() {
+            mFormat = new DecimalFormat("###,###,##0.0");
         }
 
-        return list;
-    }
-
-    public String getDate(Calendar cld) {
-        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH) + 1) + "/"
-                + cld.get(Calendar.DAY_OF_MONTH);
-        try {
-            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
-            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
-        } catch(ParseException e) {
-            e.printStackTrace();
+        @Override
+        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+            if(value > 0)
+                return mFormat.format(value);
+            else
+                return "";
         }
-
-        return curDate;
     }
+
 }

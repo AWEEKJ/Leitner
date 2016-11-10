@@ -24,11 +24,10 @@ public class Subject_log {
         this.time_to_complete = time_to_complete;
     }
 
-    public Subject_log(int time_to_try, int time_to_complete, int pass_or_fail, String date, int subject_id) {
+    public Subject_log(int time_to_try, int time_to_complete, int pass_or_fail, int subject_id) {
         this.time_to_try = time_to_try;
         this.time_to_complete = time_to_complete;
         this.pass_or_fail = pass_or_fail;
-        this.date = date;
         this.subject_id = subject_id;
     }
 
@@ -40,7 +39,17 @@ public class Subject_log {
         this.date = date;
         this.subject_id = subject_id;
     }
-    // getter
+
+    public Subject_log(int time_to_try, int time_to_complete, int pass_or_fail, String date, int subject_id) {
+        this.time_to_try = time_to_try;
+        this.time_to_complete = time_to_complete;
+        this.pass_or_fail = pass_or_fail;
+        this.date = date;
+        this.subject_id = subject_id;
+    }
+
+
+// getter
 
     public int getLog_no() {
         return log_no;
@@ -91,3 +100,4 @@ public class Subject_log {
         this.subject_id = subject_id;
     }
 }
+

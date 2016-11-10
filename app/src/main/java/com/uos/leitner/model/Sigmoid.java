@@ -32,4 +32,3 @@ public class Sigmoid {
         this.value = value;
     }
 }
-

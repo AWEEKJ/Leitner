@@ -4,16 +4,20 @@ import android.content.Context;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
@@ -78,8 +82,9 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
     }
 
+
     @Override
-    public void refresh_List(ArrayList<Category> categoryList) {
+    public void refresh_List1(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
         categoryList.clear();
 
@@ -88,6 +93,78 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
 
         pagerAdapter.notifyDataSetChanged();
+    }
+
+    /*
+    @Override
+    public void refresh_List2(int pos) {
+
+//        Fragment a = VerticalActivity.newInstance(id);
+//        getSupportFragmentManager().beginTransaction().detach(a).attach(a).commit();
+//        viewPager.setAdapter(null);
+//        viewPager.setAdapter(pagerAdapter);
+
+
+        List<Fragment> a = getSupportFragmentManager().getFragments();
+
+        Fragment b = a.get(pos+1);
+        View v = viewPager.getChildAt(pos+1);
+
+        getSupportFragmentManager().beginTransaction().detach(b);
+        viewPager.removeViewAt(pos+1);
+        v.destroyDrawingCache();
+        viewPager.addView(v);
+//        pagerAdapter.getadd(b);
+//        pagerAdapter.remove(pos+1);
+        pagerAdapter.notifyDataSetChanged();
+
+//        pagerAdapter.remove(pos);
+
+//        pagerAdapter.add(b);
+//        viewPager.addView(v);
+//        pagerAdapter.add(b);
+
+//        getSupportFragmentManager().beginTransaction().attach(b).commit();
+//        pagerAdapter.notifyDataSetChanged();
+    }
+    */
+
+    @Override
+    public void refresh_List2() {
+        MyPagerAdapter temp = new MyPagerAdapter(getSupportFragmentManager());
+        int n = pagerAdapter.getCount()-1;
+
+//        Log.d("ㅇㅇㅇㅇㅇㅇㅇㅇ", Integer.toString(n));
+//
+//        for(int i=1; i<n; i++) {
+//            temp.add(pagerAdapter.getItem(i));
+//        }
+
+        for(int i=n; i!=0; i--) {
+//            temp.add(pagerAdapter.getItem(i));
+//            this.getSupportFragmentManager().beginTransaction().detach(pagerAdapter.getItem(i)).commitNowAllowingStateLoss();
+            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove(pagerAdapter.getItem(i));
+            trans.commit();
+        }
+
+        for(int i=n; i!=0; i--) {
+//            pagerAdapter.remove(i);
+//            this.getSupportFragmentManager().beginTransaction().attach(pagerAdapter.getItem(i)).commitNow();
+            FragmentManager manager = pagerAdapter.getItem(i).getFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.add(R.id.main_pager, pagerAdapter.getItem(i));
+            trans.commit();
+        }
+
+//        viewPager.setAdapter(temp);
+//            for(int i=(temp.getCount()-1); i!=0; i--) {
+//                pagerAdapter.add(temp.getItem(i));
+//            }
+
+        pagerAdapter.notifyDataSetChanged();
+//        temp.notifyDataSetChanged();
     }
 
     @Override
@@ -100,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 //            pagerAdapter.add(VerticalActivity.newInstance(db_id));
 //        }
 //
-//        pagerAdapter.notifyDataSetChanged();
+        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override

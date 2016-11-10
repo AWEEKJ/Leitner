@@ -1,22 +1,37 @@
 package com.uos.leitner;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Category;
+import com.uos.leitner.model.Subject_log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
 /**
  * Created by HANJU on 2016. 11. 7..
@@ -24,10 +39,11 @@ import java.util.Random;
 
 public class StatisticView_Total extends Fragment {
 
-    BarChart barChart;
-    ArrayList<String> dates;
-    Random random;
-    ArrayList<BarEntry> barEntries;
+    // LineChart
+    LineChart lineChart;
+    List<Entry> lineEntries;
+
+    DatabaseHelper db;
 
     public static StatisticView_Total newInstance() {
         StatisticView_Total fragment = new StatisticView_Total();
@@ -42,74 +58,63 @@ public class StatisticView_Total extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_total_statistic, null);
 
-        barChart = (BarChart) view.findViewById(R.id.bar_chart2);
 
-        // 이 둘 날짜 사이의 값을 그래프로 보기 위함
-        createRandomBarGraph("2016/06/01", "2016/07/31");
+        lineChart = (LineChart)view.findViewById(R.id.line_chart);
 
-        // 여기서 통계회면을 제어
+        db = new DatabaseHelper(getContext());
+
+        createLineGraph();
+
+        db.close();
 
         return view;
+
+
     }
 
-    public void createRandomBarGraph(String Date1, String Date2) {
-        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy/MM/dd");
-        try {
-            Date date1 = simpleDataFormat.parse(Date1);
-            Date date2 = simpleDataFormat.parse(Date2);
+    public LineDataSet createSingleLineGraph(long subject_id) {
+        int index = 1;
+        lineEntries = new ArrayList<Entry>();
+        LineDataSet lineDataSet =  null;
+        List<Subject_log> sls = db.getSomeSubject_log(subject_id);
+        if(!sls.isEmpty()) {
+            for (Subject_log sl : sls) {
+                lineEntries.add(new Entry(index++, sl.getTime_to_complete()));
 
-            Calendar mData1 = Calendar.getInstance();
-            Calendar mData2 = Calendar.getInstance();
-            mData1.clear();
-            mData2.clear();
-
-            mData1.setTime(date1);
-            mData2.setTime(date2);
-
-            dates = new ArrayList<>();
-            dates = getList(mData1, mData2);
-
-            barEntries = new ArrayList<>();
-            float max = 0f;
-            float value = 0f;
-            Random random = new Random();
-            for(int j = 0; j < dates.size(); j++) {
-                max = 100f;
-                value = random.nextFloat() * max;
-                barEntries.add(new BarEntry(value, j));
             }
 
-        } catch(ParseException e) {
-            e.printStackTrace();
+            lineDataSet = new LineDataSet(lineEntries, db.getCategory(subject_id).getSubject_Name());
+            lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+
         }
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        //BarData barData = new BarData(dates, barDataSet);
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        //barChart.setDescription("My First Bar Graph");
+        return lineDataSet;
     }
 
-    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        ArrayList<String> list = new ArrayList<>();
-        while(startDate.compareTo(endDate) <= 0) {
-            list.add(getDate(startDate));
-            startDate.add(Calendar.DAY_OF_MONTH,1);
+    public void createLineGraph() {
+        List<Category> cts = db.getAllCategories();
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        LineDataSet lineDataSet;
+        int myColor = 1;
+        for(Category ct : cts) {
+            // 해당 카테고리에 subject_log가 없는 경우 그래프를 생성하지 않는다.
+            lineDataSet = createSingleLineGraph(ct.getSubject_ID());
+            if(lineDataSet != null) {
+                lineDataSet.setColor(ColorTemplate.COLORFUL_COLORS[myColor]);
+                lineDataSet.setCircleColor(ColorTemplate.COLORFUL_COLORS[myColor++]);
+                lineDataSet.setCircleRadius(10f);
+                lineDataSet.setLineWidth(5f);
+                lineDataSet.setValueTextSize(12f);
+                dataSets.add(lineDataSet);
+            }
         }
 
-        return list;
+        LineData data = new LineData(dataSets);
+        lineChart.setData(data);
+        lineChart.animateX(1000);
+        lineChart.invalidate();
+
     }
 
-    public String getDate(Calendar cld) {
-        String curDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH) + 1) + "/"
-                + cld.get(Calendar.DAY_OF_MONTH);
-        try {
-            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(curDate);
-            curDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
-        } catch(ParseException e) {
-            e.printStackTrace();
-        }
-
-        return curDate;
-    }
 }

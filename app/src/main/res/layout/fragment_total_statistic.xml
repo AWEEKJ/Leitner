@@ -3,10 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/bar_chart2">
-    </com.github.mikephil.charting.charts.BarChart>
+        android:id="@+id/line_chart">
+    </com.github.mikephil.charting.charts.LineChart>
 
 </LinearLayout>
