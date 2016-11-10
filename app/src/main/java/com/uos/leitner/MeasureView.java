@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -181,7 +180,23 @@ public class MeasureView extends Fragment {
 
             Subject_log log = new Subject_log(time_to_try, time_to_complete, pass_or_fail, date, subject_id);
             db.createSubjectLog(log);
+
+
+
+            Intent intent = new Intent(this.getActivity(), PopupResultActivity.class);
+
+            intent.putExtra("time_to_complete", time_to_complete);
+            intent.putExtra("time_to_try", time_to_try);
+
+            startActivity(intent);
+
+
         }
+
+
+
+
+
     }
 
     @Override

@@ -78,6 +78,10 @@ public class CategoryView extends Fragment {
         final Spinner obj_level = (Spinner)view.findViewById(R.id.spinner_level);
         obj_level.setAdapter(adapter_level);
 
+
+        obj_level.setSelection(0);
+        obj_time.setSelection(0);
+
         hermes.initialize(categoryList);    // DB로 부터 정보를 읽어와 listView를 초기화
 
         // 추가버튼을 클릭했을 때 (UI만 변화함)
@@ -103,6 +107,12 @@ public class CategoryView extends Fragment {
                     String name = insertName.getText().toString();
                     int goal_tmp = obj_time.getSelectedItemPosition();
                     int current_tmp = obj_level.getSelectedItemPosition();
+
+                    if(goal_tmp ==0 || current_tmp == 0 || name == "")
+                    {
+                        Toast.makeText(getActivity(), "시작 레벨 또는 목표 시간이 설정되지 않았습니다.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
                     int goaltime = Integer.parseInt((String)obj_time.getAdapter().getItem(goal_tmp));
                     int currentLevel = Integer.parseInt((String)obj_level.getAdapter().getItem(current_tmp));
