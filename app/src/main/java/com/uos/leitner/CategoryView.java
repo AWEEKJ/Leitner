@@ -119,10 +119,15 @@ public class CategoryView extends Fragment {
 
         switch(item.getItemId()) {
             case R.id.edit: // 항목 편집
-                db.updateCategory(db_id, "편집테스트");
 
-                hermes.refresh_List(categoryList);
-                adapter.notifyDataSetChanged();
+                Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
+                intent.putExtra("categoryId", db_id);
+                getActivity().startActivity(intent);
+
+                //db.updateCategory(db_id, "편집테스트");
+
+                //hermes.refresh_List(categoryList);
+                //adapter.notifyDataSetChanged();
 
                 return true;
 

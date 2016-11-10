@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +20,7 @@ import com.uos.leitner.model.Category;
  * Created by HANJU on 2016. 11. 10..
  */
 
-public class AddCategoryActivity extends AppCompatActivity {
+public class ModifyCategoryActivity extends AppCompatActivity {
 
     private DatabaseHelper db;
     private EditText categoryNameET;
@@ -30,6 +31,8 @@ public class AddCategoryActivity extends AppCompatActivity {
     private Button saveBTN;
 
     private Intent intent;
+    private int categoryId;
+    private Category category;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,13 +40,17 @@ public class AddCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_category);
 
         intent = new Intent(this, MainActivity.class);
+        categoryId = getIntent().getIntExtra("categoryId", categoryId);
 
         db = new DatabaseHelper(this);
+        category = db.getCategory(categoryId);
 
         categoryNameET = (EditText) findViewById(R.id.categoryNameEditText);
+        categoryNameET.setText(category.getSubject_Name());
 
         goalTimeSB = (SeekBar) findViewById(R.id.goalTimeSeekBar);
-        goalTimeSB.setProgress(25);     // 초기시간으로 25분
+        //goalTimeSB.setProgress(25);
+        goalTimeSB.setProgress(category.getMaxTime());
         goalTimeTV = (TextView) findViewById(R.id.goalTimeValueTextView);
         goalTimeTV.setText(String.valueOf(goalTimeSB.getProgress()));
 
@@ -65,7 +72,8 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
 
         levelSB = (SeekBar) findViewById(R.id.levelSeekBar);
-        levelSB.setProgress(5);     // 초기레벨로 5단계
+        //levelSB.setProgress(5);
+        levelSB.setProgress(category.getCurrentLevel());
         levelTV = (TextView) findViewById(R.id.levelValueTextView);
         levelTV.setText(String.valueOf(levelSB.getProgress()));
 
@@ -95,8 +103,11 @@ public class AddCategoryActivity extends AppCompatActivity {
                 int level = levelSB.getProgress();
                 int goalTime = goalTimeSB.getProgress();
 
-                Category newCategory = new Category(categoryName, level, goalTime);
-                db.createCategory(newCategory);
+                category.setSubject_Name(categoryName);
+                category.setCurrentLevel(level);
+                category.setMaxTime(goalTime);
+
+                db.updateCategory(category);
 
                 finish();
                 startActivity(intent);

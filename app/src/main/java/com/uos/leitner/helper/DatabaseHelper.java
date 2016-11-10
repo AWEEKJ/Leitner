@@ -199,22 +199,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         return categories;
     }
 
-    /*
-    * Updating a category
-    * */
     public int updateCategory(Category category) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put(KEY_SUBJECT_ID, category.getSubject_ID());
         values.put(KEY_SUBJECT_NAME, category.getSubject_Name());
         values.put(KEY_CURRENT_LEVEL, category.getCurrentLevel());
         values.put(KEY_MAX_TIME, category.getMaxTime());
 
-        db.close();
-        // updating row
         return db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + " = ?",
-                new String[] {String.valueOf(category.getSubject_ID())});
+                new String[] { String.valueOf(category.getSubject_ID()) });
     }
+
 
     /*
     * Deleting a category
