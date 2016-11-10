@@ -79,7 +79,7 @@ public class StatisticView_Total extends Fragment {
         List<Subject_log> sls = db.getSomeSubject_log(subject_id);
         if(!sls.isEmpty()) {
             for (Subject_log sl : sls) {
-                lineEntries.add(new Entry(index++, sl.getTime_to_complete()));
+                lineEntries.add(new Entry(index++, sl.getTime_to_try()));
 
             }
 

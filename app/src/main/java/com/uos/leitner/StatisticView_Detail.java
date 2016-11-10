@@ -82,12 +82,12 @@ public class StatisticView_Detail extends Fragment {
         if (!sls.isEmpty()) {
             for (Subject_log sl : sls) {
                 // 그래프 그릴 값을 할당
-                barEntries.add(new BarEntry(index++, new float[]{sl.getTime_to_complete(),
-                        sl.getTime_to_try() - sl.getTime_to_complete()}));
+                barEntries.add(new BarEntry(index++, new float[]{sl.getTime_to_try(),
+                        sl.getTime_to_complete() - sl.getTime_to_try()  }));
             }
 
             BarDataSet barDataSet = new BarDataSet(barEntries, db.getCategory(subject_id).getSubject_Name());
-            barDataSet.setStackLabels(new String[] {"Time To Try", "Time To Complete"});
+            barDataSet.setStackLabels(new String[] {"Time To Complete", "Time To Try"});
             barDataSet.setColors(getColors());
             barDataSet.setValueTextSize(12f);
             barDataSet.setValueFormatter(new MyValueFormatter());

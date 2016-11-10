@@ -8,21 +8,22 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Subject_log;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
+import static java.lang.Math.toIntExact;
 
 /**
  * Created by HANJU on 2016. 11. 2..
@@ -36,6 +37,9 @@ public class MeasureView extends Fragment {
 
     private long goalTime; // Time Setup for temporary, 13m 22s is 802000 milliseconds
     private long remainTime;
+
+    private int currentLevel;
+    private double maxTime;
 
     private static final String FORMAT = "%02d";
     private CountDownTimer cTimer;
@@ -84,7 +88,13 @@ public class MeasureView extends Fragment {
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(categoryName);
 
-        goalTime = db.getCategory(categoryId).getMaxTime()*60000;
+
+        // goalTime = db.getCategory(categoryId).getMaxTime()*60000;
+        // 위의 코드를 현재 레벨과 최대 시간을 사용하여 만들어야한다.
+        currentLevel = db.getCategory(categoryId).getCurrentLevel();
+        maxTime = db.getCategory(categoryId).getMaxTime()*60000;
+
+        goalTime = db.getTryTime(currentLevel, maxTime);
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
@@ -92,7 +102,9 @@ public class MeasureView extends Fragment {
         stopBtn = (Button) view.findViewById(R.id.stopButton);
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
-        //Log.d("TimeCheck", Long.toString(goalTime));
+
+        //TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
+
 
         return view;
     }
@@ -140,6 +152,7 @@ public class MeasureView extends Fragment {
         }
     };
 
+
     private void runTimer() {
         if (!isTimerRunning){
             cTimer = new CountDownTimer(goalTime, 100) {
@@ -157,10 +170,12 @@ public class MeasureView extends Fragment {
                         secondsTV.setText("" + String.format(Locale.US, FORMAT,
                                 TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
                     }
+
                 }
                 public void onFinish() {
                     isTimerRunning = false;
                     progressBar.setProgress(100);
+                    stopTimer();
                 }
             }.start();
         }
@@ -170,12 +185,11 @@ public class MeasureView extends Fragment {
         if (isTimerRunning) {
             isTimerRunning = false;
             cTimer.cancel();
+            //Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
 
-            Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
-
-//            int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
-            int time_to_try = (int) (remainTime); // seconds
+            int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
             int time_to_complete = (int) (goalTime / 1000); // seconds
+            int time_remaining = (int) remainTime;
             int pass_or_fail = 1;
             if (remainTime > 0) pass_or_fail = 0;
             String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -189,16 +203,12 @@ public class MeasureView extends Fragment {
             Intent intent = new Intent(this.getActivity(), PopupResultActivity.class);
 
             intent.putExtra("time_to_complete", time_to_complete);
-            intent.putExtra("time_to_try", time_to_try);
+            intent.putExtra("time_to_try", time_remaining);
 
             startActivity(intent);
 
 
         }
-
-
-
-
 
     }
 
