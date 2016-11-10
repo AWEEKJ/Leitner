@@ -67,18 +67,4 @@ class MyPagerAdapter extends FragmentStatePagerAdapter {
         listFragment.remove(position);
         notifyDataSetChanged();
     }
-
-    public void remove_all(ArrayList<Category> categoryList) {
-//        while(listFragment.size()>1) {
-//            listFragment.remove(listFragment.size());
-//            notifyDataSetChanged();
-//        }
-//        for (int i =0; i <??; i++) {
-//            Log.d("i", Integer.toString(i));
-//            Log.d("frag", Integer.toString(listFragment.size()));
-//
-//            listFragment.remove(i);
-//            notifyDataSetChanged();
-//        }
-    }
 }

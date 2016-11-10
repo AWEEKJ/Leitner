@@ -110,6 +110,7 @@ implements View.OnClickListener{
 
             Intent intent = new Intent(this, GoogleSigninActivity.class);
 
+//            finish();
             startActivity(intent);
         }
     }
@@ -141,6 +142,8 @@ implements View.OnClickListener{
                         if(task.isSuccessful()) {
 
                             Toast.makeText(LoginActivity.this,"Log in Successed.", Toast.LENGTH_LONG).show();
+
+                            finish();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 
                             startActivity(intent);

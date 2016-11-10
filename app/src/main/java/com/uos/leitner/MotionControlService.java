@@ -1,6 +1,8 @@
 package com.uos.leitner;
 
+import android.app.Fragment;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -107,4 +109,5 @@ public class MotionControlService extends Service implements SensorEventListener
 //            Toast.makeText(MotionControlService.this, "뜸?", Toast.LENGTH_LONG).show();
 //        }
 //    }
+
 }

@@ -40,7 +40,6 @@ public class GoogleSigninActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -147,11 +146,15 @@ public class GoogleSigninActivity extends AppCompatActivity
 
                 Intent intent = new Intent(this, MainActivity.class);
 
+                finish();
+
                 startActivity(intent);
             }
             else {
                 Toast toast = Toast.makeText(this, "간단한 토스트메시지", Toast.LENGTH_SHORT );
                 toast.show();
+
+                finish();
             }
         }
     }

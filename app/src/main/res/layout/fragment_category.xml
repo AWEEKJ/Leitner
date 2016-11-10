@@ -44,7 +44,7 @@
                 android:textSize="20dp"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
-                android:background="#0033BB"/>
+                android:background="@drawable/roundedbutton" />
 
         </LinearLayout>
 

@@ -8,22 +8,20 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Subject_log;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import static java.lang.Math.toIntExact;
 
 /**
  * Created by HANJU on 2016. 11. 2..
@@ -78,7 +76,6 @@ public class MeasureView extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         db = new DatabaseHelper(getContext());
-
         View view = inflater.inflate(R.layout.fragment_measure, null);
         readBundle(getArguments());
 
@@ -101,6 +98,7 @@ public class MeasureView extends Fragment {
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
         //TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
+
 
         return view;
     }
@@ -215,5 +213,6 @@ public class MeasureView extends Fragment {
         getActivity().stopService(new Intent(getActivity(), MotionControlService.class));
         getActivity().unregisterReceiver(broadcastReceiverStart);
         getActivity().unregisterReceiver(broadcastReceiverStop);
+
     }
 }

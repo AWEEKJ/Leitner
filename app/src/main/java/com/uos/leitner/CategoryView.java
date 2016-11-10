@@ -25,7 +25,7 @@ import java.util.ArrayList;
  * Created by changhyeon on 2016. 10. 30..
  */
 
-public class CategoryView extends Fragment {
+public class CategoryView extends Fragment{
 
     private Communicator hermes = null; // 인터페이스로 구현한 메소드 전달자 (MainActivity와 CategoryView사이에 정보 교환
     private int count = 0;
