@@ -1,7 +1,5 @@
 package com.uos.leitner.model;
 
-import java.util.Calendar;
-
 /**
  * Created by Yunha on 2016. 11. 4..
  */
@@ -20,14 +18,13 @@ public class Category {
     public Category(String subject_Name) {
         this.subject_Name = subject_Name;
     }
-
-    public Category(String subject_Name, int maxTime, int currentLevel) {
+    public Category(String subject_Name, int currentLevel, int maxTime) {
         this.subject_Name = subject_Name;
         this.currentLevel = currentLevel;
         this.maxTime = maxTime;
     }
 
-    public Category(int subject_ID, String subject_Name, int maxTime, int currentLevel) {
+    public Category(int subject_ID, String subject_Name, int currentLevel, int maxTime) {
         this.subject_ID = subject_ID;
         this.subject_Name = subject_Name;
         this.currentLevel = currentLevel;

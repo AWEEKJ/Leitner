@@ -1,25 +1,33 @@
 package com.uos.leitner;
 
+import android.content.Context;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
 
-    protected int MAX = 5;   // 생성가능한 페이지 갯수
-    protected boolean flag = false;
     private DatabaseHelper db;
-
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
+
+    protected int MAX = 5; // 생성 가능한 페이지 수
+    protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +38,26 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.main_pager);
-
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(MAX);
 
         pagerAdapter.add(new VerticalActivity());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
     }
 
-    //뒤로가기 버튼 눌렀을 때
+    //뒤로가기 클릭
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) super.onBackPressed();
 
-        else viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        if (viewPager.getCurrentItem() == 0) {
+
+        }
+
+        else viewPager.setCurrentItem(0);
     }
 
-    // CategoryView의 인터페이스 구현
-    //1. DB 정보를 받아서 초기화
+    // CategoryView 인터페이스 구현
     @Override
     public  void initialize(ArrayList<Category> categoryList) {
-
         ArrayList<Category> cts = db.getAllCategories();
 
         for(Category c : cts) {
@@ -64,17 +72,17 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
     }
 
-    //2. 새로운 카테고리의 세부 페이지 생성
-    @Override
-    public void addCategory(long id) {
-        if (pagerAdapter.getCount() <= 10) {
-            Fragment fragment = VerticalActivity.newInstance(id);
+    public void refresh_List(ArrayList<Category> categoryList) {
+        ArrayList<Category> cts = db.getAllCategories();
+        categoryList.clear();
 
-            pagerAdapter.add(fragment);
+        for(Category c : cts) {
+            categoryList.add(c);
         }
+
+        pagerAdapter.notifyDataSetChanged();
     }
 
-    //3. 리스트 클릭하면 해당 페이지로 이동
     @Override
     public void showNext(int position) {
         //position 0번은 메인페이지
@@ -82,11 +90,9 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     }
 
     @Override
-    public void update(int position) {
-//        VerticalActivity a = new VerticalActivity();
-//        a.del(position);
-
-        pagerAdapter.remove(position);
-        pagerAdapter.notifyDataSetChanged();
+    public void delete(int position) {
+        viewPager.removeViewAt(position+1);
+        pagerAdapter.remove(position+1);
     }
+
 }

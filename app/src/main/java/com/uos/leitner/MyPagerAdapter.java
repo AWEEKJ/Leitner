@@ -3,8 +3,12 @@ package com.uos.leitner;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ViewGroup;
+
+import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
 
@@ -12,9 +16,7 @@ import java.util.ArrayList;
  * Created by changhyeon on 2016. 10. 31..
  */
 
-
-class MyPagerAdapter extends FragmentPagerAdapter {
-
+class MyPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Fragment> listFragment = new ArrayList<>();
 
     public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
@@ -32,28 +34,51 @@ class MyPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+    public int getItemPosition (Object object) {
+        int index = listFragment.indexOf(object);
+        if (index == -1)
+            return POSITION_NONE;
+        else
+            return index;
+
+//        return POSITION_NONE;
+    }
+
+    @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         FragmentManager manager = ((Fragment) object).getFragmentManager();
         FragmentTransaction trans = manager.beginTransaction();
         trans.remove((Fragment) object);
         trans.commit();
 
+//        trans.commitNow();
+
         super.destroyItem(container, position, object);
     }
 
-//    @Override
-//    public int getItemPosition(Object object) {
-//        return POSITION_NONE;
-//    }
-
-    // 동적으로 fragment를 추가하기 위해 필요한 부분
+    // 동적으로 fragment를 생성
     public void add(Fragment f) {
         listFragment.add(f);
         notifyDataSetChanged();
     }
 
+//    // 동적으로 fragment를 삭제
     public void remove(int position) {
         listFragment.remove(position);
         notifyDataSetChanged();
+    }
+
+    public void remove_all(ArrayList<Category> categoryList) {
+//        while(listFragment.size()>1) {
+//            listFragment.remove(listFragment.size());
+//            notifyDataSetChanged();
+//        }
+//        for (int i =0; i <??; i++) {
+//            Log.d("i", Integer.toString(i));
+//            Log.d("frag", Integer.toString(listFragment.size()));
+//
+//            listFragment.remove(i);
+//            notifyDataSetChanged();
+//        }
     }
 }

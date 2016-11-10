@@ -1,9 +1,5 @@
 package com.uos.leitner.helper;
 
-/**
- * Created by Yunha on 2016. 11. 4..
- */
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,8 +10,13 @@ import android.util.Log;
 import com.uos.leitner.model.Category;
 import com.uos.leitner.model.Subject_log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+
+/**
+ * Created by Yunha on 2016. 11. 4..
+ */
 
 public class DatabaseHelper extends SQLiteOpenHelper{
     // Logcat tag
@@ -30,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Table Names
     private static final String TABLE_CATEGORY = "category";
     private static final String TABLE_SUBJECT_LOG = "subject_log";
+    private static final String TABLE_SIGMOID = "sigmoid";
 
     // CATEGORY Table - column names
     private static final String KEY_SUBJECT_ID = "subject_ID";
@@ -45,19 +47,47 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_PASS_OR_FAIL = "pass_or_fail";
     private static final String KEY_DATE = "date";
     private static final String KEY_SUBJ_ID = "subject_id";
+<<<<<<< HEAD
+=======
+
+    // SIGMOID Table - column names
+    private static final String KEY_SIG_LEVEL = "sig_level";
+    private static final String KEY_SIG_VALUE = "sig_value";
+>>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
     // Table create statement
     // CATEGORY table create statement
-    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE "
-            + TABLE_CATEGORY + "(" + KEY_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_SUBJECT_NAME + " TEXT," + KEY_CURRENT_LEVEL + " INTEGER,"
-            + KEY_MAX_TIME + " INTEGER" + ")";
+    private static final String CREATE_TABLE_CATEGORY = "CREATE TABLE " + TABLE_CATEGORY
+            + "("
+            + KEY_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_SUBJECT_NAME + " TEXT,"
+            + KEY_CURRENT_LEVEL + " INTEGER,"
+            + KEY_MAX_TIME + " INTEGER"
+            + ")";
 
     // SUBJECT_LOG table create statement
-    private static final String CREATE_TABLE_SUBJECT_LOG = "CREATE TABLE "
-            + TABLE_SUBJECT_LOG + "(" + KEY_LOG_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-            + KEY_TIME_TO_TRY + " INTEGER," + KEY_TIME_TO_COMPLETE + " INTEGER,"
-            + KEY_PASS_OR_FAIL + " INTEGER," + KEY_DATE + " DATETIME" + ")";
+    private static final String CREATE_TABLE_SUBJECT_LOG = "CREATE TABLE " + TABLE_SUBJECT_LOG
+            + "("
+            + KEY_LOG_NO + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_TIME_TO_TRY + " INTEGER,"
+            + KEY_TIME_TO_COMPLETE + " INTEGER,"
+            + KEY_PASS_OR_FAIL + " INTEGER,"
+            + KEY_DATE + " DATETIME, "
+            + KEY_SUBJ_ID + " INTEGER"
+            + ")";
+
+    // SIGMOID tabale create statement
+    private static final String CREATE_TABLE_SIGMOID = "CREATE TABLE " + TABLE_SIGMOID
+            + "("
+            + KEY_SIG_LEVEL + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + KEY_SIG_VALUE + " REAL"
+            + ")";
+
+    // insert default sigmoid table values
+    private static final String INSERT_SIGMOID_VALUE = "INSERT INTO " + TABLE_SIGMOID
+            + "(" + KEY_SIG_VALUE + ")"
+            + "VALUES "
+            + "(";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -65,9 +95,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        double[] sigmoid_values = {0.007, 0.011, 0.018, 0.031, 0.047,
+                0.076, 0.120, 0.182, 0.269, 0.378,
+                0.500, 0.622, 0.731, 0.818, 0.881,
+                0.924, 0.952, 0.971, 0.982, 0.999};
+
         // creating required tables
         db.execSQL(CREATE_TABLE_CATEGORY);
         db.execSQL(CREATE_TABLE_SUBJECT_LOG);
+        db.execSQL(CREATE_TABLE_SIGMOID);
+
+        // sigmoid 레벨과 값들을 초기에 생성시에 넣어줘야 한다.
+        for(double value : sigmoid_values) {
+            db.execSQL(INSERT_SIGMOID_VALUE + value + ");");
+        }
     }
 
     @Override
@@ -75,6 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         // on upgrade drop older tables
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBJECT_LOG);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SIGMOID);
 
         // create new tables
         onCreate(db);
@@ -186,13 +229,41 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    /*
+    * Create a Subject_log
+    * */
+    public long createSubjectLog(Subject_log slog) {
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(KEY_TIME_TO_TRY, slog.getTime_to_try());
+        values.put(KEY_TIME_TO_COMPLETE, slog.getTime_to_complete());
+        values.put(KEY_PASS_OR_FAIL, slog.getPass_or_fail());
+        values.put(KEY_DATE, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        values.put(KEY_SUBJ_ID, slog.getSubject_id());
+
+<<<<<<< HEAD
     /*
     * 특정 카테고리에 속하는 subject_log 읽기
     * */
     public List<Subject_log> getSomeSubject_log(long subject_id) {
         List<Subject_log> sl = new ArrayList<Subject_log>();
         String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG + " WHERE SUBJECT_ID = " + subject_id;
+=======
+        long log_no = db.insert(TABLE_SUBJECT_LOG, null, values);
+
+        db.close();
+
+        return log_no;
+    }
+
+    /*
+    * 특정 카테고리에 속하는 subject_log 읽기
+    * */
+    public  ArrayList<Subject_log> getSomeSubject_log(long subject_id) {
+        ArrayList<Subject_log> sl = new ArrayList<Subject_log>();
+        String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG + " WHERE " + KEY_SUBJ_ID + "=" + subject_id;
+>>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
         Log.e(LOG, selectQuery);
 
@@ -215,10 +286,60 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             } while(c.moveToNext());
         }
 
+<<<<<<< HEAD
         return sl;
     }
 
 
 
 
+=======
+        db.close();
+
+        return sl;
+    }
+
+    /*
+    * 특정 카테고리(maxTime)에 대해 현재 level에 맞는 도전시간 설정하기
+    * */
+    public double getTryTime(int currentLevel, int maxTime) {
+
+        // 현재 레벨에 대해 maxTime을 기준으로 도전시간을 가져온다.
+        double time_to_try = 0;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_SIGMOID + " WHERE "
+                + KEY_SIG_LEVEL + "=" + currentLevel;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c != null) {
+            c.moveToFirst();
+        }
+
+        time_to_try = (c.getDouble(c.getColumnIndex(KEY_SIG_VALUE))) * (double)maxTime;
+        Log.e(LOG, " : "+time_to_try);
+
+        db.close();
+
+        return time_to_try;
+    }
+
+    /*
+    * Updating a category 수정했습니다
+    * */
+    public void updateCategory(int id, String newName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_SUBJECT_NAME, newName);
+
+        db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + "='"+id+"'", null);
+
+        db.close();
+    }
+>>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 }

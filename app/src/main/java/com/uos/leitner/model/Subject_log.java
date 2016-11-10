@@ -1,5 +1,6 @@
 package com.uos.leitner.model;
 
+
 /**
  * Created by Yunha on 2016. 11. 4..
  */
@@ -37,8 +38,23 @@ public class Subject_log {
         this.pass_or_fail = pass_or_fail;
         this.date = date;
         this.subject_id = subject_id;
+<<<<<<< HEAD
     }
     // getter
+=======
+    }
+
+    public Subject_log(int time_to_try, int time_to_complete, int pass_or_fail, String date, int subject_id) {
+        this.time_to_try = time_to_try;
+        this.time_to_complete = time_to_complete;
+        this.pass_or_fail = pass_or_fail;
+        this.date = date;
+        this.subject_id = subject_id;
+    }
+
+
+// getter
+>>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
     public int getLog_no() {
         return log_no;
@@ -89,3 +105,7 @@ public class Subject_log {
         this.subject_id = subject_id;
     }
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14

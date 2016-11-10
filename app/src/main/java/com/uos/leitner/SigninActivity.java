@@ -2,6 +2,7 @@ package com.uos.leitner;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -83,6 +84,10 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         if(task.isSuccessful()){
                             //display some message here
                             Toast.makeText(SigninActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+
+                            Intent intent = new Intent(SigninActivity.this, LoginActivity.class);
+
+                            startActivity(intent);
                         }else{
                             //display some message here
                             Toast.makeText(SigninActivity.this,"Registration Error", Toast.LENGTH_LONG).show();

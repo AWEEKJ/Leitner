@@ -13,7 +13,9 @@
         android:id="@+id/contentPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/insertPopup"
+        android:layout_alignParentStart="true">
 
         <ListView
             android:id="@+id/ListView"
@@ -27,67 +29,94 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/ListView"
             android:layout_centerHorizontal="true"
-            android:layout_gravity="bottom|center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp">
+            android:layout_gravity="bottom|center">
 
             <Button
                 android:id="@+id/addButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:text="항목 추가"/>
+                android:text="+"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="#0033BB"/>
 
-            <Button
-                android:id="@+id/delButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="삭제"/>
         </LinearLayout>
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/insertPopup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:background="#77AAAAAA"
-        android:orientation="vertical"
+        android:background="#E0AAAAAA"
+        android:orientation="horizontal"
         android:visibility="gone">
 
-        <EditText
-            android:id="@+id/inputName"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:hint="추가할 항목 이름을 입력하세요."/>
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/linearLayout3">
 
-        <EditText
-            android:id="@+id/inputTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:hint="목표 시간을 설정하세요"/>
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:inputType="text"
+                android:textSize="15dp"
+                android:hint="새로운 항목 이름을 입력하세요."/>
 
-        <EditText
-            android:id="@+id/inputLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:hint="초기 레벨을 설정하세요."/>
+            <Spinner
+                android:id="@+id/spinner_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/spinner_prompt1"/>
+
+            <Spinner
+                android:id="@+id/spinner_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/spinner_prompt2"/>
+
+            <!--<EditText-->
+            <!--android:id="@+id/inputTime"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:textSize="15dp"-->
+            <!--android:hint="목표시간을 설정하세요"/>-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/inputLevel"-->
+            <!--android:layout_width="200dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:inputType="numberDecimal"-->
+            <!--android:textSize="15dp"-->
+            <!--android:hint="초기 레벨을 설정하세요."/>-->
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/insertButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="확인"/>
-    </LinearLayout>
+            android:layout_marginTop="80dp"
+            android:text="확인"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/linearLayout3" />
+    </RelativeLayout>
 
 </RelativeLayout>
