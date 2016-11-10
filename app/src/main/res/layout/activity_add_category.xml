@@ -36,15 +36,6 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/categoryNameEditText" />
 
-    <Button
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/goalTimeSeekBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="92dp"
-        android:id="@+id/saveButton" />
-
     <SeekBar
         android:layout_height="wrap_content"
         android:id="@+id/levelSeekBar"
@@ -104,4 +95,13 @@
             android:id="@+id/minutesUnitTextView" />
 
     </LinearLayout>
+
+    <Button
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveButton"
+        android:layout_below="@+id/levelSeekBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp" />
 </RelativeLayout>

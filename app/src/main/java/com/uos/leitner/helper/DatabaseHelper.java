@@ -108,6 +108,16 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         for(double value : sigmoid_values) {
             db.execSQL(INSERT_SIGMOID_VALUE + value + ");");
         }
+
+        db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('STUDY', 7, 60);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (25,25,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (40,30,0,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (25,25,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (40,40,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (65,65,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (112,112,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (169,169,1,1);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (274,274,1,1);");
     }
 
     @Override
