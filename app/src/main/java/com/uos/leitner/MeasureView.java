@@ -8,33 +8,22 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-<<<<<<< HEAD
-
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-
 import android.util.Log;
-=======
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Subject_log;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-<<<<<<< HEAD
 import static java.lang.Math.toIntExact;
-
-=======
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
 /**
  * Created by HANJU on 2016. 11. 2..
@@ -48,6 +37,9 @@ public class MeasureView extends Fragment {
 
     private long goalTime; // Time Setup for temporary, 13m 22s is 802000 milliseconds
     private long remainTime;
+
+    private int currentLevel;
+    private double maxTime;
 
     private static final String FORMAT = "%02d";
     private CountDownTimer cTimer;
@@ -96,12 +88,13 @@ public class MeasureView extends Fragment {
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(categoryName);
 
-<<<<<<< HEAD
 
-        goalTime = db.getCategory(id).getMaxTime()*61000;
-=======
-        goalTime = db.getCategory(categoryId).getMaxTime()*60000;
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
+        // goalTime = db.getCategory(categoryId).getMaxTime()*60000;
+        // 위의 코드를 현재 레벨과 최대 시간을 사용하여 만들어야한다.
+        currentLevel = db.getCategory(categoryId).getCurrentLevel();
+        maxTime = db.getCategory(categoryId).getMaxTime()*60000;
+
+        goalTime = db.getTryTime(currentLevel, maxTime);
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
@@ -109,11 +102,9 @@ public class MeasureView extends Fragment {
         stopBtn = (Button) view.findViewById(R.id.stopButton);
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
-<<<<<<< HEAD
-        TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
-=======
-        //Log.d("TimeCheck", Long.toString(goalTime));
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
+
+        //TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
+
 
         return view;
     }
@@ -161,14 +152,10 @@ public class MeasureView extends Fragment {
         }
     };
 
-<<<<<<< HEAD
-                            secondsTV.setText(""+String.format(Locale.US, FORMAT,
-                                    TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
-=======
+
     private void runTimer() {
         if (!isTimerRunning){
             cTimer = new CountDownTimer(goalTime, 100) {
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
                 public void onTick(long millisUntilFinished) {
                     isTimerRunning = true;
@@ -183,23 +170,12 @@ public class MeasureView extends Fragment {
                         secondsTV.setText("" + String.format(Locale.US, FORMAT,
                                 TimeUnit.SECONDS.toSeconds(remainTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(remainTime))));
                     }
-<<<<<<< HEAD
-                }.start();
-            }
-        });
 
-        stopBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                cTimer.cancel();
-                // TV.setText("seconds remaining: " + remainTime); // 남은 시간 테스트
-            }
-        });
-=======
                 }
                 public void onFinish() {
                     isTimerRunning = false;
                     progressBar.setProgress(100);
+                    stopTimer();
                 }
             }.start();
         }
@@ -232,11 +208,6 @@ public class MeasureView extends Fragment {
 
 
         }
-
-
-
-
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
     }
 

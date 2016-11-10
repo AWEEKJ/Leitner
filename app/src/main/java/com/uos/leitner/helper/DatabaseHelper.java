@@ -47,13 +47,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_PASS_OR_FAIL = "pass_or_fail";
     private static final String KEY_DATE = "date";
     private static final String KEY_SUBJ_ID = "subject_id";
-<<<<<<< HEAD
-=======
 
     // SIGMOID Table - column names
     private static final String KEY_SIG_LEVEL = "sig_level";
     private static final String KEY_SIG_VALUE = "sig_value";
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
+
 
     // Table create statement
     // CATEGORY table create statement
@@ -242,14 +240,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(KEY_DATE, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         values.put(KEY_SUBJ_ID, slog.getSubject_id());
 
-<<<<<<< HEAD
-    /*
-    * 특정 카테고리에 속하는 subject_log 읽기
-    * */
-    public List<Subject_log> getSomeSubject_log(long subject_id) {
-        List<Subject_log> sl = new ArrayList<Subject_log>();
-        String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG + " WHERE SUBJECT_ID = " + subject_id;
-=======
+
         long log_no = db.insert(TABLE_SUBJECT_LOG, null, values);
 
         db.close();
@@ -263,7 +254,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public  ArrayList<Subject_log> getSomeSubject_log(long subject_id) {
         ArrayList<Subject_log> sl = new ArrayList<Subject_log>();
         String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG + " WHERE " + KEY_SUBJ_ID + "=" + subject_id;
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
 
         Log.e(LOG, selectQuery);
 
@@ -286,14 +276,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             } while(c.moveToNext());
         }
 
-<<<<<<< HEAD
-        return sl;
-    }
 
-
-
-
-=======
         db.close();
 
         return sl;
@@ -302,10 +285,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     /*
     * 특정 카테고리(maxTime)에 대해 현재 level에 맞는 도전시간 설정하기
     * */
-    public double getTryTime(int currentLevel, int maxTime) {
+    public long getTryTime(int currentLevel, double maxTime) {
 
         // 현재 레벨에 대해 maxTime을 기준으로 도전시간을 가져온다.
-        double time_to_try = 0;
+        long time_to_try = 0;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -320,7 +303,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             c.moveToFirst();
         }
 
-        time_to_try = (c.getDouble(c.getColumnIndex(KEY_SIG_VALUE))) * (double)maxTime;
+        time_to_try = (long)(c.getDouble(c.getColumnIndex(KEY_SIG_VALUE)) * maxTime);
         Log.e(LOG, " : "+time_to_try);
 
         db.close();
@@ -341,5 +324,5 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         db.close();
     }
->>>>>>> 3c8760336ea2b3f3df11b66f929930fb5bfc4d14
+
 }
