@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
@@ -28,8 +30,9 @@ public class AddCategoryActivity extends AppCompatActivity {
     private SeekBar levelSB;
     private TextView levelTV;
     private Button saveBTN;
-
     private Intent intent;
+    private MainActivity ma = new MainActivity();
+    private int count;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class AddCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_category);
 
         intent = new Intent(this, MainActivity.class);
+
+        count = getIntent().getIntExtra("count", count);
 
         db = new DatabaseHelper(this);
 
@@ -95,16 +100,22 @@ public class AddCategoryActivity extends AppCompatActivity {
                 int level = levelSB.getProgress();
                 int goalTime = goalTimeSB.getProgress();
 
-                Category newCategory = new Category(categoryName, level, goalTime);
-                db.createCategory(newCategory);
+                if(count<ma.MAX) {
+                    Category newCategory = new Category(categoryName, level, goalTime);
+                    db.createCategory(newCategory);
+                    count++;
 
+                }
+
+                else {
+                    Toast.makeText(AddCategoryActivity.this, "생성 가능한 개수 초과", Toast.LENGTH_LONG).show();
+                }
+
+                intent.putExtra("count", count);
                 finish();
                 startActivity(intent);
             }
 
         });
-
-
-
     }
 }

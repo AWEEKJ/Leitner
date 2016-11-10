@@ -58,18 +58,14 @@ public class StatisticView_Total extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_total_statistic, null);
 
-
         lineChart = (LineChart)view.findViewById(R.id.line_chart);
 
         db = new DatabaseHelper(getContext());
 
         createLineGraph();
-
         db.close();
 
         return view;
-
-
     }
 
     public LineDataSet createSingleLineGraph(long subject_id) {
@@ -80,13 +76,10 @@ public class StatisticView_Total extends Fragment {
         if(!sls.isEmpty()) {
             for (Subject_log sl : sls) {
                 lineEntries.add(new Entry(index++, sl.getTime_to_try()));
-
             }
 
             lineDataSet = new LineDataSet(lineEntries, db.getCategory(subject_id).getSubject_Name());
             lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-
-
         }
 
         return lineDataSet;

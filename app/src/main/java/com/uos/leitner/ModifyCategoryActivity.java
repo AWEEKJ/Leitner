@@ -112,10 +112,6 @@ public class ModifyCategoryActivity extends AppCompatActivity {
                 finish();
                 startActivity(intent);
             }
-
         });
-
-
-
     }
 }

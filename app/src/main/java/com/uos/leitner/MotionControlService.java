@@ -1,19 +1,13 @@
 package com.uos.leitner;
 
-import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Vibrator;
 import android.util.Log;
-import android.widget.Toast;
 
 public class MotionControlService extends Service implements SensorEventListener {
 

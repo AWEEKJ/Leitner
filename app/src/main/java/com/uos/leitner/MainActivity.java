@@ -1,23 +1,14 @@
 package com.uos.leitner;
 
-import android.content.Context;
-import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
@@ -26,7 +17,8 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     private MyPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
-    protected int MAX = 5; // 생성 가능한 페이지 수
+    static int MAX = 5; // 생성 가능한 페이지 수
+
     protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
 
     @Override
@@ -47,9 +39,8 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     //뒤로가기 클릭
     @Override
     public void onBackPressed() {
-
         if (viewPager.getCurrentItem() == 0) {
-
+            super.onBackPressed();
         }
 
         else viewPager.setCurrentItem(0);
@@ -70,17 +61,6 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
                 pagerAdapter.add(fragment);
             }
         }
-    }
-
-    public void refresh_List(ArrayList<Category> categoryList) {
-        ArrayList<Category> cts = db.getAllCategories();
-        categoryList.clear();
-
-        for(Category c : cts) {
-            categoryList.add(c);
-        }
-
-        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override

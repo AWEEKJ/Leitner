@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,16 +11,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.Toast;
+
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
@@ -34,13 +27,12 @@ import java.util.ArrayList;
 
 public class CategoryView extends Fragment {
 
-    private int count=1;    // 새로 생성되는 카테고리의 개수를 체크
-    Communicator hermes = null; // 인터페이스로 구현한 메소드 전달자 (MainActivity와 CategoryView사이에 정보 교환
-
+    private Communicator hermes = null; // 인터페이스로 구현한 메소드 전달자 (MainActivity와 CategoryView사이에 정보 교환
+    private int count = 0;
     private int clicked = 0;
 
-    ArrayList<Category> categoryList;
-    CategoryAdapter adapter;
+    private ArrayList<Category> categoryList;
+    private CategoryAdapter adapter;
 
     private DatabaseHelper db;
 
@@ -48,6 +40,7 @@ public class CategoryView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        count = getActivity().getIntent().getIntExtra("count", count);
     }
 
     @Override
@@ -72,8 +65,10 @@ public class CategoryView extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("Clicked button", "fragmentReplace");
-
+                getActivity().finish();
                 Intent intent = new Intent(getActivity(), AddCategoryActivity.class);
+
+                intent.putExtra("count", count);
                 getActivity().startActivity(intent);
             }
         });
@@ -119,15 +114,11 @@ public class CategoryView extends Fragment {
 
         switch(item.getItemId()) {
             case R.id.edit: // 항목 편집
-
-                Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
-                intent.putExtra("categoryId", db_id);
-                getActivity().startActivity(intent);
-
-                //db.updateCategory(db_id, "편집테스트");
-
-                //hermes.refresh_List(categoryList);
-                //adapter.notifyDataSetChanged();
+                int i = 0;
+                    Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
+                    intent.putExtra("categoryId", db_id);
+                    getActivity().finish();
+                    getActivity().startActivity(intent);
 
                 return true;
 
@@ -135,8 +126,7 @@ public class CategoryView extends Fragment {
                 adapter.removeItem(clicked); // 리스트뷰에서 지우기
                 hermes.delete(clicked); // 페이지 지우기
                 db.deleteCategory(db_id); // DB에서 지우기
-
-                //count--;
+                count--;
 
                 return true;
 
@@ -158,7 +148,6 @@ public class CategoryView extends Fragment {
     // MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출
     public interface Communicator {
         public void initialize(ArrayList<Category> list); // 앱 실행 시 DB 정보를 바탕으로 초기화
-        public void refresh_List(ArrayList<Category> categoryList); // 새 항목 추가 후 업데이트
         public void showNext(int position); // 항목 클릭했을 때
         public void delete(int position); // 항목 삭제
     }

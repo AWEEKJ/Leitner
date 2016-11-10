@@ -67,7 +67,6 @@ public class MeasureView extends Fragment {
         }
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +87,6 @@ public class MeasureView extends Fragment {
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(categoryName);
 
-
         // goalTime = db.getCategory(categoryId).getMaxTime()*60000;
         // 위의 코드를 현재 레벨과 최대 시간을 사용하여 만들어야한다.
         currentLevel = db.getCategory(categoryId).getCurrentLevel();
@@ -102,9 +100,7 @@ public class MeasureView extends Fragment {
         stopBtn = (Button) view.findViewById(R.id.stopButton);
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
 
-
         //TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
-
 
         return view;
     }
@@ -134,6 +130,7 @@ public class MeasureView extends Fragment {
             @Override
             public void onClick(View view) {
                 stopTimer();
+                getActivity().recreate();
             }
         });
     }
@@ -151,7 +148,6 @@ public class MeasureView extends Fragment {
             stopTimer();
         }
     };
-
 
     private void runTimer() {
         if (!isTimerRunning){
@@ -199,17 +195,13 @@ public class MeasureView extends Fragment {
             db.createSubjectLog(log);
 
 
-
             Intent intent = new Intent(this.getActivity(), PopupResultActivity.class);
 
             intent.putExtra("time_to_complete", time_to_complete);
             intent.putExtra("time_to_try", time_remaining);
 
             startActivity(intent);
-
-
         }
-
     }
 
     @Override

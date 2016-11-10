@@ -14,7 +14,7 @@ public class VerticalActivity extends Fragment {
     private MyPagerAdapter pagerAdapter;
     private fr.castorflex.android.verticalviewpager.VerticalViewPager viewPager;
     private long ID;
-    private static final int MAX=10;
+    private static final int MAX=2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
