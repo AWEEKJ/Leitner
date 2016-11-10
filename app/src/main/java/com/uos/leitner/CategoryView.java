@@ -1,8 +1,12 @@
 package com.uos.leitner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -61,72 +65,17 @@ public class CategoryView extends Fragment {
 
         // CategoryView 구성요소
         final Button addButton = (Button)view.findViewById(R.id.addButton);
-        final RelativeLayout ry = (RelativeLayout)view.findViewById(R.id.insertPopup);
-        final Button insertButton = (Button)view.findViewById(R.id.insertButton);
-        final EditText insertName = (EditText)view.findViewById(R.id.inputName);
-        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        String[] optionLavala = getResources().getStringArray(R.array.SpinnerArray_time);
-        ArrayAdapter<String> adapter_time = new ArrayAdapter<>
-                (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, optionLavala);
-        final Spinner obj_time = (Spinner)view.findViewById(R.id.spinner_time);
-        obj_time.setAdapter(adapter_time);
-
-        String[] optionLavala_level = getResources().getStringArray(R.array.SpinnerArray_level);
-        ArrayAdapter<String> adapter_level = new ArrayAdapter<>
-                (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, optionLavala_level);
-        final Spinner obj_level = (Spinner)view.findViewById(R.id.spinner_level);
-        obj_level.setAdapter(adapter_level);
 
         hermes.initialize(categoryList);    // DB로 부터 정보를 읽어와 listView를 초기화
 
-        // 추가버튼을 클릭했을 때 (UI만 변화함)
+        // 추가버튼을 클릭했을 때 새로운 창 생성
         addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
             @Override
             public void onClick(View view) {
-                ry.setVisibility(View.VISIBLE);
-                insertName.requestFocus();
-                imm.showSoftInput(insertName, InputMethodManager.SHOW_IMPLICIT);
-            }
-        });
+                Log.d("Clicked button", "fragmentReplace");
 
-        // 추가 확인버튼 클릭했을 때
-        insertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ry.setVisibility(View.GONE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
-
-                if(count <= ((MainActivity)getActivity()).MAX) {
-
-                    // EditText에서 입력을 받아옴
-                    String name = insertName.getText().toString();
-                    int goal_tmp = obj_time.getSelectedItemPosition();
-                    int current_tmp = obj_level.getSelectedItemPosition();
-
-                    int goaltime = Integer.parseInt((String)obj_time.getAdapter().getItem(goal_tmp));
-                    int currentLevel = Integer.parseInt((String)obj_level.getAdapter().getItem(current_tmp));
-
-
-                    // 입력받은 정보를 categoryList에 추가. 이때 listView 항목에 나타나게 됨
-                    Category contents = new Category(name, goaltime, currentLevel);
-                    categoryList.add(contents);
-
-                    insertName.setText("");
-                    insertName.clearFocus();
-
-                    obj_time.setSelection(0);
-                    obj_level.setSelection(0);
-
-                    // 생성된 항목 DB 저장 & 측정 페이지를 생성
-                    hermes.addCategory(db.createCategory(contents));
-                    hermes.refresh_List(categoryList);
-
-                    count++;
-                }
-
-                else
-                    Toast.makeText(getActivity(), "추가 가능한 개수 초과", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), AddCategoryActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -174,7 +123,6 @@ public class CategoryView extends Fragment {
                 db.updateCategory(db_id, "편집테스트");
 
                 hermes.refresh_List(categoryList);
-                hermes.refresh_View(categoryList);
                 adapter.notifyDataSetChanged();
 
                 return true;
@@ -184,7 +132,7 @@ public class CategoryView extends Fragment {
                 hermes.delete(clicked); // 페이지 지우기
                 db.deleteCategory(db_id); // DB에서 지우기
 
-                count--;
+                //count--;
 
                 return true;
 
@@ -195,7 +143,7 @@ public class CategoryView extends Fragment {
 
     // hermes 생성
     public void onAttach(Context context) {
-        super.onAttach(getActivity());
+        super.onAttach(context);
 
         if(context instanceof Communicator)
             hermes = (Communicator)context;
@@ -206,9 +154,7 @@ public class CategoryView extends Fragment {
     // MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출
     public interface Communicator {
         public void initialize(ArrayList<Category> list); // 앱 실행 시 DB 정보를 바탕으로 초기화
-        public void addCategory(long id); // 새로운 항목 추가
         public void refresh_List(ArrayList<Category> categoryList); // 새 항목 추가 후 업데이트
-        public void refresh_View(ArrayList<Category> categoryList);
         public void showNext(int position); // 항목 클릭했을 때
         public void delete(int position); // 항목 삭제
     }

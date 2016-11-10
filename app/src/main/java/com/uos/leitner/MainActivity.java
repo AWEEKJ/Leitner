@@ -69,16 +69,6 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     }
 
     @Override
-    public void addCategory(long id) {
-        if (pagerAdapter.getCount() <= MAX+1) {
-
-            Fragment fragment = VerticalActivity.newInstance(id);
-            pagerAdapter.add(fragment);
-            pagerAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
     public void refresh_List(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
         categoryList.clear();
@@ -88,19 +78,6 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
 
         pagerAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void refresh_View(ArrayList<Category> categoryList) {
-//        pagerAdapter.remove_all(categoryList);
-//        VerticalActivity n = new VerticalActivity();
-//        n.aaa();
-//        for(int i=0; i<categoryList.size(); i++) {
-//            long db_id=categoryList.get(i).getSubject_ID();
-//            pagerAdapter.add(VerticalActivity.newInstance(db_id));
-//        }
-//
-//        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -114,4 +91,5 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         viewPager.removeViewAt(position+1);
         pagerAdapter.remove(position+1);
     }
+
 }
