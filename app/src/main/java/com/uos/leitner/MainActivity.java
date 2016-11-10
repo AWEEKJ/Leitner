@@ -8,12 +8,14 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // 가로로 추가되는 ViewPager 생성
 public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
@@ -77,8 +79,9 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
     }
 
+
     @Override
-    public void refresh_List(ArrayList<Category> categoryList) {
+    public void refresh_List1(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
         categoryList.clear();
 
@@ -87,6 +90,65 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         }
 
         pagerAdapter.notifyDataSetChanged();
+    }
+
+    /*
+    @Override
+    public void refresh_List2(int pos) {
+
+//        Fragment a = VerticalActivity.newInstance(id);
+//        getSupportFragmentManager().beginTransaction().detach(a).attach(a).commit();
+//        viewPager.setAdapter(null);
+//        viewPager.setAdapter(pagerAdapter);
+
+
+        List<Fragment> a = getSupportFragmentManager().getFragments();
+
+        Fragment b = a.get(pos+1);
+        View v = viewPager.getChildAt(pos+1);
+
+        getSupportFragmentManager().beginTransaction().detach(b);
+        viewPager.removeViewAt(pos+1);
+        v.destroyDrawingCache();
+        viewPager.addView(v);
+//        pagerAdapter.getadd(b);
+//        pagerAdapter.remove(pos+1);
+        pagerAdapter.notifyDataSetChanged();
+
+//        pagerAdapter.remove(pos);
+
+//        pagerAdapter.add(b);
+//        viewPager.addView(v);
+//        pagerAdapter.add(b);
+
+//        getSupportFragmentManager().beginTransaction().attach(b).commit();
+//        pagerAdapter.notifyDataSetChanged();
+    }
+    */
+
+    @Override
+    public void refresh_List2() {
+//        MyPagerAdapter temp = new MyPagerAdapter(getSupportFragmentManager());
+//        int n=pagerAdapter.getCount();
+//        Log.d("ㅇㅇㅇㅇㅇㅇㅇㅇ", Integer.toString(n));
+//
+//        for(int i=0; i<n; i++) {
+//            temp.add(pagerAdapter.getItem(i));
+////            Log.d("ㄴㄴㄴㄴㄴ", Integer.toString(i));
+//        }
+//
+//        for(int i=0; i<n; i++) {
+////            pagerAdapter.remove(i);
+//            viewPager.removeViewAt(i);
+//
+//            Log.d("ㄴㄴㄴㄴㄴ", temp.getCount()+"\n"+pagerAdapter.getCount());
+//        }
+//
+//        for(int i=0; i<n; i++) {
+//            pagerAdapter.add(temp.getItem(i));
+//        }
+//
+//        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -99,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 //            pagerAdapter.add(VerticalActivity.newInstance(db_id));
 //        }
 //
-//        pagerAdapter.notifyDataSetChanged();
+        pagerAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -36,6 +36,7 @@ public class VerticalActivity extends Fragment {
         if (((MainActivity) getActivity()).flag == false) {
             pagerAdapter.add(new CategoryView());   // 처음 메인화면 생성
             pagerAdapter.add(new StatisticView_Total());
+
             ((MainActivity) getActivity()).flag = true;
         }
 

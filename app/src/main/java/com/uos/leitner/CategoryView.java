@@ -110,7 +110,7 @@ public class CategoryView extends Fragment {
 
                     // 생성된 항목 DB 저장 & 측정 페이지를 생성
                     hermes.addCategory(db.createCategory(contents));
-                    hermes.refresh_List(categoryList);
+                    hermes.refresh_List1(categoryList);
 
                     count++;
                 }
@@ -163,9 +163,9 @@ public class CategoryView extends Fragment {
             case R.id.edit: // 항목 편집
                 db.updateCategory(db_id, "편집테스트");
 
-                hermes.refresh_List(categoryList);
-                hermes.refresh_View(categoryList);
-                adapter.notifyDataSetChanged();
+//                hermes.refresh_List1(categoryList);
+//                hermes.refresh_List2();
+//                hermes.refresh_View(categoryList);
 
                 return true;
 
@@ -197,7 +197,9 @@ public class CategoryView extends Fragment {
     public interface Communicator {
         public void initialize(ArrayList<Category> list); // 앱 실행 시 DB 정보를 바탕으로 초기화
         public void addCategory(long id); // 새로운 항목 추가
-        public void refresh_List(ArrayList<Category> categoryList); // 새 항목 추가 후 업데이트
+        public void refresh_List1(ArrayList<Category> categoryList); // 새 항목 추가 후 업데이트
+//        public void refresh_List2(int pos);
+        public void refresh_List2();
         public void refresh_View(ArrayList<Category> categoryList);
         public void showNext(int position); // 항목 클릭했을 때
         public void delete(int position); // 항목 삭제
