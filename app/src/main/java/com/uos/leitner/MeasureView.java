@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.model.Category;
 import com.uos.leitner.model.Subject_log;
 
 import java.text.SimpleDateFormat;
@@ -31,6 +32,7 @@ public class MeasureView extends Fragment {
     private DatabaseHelper db;
 
     private Long categoryId;
+    private Category category;
     private String categoryName;
 
     private long goalTime; // Time Setup for temporary, 13m 22s is 802000 milliseconds
@@ -79,15 +81,16 @@ public class MeasureView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_measure, null);
         readBundle(getArguments());
 
-        categoryName = db.getCategory(categoryId).getSubject_Name();
+        category = db.getCategory(categoryId);
+        categoryName = category.getSubject_Name();
         categoryNameTV = (TextView) view.findViewById(R.id.categoryNameTextView);
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(categoryName);
 
         // goalTime = db.getCategory(categoryId).getMaxTime()*60000;
         // 위의 코드를 현재 레벨과 최대 시간을 사용하여 만들어야한다.
-        currentLevel = db.getCategory(categoryId).getCurrentLevel();
-        maxTime = db.getCategory(categoryId).getMaxTime()*60000;
+        currentLevel = category.getCurrentLevel();
+        maxTime = category.getMaxTime()*60000;
 
         goalTime = db.getTryTime(currentLevel, maxTime);
 
@@ -192,6 +195,18 @@ public class MeasureView extends Fragment {
             Subject_log log = new Subject_log(time_to_try, time_to_complete, pass_or_fail, date, subject_id);
             db.createSubjectLog(log);
 
+            int level = category.getCurrentLevel();
+            if (pass_or_fail == 1) {
+                if (level != 20) {
+                    category.setCurrentLevel(level + 1);
+                    db.updateCategory(category);
+                }
+            } else if (pass_or_fail == 0) {
+                if (level != 1) {
+                    category.setCurrentLevel(level - 1);
+                    db.updateCategory(category);
+                }
+            }
 
             Intent intent = new Intent(this.getActivity(), PopupResultActivity.class);
 
@@ -199,6 +214,8 @@ public class MeasureView extends Fragment {
             intent.putExtra("time_to_try", time_remaining);
 
             startActivity(intent);
+
+            getActivity().recreate();
         }
     }
 
