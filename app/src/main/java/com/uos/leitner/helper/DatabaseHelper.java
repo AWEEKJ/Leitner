@@ -110,6 +110,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         }
 
         db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('STUDY', 7, 60);");
+        db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('CODING', 3, 40);");
+        db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('CAPSTON', 8, 50);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (25,25,1,1);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (40,30,0,1);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (25,25,1,1);");
@@ -118,6 +120,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (112,112,1,1);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (169,169,1,1);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (274,274,1,1);");
+
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (74,74,1,2);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (113,113,1,2);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (182,140,0,2);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (113,113,1,2);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (182,182,1,2);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (288,240,0,2);");
+
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (93,60,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (54,54,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (93,93,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (141,141,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (228,199,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (141,141,0,3);");
+        db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (288,288,0,3);");
     }
 
     @Override

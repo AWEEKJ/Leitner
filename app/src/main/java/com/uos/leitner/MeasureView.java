@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -173,6 +174,8 @@ public class MeasureView extends Fragment {
                     isTimerRunning = false;
                     progressBar.setProgress(100);
                     stopTimer();
+                    Vibrator vibe = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+                    vibe.vibrate(500);
                 }
             }.start();
         }
