@@ -1,11 +1,23 @@
 package com.uos.leitner;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.uos.leitner.helper.DatabaseHelper;
@@ -49,6 +61,62 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
         pagerAdapter.add(new VerticalActivity());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
     }
+
+    //어플에 메뉴 버튼 추가
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //메뉴 버튼이 눌렸을 때의 이벤트 처리.
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.synchronize:
+
+                /*
+
+
+                 */
+
+                return true;
+            case R.id.logout:
+
+                //logout related Firebase actions.
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseAuth.getInstance().signOut();
+
+                //logut related Google actions.
+
+                /*
+                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+                GoogleSignInAccount acct = result.getSignInAccount();
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
+                */
+
+
+                startActivity(new Intent(MainActivity.this, LoginActivity.class)); //Go back to home page
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+//    if (id == R.id.action_log_out) {
+//        ref.unauth(); //End user session
+//
+//    }
+
 
     //뒤로가기 클릭
     @Override
