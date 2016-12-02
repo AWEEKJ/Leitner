@@ -66,7 +66,7 @@ public class CategoryView extends Fragment{
             public void onClick(View view) {
                 Log.d("Clicked button", "fragmentReplace");
                 getActivity().finish();
-                Intent intent = new Intent(getActivity(), AddCategoryActivity.class);
+                Intent intent = new Intent(getActivity(), newCategoryAddActivity.class);
 
                 intent.putExtra("count", count);
                 getActivity().startActivity(intent);

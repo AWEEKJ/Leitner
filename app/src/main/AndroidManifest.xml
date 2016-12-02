@@ -24,6 +24,7 @@
         <activity android:name=".GoogleSigninActivity"></activity>
         <activity android:name=".AddCategoryActivity" />
         <activity android:name=".ModifyCategoryActivity" />
+        <activity android:name=".newCategoryAddActivity"></activity>
 
         <activity android:name=".PopupResultActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
