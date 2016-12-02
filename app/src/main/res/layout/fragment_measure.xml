@@ -11,7 +11,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.uos.leitner.MeasureView"
+    tools:context="com.uos.leitner.ui.fragment.MeasureFragment"
     tools:ignore="MissingPrefix"
     android:background="@color/colorBackground">
 

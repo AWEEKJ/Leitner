@@ -1,14 +1,10 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.ViewGroup;
-
-import com.uos.leitner.model.Category;
 
 import java.util.ArrayList;
 
@@ -16,10 +12,10 @@ import java.util.ArrayList;
  * Created by changhyeon on 2016. 10. 31..
  */
 
-class MyPagerAdapter extends FragmentStatePagerAdapter {
+public class CategoryListPagerAdapter extends FragmentStatePagerAdapter {
     private ArrayList<Fragment> listFragment = new ArrayList<>();
 
-    public MyPagerAdapter(android.support.v4.app.FragmentManager fm) {
+    public CategoryListPagerAdapter(android.support.v4.app.FragmentManager fm) {
         super(fm);
     }
 

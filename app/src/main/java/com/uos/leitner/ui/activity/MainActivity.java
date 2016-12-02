@@ -1,10 +1,8 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,30 +13,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tsengvn.typekit.TypekitContextWrapper;
-import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.R;
+import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
+import com.uos.leitner.ui.adapter.CategoryListPagerAdapter;
+import com.uos.leitner.ui.fragment.CategoryListFragment;
+import com.uos.leitner.ui.fragment.CategoryListVerticalPagerFragment;
 
 import java.util.ArrayList;
 
 import fr.castorflex.android.verticalviewpager.VerticalViewPager;
 
 // 가로로 추가되는 ViewPager 생성
-public class MainActivity extends AppCompatActivity implements CategoryView.Communicator {
+public class MainActivity extends AppCompatActivity implements CategoryListFragment.Communicator {
 
     private DatabaseHelper db;
-    private MyPagerAdapter pagerAdapter;
+    private CategoryListPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         return MAX;
     }
 
-    protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
+    public boolean flag = false; // false-> CategoryListFragment 생성.  true-> MeasureFragment 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
             // User isn't signed in
             finish();//exit current intent.
 
-            //Intent intent = new Intent(this, LoginActivity.class);
             Intent intent = new Intent(this, IntroActivity.class);
 
             startActivity(intent);
@@ -75,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
         db = new DatabaseHelper(getApplicationContext());
 
-        pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new CategoryListPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.main_pager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(MAX);
@@ -84,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         DatabaseReference ref = database.getReference();
 
 
-        pagerAdapter.add(new VerticalActivity());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
+        pagerAdapter.add(new CategoryListVerticalPagerFragment());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             private static final float thresholdOffset = 0.5f;
@@ -207,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
                 */
 
 
-                startActivity(new Intent(MainActivity.this, LoginActivity.class)); //Go back to home page
+                startActivity(new Intent(MainActivity.this, IntroLoginActivity.class)); //Go back to home page
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -230,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         else viewPager.setCurrentItem(0);
     }
 
-    // CategoryView 인터페이스 구현
+    // CategoryListFragment 인터페이스 구현
     @Override
     public  void initialize(ArrayList<Category> categoryList) {
         ArrayList<Category> cts = db.getAllCategories();
@@ -241,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
         if (!categoryList.isEmpty()) {
             for (int i = 0; i < categoryList.size(); i++) {
-                Fragment fragment = VerticalActivity.newInstance(categoryList.get(i).getSubject_ID());
+                Fragment fragment = CategoryListVerticalPagerFragment.newInstance(categoryList.get(i).getSubject_ID());
                 pagerAdapter.add(fragment);
             }
         }

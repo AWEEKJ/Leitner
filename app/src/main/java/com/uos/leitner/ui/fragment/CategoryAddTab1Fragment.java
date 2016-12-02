@@ -1,8 +1,7 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,16 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.R;
+import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
+import com.uos.leitner.ui.activity.MainActivity;
 
 /**
  * Created by HANJU on 2016. 12. 2..
  */
 
-public class CategoryAddTab1 extends Fragment {
+public class CategoryAddTab1Fragment extends Fragment {
 
     private DatabaseHelper db;
     private EditText categoryNameET;
@@ -37,7 +38,7 @@ public class CategoryAddTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.new_category_tab_1, null);
+        View view = inflater.inflate(R.layout.fragment_category_add_tab1, null);
 
         intent = new Intent(getActivity(), MainActivity.class);
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.uos.leitner.SigninActivity">
+    tools:context=".ui.activity.IntroSigninActivity">
 
     <ImageView
         android:layout_width="match_parent"

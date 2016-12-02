@@ -1,9 +1,12 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
+import com.uos.leitner.R;
+import com.uos.leitner.ui.adapter.CategoryAddTabPagerAdapter;
 
 /**
  * Created by HANJU on 2016. 12. 2..
@@ -17,7 +20,7 @@ public class CategoryAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_category);
+        setContentView(R.layout.activity_category_add);
 
 //        // Adding Toolbar to the activity
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

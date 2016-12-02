@@ -1,4 +1,4 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import com.uos.leitner.R;
 
 public class IntroActivity extends Activity {
 
@@ -27,12 +29,12 @@ public class IntroActivity extends Activity {
         public void onClick(View v){
             switch(v.getId()) {
                 case R.id.sign_in:
-                    Intent intent1 = new Intent(getApplication(), SigninActivity.class);
+                    Intent intent1 = new Intent(getApplication(), IntroSigninActivity.class);
                     startActivity(intent1);
                     break;
 
                 case R.id.login_button:
-                    Intent intent2 = new Intent(getApplication(), LoginActivity.class);
+                    Intent intent2 = new Intent(getApplication(), IntroLoginActivity.class);
                     startActivity(intent2);
                     break;
 
@@ -58,11 +60,11 @@ public class IntroActivity extends Activity {
         public Object instantiateItem(View pager, int position) {
             View v = null;
             if(position==0){
-                v = mInflater.inflate(R.layout.intro1, null);
+                v = mInflater.inflate(R.layout.page_intro1, null);
             } else if(position==1){
-                v = mInflater.inflate(R.layout.intro2, null);
+                v = mInflater.inflate(R.layout.page_intro2, null);
             } else{
-                v = mInflater.inflate(R.layout.intro3, null);
+                v = mInflater.inflate(R.layout.page_intro3, null);
                 v.findViewById(R.id.sign_in).setOnClickListener(mButtonClick);
                 v.findViewById(R.id.login_button).setOnClickListener(mButtonClick);
             }

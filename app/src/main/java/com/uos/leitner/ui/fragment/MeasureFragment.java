@@ -1,9 +1,7 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.fragment;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -17,9 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.database.DatabaseHelper;
+import com.uos.leitner.ui.activity.MeasureResultActivity;
 import com.uos.leitner.model.Category;
 import com.uos.leitner.model.Subject_log;
+import com.uos.leitner.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  * Created by HANJU on 2016. 11. 2..
  */
 
-public class MeasureView extends Fragment {
+public class MeasureFragment extends Fragment {
     private DatabaseHelper db;
 
     private Long categoryId;
@@ -54,8 +54,8 @@ public class MeasureView extends Fragment {
     private Button stopBtn;
     private DonutProgress progressBar;
 
-    public static MeasureView newInstance(Long ID) {
-        MeasureView fragment = new MeasureView();
+    public static MeasureFragment newInstance(Long ID) {
+        MeasureFragment fragment = new MeasureFragment();
         Bundle args = new Bundle();
         args.putLong("id", ID);
         fragment.setArguments(args);
@@ -195,7 +195,7 @@ public class MeasureView extends Fragment {
                 }
             }
 
-            Intent intent = new Intent(this.getActivity(), PopupResultActivity.class);
+            Intent intent = new Intent(this.getActivity(), MeasureResultActivity.class);
 
             intent.putExtra("time_to_complete", time_to_complete);
             intent.putExtra("time_to_try", time_remaining);

@@ -1,4 +1,4 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,8 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import static com.uos.leitner.R.layout.activity_login;
+import com.uos.leitner.R;
 
 /**
  * Created by JungJee on 2016. 10. 24..
@@ -27,7 +24,7 @@ import static com.uos.leitner.R.layout.activity_login;
  * FIN. on 11.05.
  */
 
-public class LoginActivity extends AppCompatActivity
+public class IntroLoginActivity extends AppCompatActivity
 implements View.OnClickListener{
 
     private static final String TAG = "Activity_login";
@@ -46,7 +43,7 @@ implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(activity_login);
+        setContentView(R.layout.activity_intro_login);
 
         progressDialog = new ProgressDialog(this);
 
@@ -87,30 +84,11 @@ implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-
         int i = view.getId();
-
-//        if (i == R.id.sign_in_email_button) {
-//            Intent intent = new Intent(this, SigninActivity.class);
-//
-//            startActivity(intent);
-//        } else if(i == R.id.login_button){
         if(i == R.id.login_button){
-            /**
-             * codes that
-             * directly move to mainActivity.
-            Intent intent = new Intent(this, MainActivity.class);
-
-            startActivity(intent);
-            **/
-
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-
         } else if(i == R.id.sign_in_google_button){
-
-            Intent intent = new Intent(this, GoogleSigninActivity.class);
-
-//            finish();
+            Intent intent = new Intent(this, IntroGoogleSigninActivity.class);
             startActivity(intent);
         }
     }
@@ -130,25 +108,16 @@ implements View.OnClickListener{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-//                            Toast.makeText(activity_login.this, R.string.auth_failed,
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-
                         if(task.isSuccessful()) {
 
-                            Toast.makeText(LoginActivity.this,"Log in Successed.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Log in Successed.", Toast.LENGTH_LONG).show();
 
                             finish();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
                             startActivity(intent);
                         } else{
-                            Toast.makeText(LoginActivity.this,"Log in Failed.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Log in Failed.", Toast.LENGTH_LONG).show();
 
                         }
                      }

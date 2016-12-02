@@ -1,4 +1,4 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.uos.leitner.R;
 import com.uos.leitner.model.Category;
+import com.uos.leitner.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 
@@ -15,11 +17,11 @@ import java.util.ArrayList;
  * Created by changhyeon on 2016. 10. 30..
  */
 
-class CategoryAdapter extends ArrayAdapter<Category> {
+public class CategoryListAdapter extends ArrayAdapter<Category> {
 
     private ArrayList<Category> items;
 
-    public CategoryAdapter(Context context, int textViewResourceId, ArrayList<Category> items) {
+    public CategoryListAdapter(Context context, int textViewResourceId, ArrayList<Category> items) {
         super(context, textViewResourceId, items);
         this.items = items;
     }
@@ -30,7 +32,7 @@ class CategoryAdapter extends ArrayAdapter<Category> {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.listview_category, null);
+            view = inflater.inflate(R.layout.item_category_list, null);
         }
 
         Category c = items.get(position);
@@ -54,7 +56,7 @@ class CategoryAdapter extends ArrayAdapter<Category> {
         return view;
     }
 
-    void removeItem(int index) {
+    public void removeItem(int index) {
         items.remove(index);
         ((MainActivity)getContext()).runOnUiThread(new Runnable() {
             public void run() {

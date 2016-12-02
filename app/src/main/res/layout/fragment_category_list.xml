@@ -9,7 +9,7 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
-    <!--리스트 뷰. CategoryView 클래스에서 제어-->
+    <!--리스트 뷰. CategoryListFragment 클래스에서 제어-->
     <ListView
         android:id="@+id/ListView"
         android:layout_width="match_parent"

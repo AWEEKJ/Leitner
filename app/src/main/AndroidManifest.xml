@@ -13,27 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
-        <activity android:name=".SigninActivity" />
-        <activity android:name=".GoogleSigninActivity"></activity>
-        <activity android:name=".ModifyCategoryActivity" />
-        <activity android:name=".IntroActivity" />
-        <activity android:name=".CategoryAddActivity"></activity>
+        <activity android:name=".ui.activity.IntroLoginActivity"></activity>
+        <activity android:name=".ui.activity.IntroSigninActivity" />
+        <activity android:name=".ui.activity.IntroGoogleSigninActivity"></activity>
+        <activity android:name=".ui.activity.CategoryEditActivity" />
+        <activity android:name=".ui.activity.IntroActivity" />
+        <activity android:name=".ui.activity.CategoryAddActivity"></activity>
 
-        <activity android:name=".PopupResultActivity"
+        <activity android:name=".ui.activity.MeasureResultActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-
-        <service
-            android:name=".MotionControlService"
-            android:enabled="true"
-            android:exported="true"></service>
 
     </application>
 

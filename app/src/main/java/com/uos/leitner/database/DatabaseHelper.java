@@ -1,4 +1,4 @@
-package com.uos.leitner.helper;
+package com.uos.leitner.database;
 
 import android.content.ContentValues;
 import android.content.Context;

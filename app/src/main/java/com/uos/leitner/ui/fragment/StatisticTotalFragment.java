@@ -1,27 +1,21 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.fragment;
 
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -32,26 +26,20 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.R;
+import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
 import com.uos.leitner.model.CategoryCount;
 import com.uos.leitner.model.Subject_log;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
-
-import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
 /**
  * Created by HANJU on 2016. 11. 7..
  */
 
-public class StatisticView_Total extends Fragment {
+public class StatisticTotalFragment extends Fragment {
 
     // LineChart
     LineChart lineChart;
@@ -63,8 +51,8 @@ public class StatisticView_Total extends Fragment {
 
     DatabaseHelper db;
 
-    public static StatisticView_Total newInstance() {
-        StatisticView_Total fragment = new StatisticView_Total();
+    public static StatisticTotalFragment newInstance() {
+        StatisticTotalFragment fragment = new StatisticTotalFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
 
@@ -74,7 +62,7 @@ public class StatisticView_Total extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_total_statistic, null);
+        View view = inflater.inflate(R.layout.fragment_statistic_total, null);
 
         lineChart = (LineChart)view.findViewById(R.id.line_chart);
         pieChart = (PieChart)view.findViewById(R.id.pie_chart);

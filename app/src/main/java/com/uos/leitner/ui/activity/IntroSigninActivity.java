@@ -1,6 +1,5 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,13 +15,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.uos.leitner.R;
+
 /**
  * Created by JungJee on 2016. 11. 04..
  *
  * FIN.
  */
 
-public class SigninActivity extends AppCompatActivity implements View.OnClickListener{
+public class IntroSigninActivity extends AppCompatActivity implements View.OnClickListener{
 
     //defining firebaseauth object
     private FirebaseAuth firebaseAuth;
@@ -35,7 +36,7 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_intro_signin);
 
         //initializing firebase auth object
         firebaseAuth = FirebaseAuth.getInstance();
@@ -83,14 +84,14 @@ public class SigninActivity extends AppCompatActivity implements View.OnClickLis
                         //checking if success
                         if(task.isSuccessful()){
                             //display some message here
-                            Toast.makeText(SigninActivity.this,"Successfully registered",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Successfully registered",Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(SigninActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), IntroLoginActivity.class);
 
                             startActivity(intent);
                         }else{
                             //display some message here
-                            Toast.makeText(SigninActivity.this,"Registration Error", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Registration Error", Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }

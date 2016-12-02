@@ -1,4 +1,4 @@
-package com.uos.leitner;
+package com.uos.leitner.ui.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-import com.uos.leitner.helper.DatabaseHelper;
+import com.uos.leitner.R;
+import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
+import com.uos.leitner.ui.activity.CategoryAddActivity;
+import com.uos.leitner.ui.activity.CategoryEditActivity;
+import com.uos.leitner.ui.adapter.CategoryListAdapter;
 
 import java.util.ArrayList;
 
@@ -24,14 +28,14 @@ import java.util.ArrayList;
  * Created by changhyeon on 2016. 10. 30..
  */
 
-public class CategoryView extends Fragment{
+public class CategoryListFragment extends Fragment{
 
     private Communicator hermes = null; // 인터페이스로 구현한 메소드 전달자 (MainActivity와 CategoryView사이에 정보 교환
     private int count = 0;
     private int clicked = 0;
 
     private ArrayList<Category> categoryList;
-    private CategoryAdapter adapter;
+    private CategoryListAdapter adapter;
 
     private DatabaseHelper db;
 
@@ -45,12 +49,12 @@ public class CategoryView extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View  view = inflater.inflate(R.layout.fragment_category, null);
+        View  view = inflater.inflate(R.layout.fragment_category_list, null);
         db = new DatabaseHelper(getContext());
 
         // ListView 생성
         categoryList = new ArrayList<Category>();
-        adapter = new CategoryAdapter(this.getActivity(), R.layout.listview_category, categoryList);
+        adapter = new CategoryListAdapter(this.getActivity(), R.layout.item_category_list, categoryList);
         final ListView listView = (ListView)view.findViewById(R.id.ListView);
         listView.setAdapter(adapter);
         registerForContextMenu(listView);   // 메뉴 입히기
@@ -97,10 +101,9 @@ public class CategoryView extends Fragment{
     public boolean onContextItemSelected(MenuItem item) {
         int db_id = categoryList.get(clicked).getSubject_ID();
 
-
         switch(item.getItemId()) {
             case R.id.edit: // 항목 편집
-                Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
+                Intent intent = new Intent(getActivity(), CategoryEditActivity.class);
                 intent.putExtra("categoryId", db_id);
                 getActivity().finish();
                 getActivity().startActivity(intent);
