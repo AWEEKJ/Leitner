@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/image4"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:src="@drawable/timer"/>
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageview"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="&quot;집중 못할 사람은 없어요.&#10;5분만이라도 완전히 몰입해보세요.&quot;&#10;"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"/>
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_below="@+id/tv1"
+            android:text="- 공부의 신 강성태 -"
+            android:textSize="15dp"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+
+</RelativeLayout>
