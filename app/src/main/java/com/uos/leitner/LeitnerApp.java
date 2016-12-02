@@ -12,7 +12,7 @@ public class LeitnerApp extends Application {
     public void onCreate() {
         super.onCreate();
         Typekit.getInstance()
-                .addNormal(Typekit.createFromAsset(this, "Slabo-Regular.otf"))
+                .addNormal(Typekit.createFromAsset(this, "Slabo-Regular.ttf"))
                 .addBold(Typekit.createFromAsset(this, "NotoSansKR-Bold.otf"))
                 .add("Slabo", Typekit.createFromAsset(this, "Slabo-Regular.ttf"));
     }
