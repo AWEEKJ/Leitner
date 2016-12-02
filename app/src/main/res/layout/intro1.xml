@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:src="@drawable/image1"
+        android:scaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="155dp"
+            android:src="@drawable/studying"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageview"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="부족한 집중력 때문에 고민이신가요?&#10;집중력도 훈련이 필요합니다"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
