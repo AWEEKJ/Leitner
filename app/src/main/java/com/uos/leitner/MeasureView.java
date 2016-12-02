@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,9 +72,6 @@ public class MeasureView extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().startService(new Intent(getActivity(), MotionControlService.class));
-        getActivity().registerReceiver(this.broadcastReceiverStart, new IntentFilter("startTimer"));
-        getActivity().registerReceiver(this.broadcastReceiverStop, new IntentFilter("stopTimer"));
     }
 
     @Override
@@ -88,21 +86,22 @@ public class MeasureView extends Fragment {
         categoryNameTV.setTextSize(25);
         categoryNameTV.setText(categoryName);
 
-        // goalTime = db.getCategory(categoryId).getMaxTime()*60000;
-        // 위의 코드를 현재 레벨과 최대 시간을 사용하여 만들어야한다.
         currentLevel = category.getCurrentLevel();
         maxTime = category.getMaxTime()*60000;
 
-        goalTime = db.getTryTime(currentLevel, maxTime);
+        int timerMode = category.getMode();
+        Log.d("TimerMode is ", ""+timerMode);
+        if (timerMode == 1) {
+            goalTime = db.getTryTime(currentLevel, maxTime);
+        } else if (timerMode == 2) {
+            goalTime = (long) maxTime;
+        }
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);
         startBtn = (Button) view.findViewById(R.id.startButton);
         stopBtn = (Button) view.findViewById(R.id.stopButton);
         progressBar = (DonutProgress) view.findViewById(R.id.progressBar);
-
-        //TV = (TextView) view.findViewById(R.id.test); // 남은 시간 테스트
-
 
         return view;
     }
@@ -136,20 +135,6 @@ public class MeasureView extends Fragment {
             }
         });
     }
-
-    BroadcastReceiver broadcastReceiverStart = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            runTimer();
-        }
-    };
-
-    BroadcastReceiver broadcastReceiverStop = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            stopTimer();
-        }
-    };
 
     private void runTimer() {
         if (!isTimerRunning){
@@ -185,7 +170,6 @@ public class MeasureView extends Fragment {
         if (isTimerRunning) {
             isTimerRunning = false;
             cTimer.cancel();
-            //Log.d("STOPED!!!!", "goalTime is "+goalTime+" remainTime is "+remainTime);
 
             int time_to_try = (int) (goalTime / 1000 - remainTime); // seconds
             int time_to_complete = (int) (goalTime / 1000); // seconds
@@ -230,9 +214,5 @@ public class MeasureView extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().stopService(new Intent(getActivity(), MotionControlService.class));
-        getActivity().unregisterReceiver(broadcastReceiverStart);
-        getActivity().unregisterReceiver(broadcastReceiverStop);
-
     }
 }

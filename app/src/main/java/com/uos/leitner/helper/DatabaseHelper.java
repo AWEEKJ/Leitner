@@ -43,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String KEY_SUBJECT_NAME = "subject_Name";
     private static final String KEY_CURRENT_LEVEL = "current_Level";
     private static final String KEY_MAX_TIME = "max_Time";
+    private static final String KEY_TIMER_MODE = "timer_mode";
 
     // SUBJECT_LOG Table - column names
     private static final String KEY_LOG_NO = "log_no";
@@ -68,7 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + KEY_SUBJECT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_SUBJECT_NAME + " TEXT,"
             + KEY_CURRENT_LEVEL + " INTEGER,"
-            + KEY_MAX_TIME + " INTEGER"
+            + KEY_MAX_TIME + " INTEGER,"
+            + KEY_TIMER_MODE + " INTEGER"
             + ")";
 
     // SUBJECT_LOG table create statement
@@ -184,6 +186,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(KEY_SUBJECT_NAME, category.getSubject_Name());
         values.put(KEY_CURRENT_LEVEL, category.getCurrentLevel());
         values.put(KEY_MAX_TIME, category.getMaxTime());
+        values.put(KEY_TIMER_MODE, category.getMode());
 
         // insert row
         long category_id = db.insert(TABLE_CATEGORY, null, values);
@@ -216,6 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         ct.setSubject_Name(c.getString(c.getColumnIndex(KEY_SUBJECT_NAME)));
         ct.setCurrentLevel(c.getInt(c.getColumnIndex(KEY_CURRENT_LEVEL)));
         ct.setMaxTime(c.getInt(c.getColumnIndex(KEY_MAX_TIME)));
+        ct.setMode(c.getInt(c.getColumnIndex(KEY_TIMER_MODE)));
 
         db.close();
 
@@ -241,6 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
                 ct.setSubject_Name(c.getString(c.getColumnIndex(KEY_SUBJECT_NAME)));
                 ct.setCurrentLevel(c.getInt(c.getColumnIndex(KEY_CURRENT_LEVEL)));
                 ct.setMaxTime(c.getInt(c.getColumnIndex(KEY_MAX_TIME)));
+                ct.setMode(c.getInt(c.getColumnIndex(KEY_TIMER_MODE)));
 
                 // adding to category list
                 categories.add(ct);
@@ -260,6 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         values.put(KEY_SUBJECT_NAME, category.getSubject_Name());
         values.put(KEY_CURRENT_LEVEL, category.getCurrentLevel());
         values.put(KEY_MAX_TIME, category.getMaxTime());
+        values.put(KEY_TIMER_MODE, category.getMode());
 
         return db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + " = ?",
                 new String[] { String.valueOf(category.getSubject_ID()) });

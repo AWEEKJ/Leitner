@@ -1,5 +1,6 @@
 package com.uos.leitner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
 
 
     static int MAX = 5; // 생성 가능한 페이지 수
+
+    public static int getMAX() {
+        return MAX;
+    }
 
     protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
 
@@ -114,14 +121,7 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         });
     }
 
-    //어플에 메뉴 버튼 추가
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_list2, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+
 
 //    private void writeNewUser(String userId, String name, String email) {
 //        User user = new User(name, email);
@@ -259,6 +259,23 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
         pagerAdapter.remove(position + 1);
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
+    //어플에 메뉴 버튼 추가
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_list2, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 }

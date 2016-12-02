@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text=""
+        android:hint="Category Name"
+        android:ems="10"
+        android:layout_marginTop="24dp"
+        android:id="@+id/categoryNameEditText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
+
+
+    <TextView
+        android:text="GOALTIME"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:id="@+id/goalTimeTextView"
+        android:layout_alignBottom="@+id/goalTimeSeekBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp" />
+
+    <SeekBar
+        android:layout_height="wrap_content"
+        android:layout_marginTop="107dp"
+        android:id="@+id/goalTimeSeekBar"
+        android:max="60"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/categoryNameEditText" />
+
+    <SeekBar
+        android:layout_height="wrap_content"
+        android:id="@+id/levelSeekBar"
+        android:max="20"
+        android:layout_width="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="LEVEL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:id="@+id/levelTextView"
+        android:layout_alignBottom="@+id/levelSeekBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/levelSeekBar"
+        android:layout_toEndOf="@+id/saveButton"
+        android:layout_marginEnd="15dp"
+        android:gravity="right">
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/levelValueTextView" />
+
+        <TextView
+            android:text="level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/levelUnitTextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:layout_marginEnd="15dp"
+        android:layout_alignTop="@+id/goalTimeTextView" >
+
+        <TextView
+            android:text=""
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/goalTimeValueTextView" />
+
+        <TextView
+            android:text="m"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/minutesUnitTextView" />
+
+    </LinearLayout>
+
+    <Button
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveButton"
+        android:layout_below="@+id/levelSeekBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp" />
+</RelativeLayout>
