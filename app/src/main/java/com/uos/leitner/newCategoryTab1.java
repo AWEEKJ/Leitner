@@ -98,9 +98,10 @@ public class newCategoryTab1 extends Fragment {
                 String categoryName = String.valueOf(categoryNameET.getText());
                 int level = levelSB.getProgress();
                 int goalTime = goalTimeSB.getProgress();
+                int mode = 1; // mode 1 is Leitner Timer
 
                 if(count<ma.MAX) {
-                    Category newCategory = new Category(categoryName, level, goalTime);
+                    Category newCategory = new Category(categoryName, level, goalTime, mode);
                     db.createCategory(newCategory);
                     count++;
 

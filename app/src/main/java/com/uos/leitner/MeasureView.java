@@ -9,6 +9,7 @@ import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +94,16 @@ public class MeasureView extends Fragment {
         currentLevel = category.getCurrentLevel();
         maxTime = category.getMaxTime()*60000;
 
-        goalTime = db.getTryTime(currentLevel, maxTime);
+        int timerMode = category.getMode();
+        Log.d("TimerMode is", ""+timerMode);
+        switch (timerMode){
+            case 1:
+                goalTime = db.getTryTime(currentLevel, maxTime);
+            case 2:
+                goalTime = (long) maxTime;
+            default:
+                goalTime = db.getTryTime(currentLevel, maxTime);
+        }
 
         minutesTV = (TextView) view.findViewById(R.id.minutesTextView);
         secondsTV = (TextView) view.findViewById(R.id.secondsTextView);

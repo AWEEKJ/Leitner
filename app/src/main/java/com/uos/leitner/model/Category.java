@@ -9,6 +9,7 @@ public class Category {
     private String subject_Name;
     private int currentLevel;
     private int maxTime;
+    private int mode; // 1 is leitner mode, 2 is pomodoro mode
 
     // Constructor
 
@@ -22,6 +23,13 @@ public class Category {
         this.subject_Name = subject_Name;
         this.currentLevel = currentLevel;
         this.maxTime = maxTime;
+    }
+
+    public Category(String subject_Name, int currentLevel, int maxTime, int mode) {
+        this.subject_Name = subject_Name;
+        this.currentLevel = currentLevel;
+        this.maxTime = maxTime;
+        this.mode = mode;
     }
 
     public Category(int subject_ID, String subject_Name, int currentLevel, int maxTime) {
@@ -48,6 +56,10 @@ public class Category {
         return maxTime;
     }
 
+    public int getMode() {
+        return mode;
+    }
+
     // setter
 
     public void setSubject_ID(int subject_ID) {
@@ -66,5 +78,7 @@ public class Category {
         this.maxTime = maxTime;
     }
 
-
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
 }

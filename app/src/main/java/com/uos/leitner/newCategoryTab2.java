@@ -73,9 +73,10 @@ public class newCategoryTab2 extends Fragment {
 
                 String categoryName = String.valueOf(categoryNameET.getText());
                 int goalTime = goalTimeSB.getProgress();
+                int mode = 2; // mode 2 is Pomodoro Timer
 
                 if(count<ma.MAX) {
-                    Category newCategory = new Category(categoryName, 10, goalTime);
+                    Category newCategory = new Category(categoryName, 10, goalTime, mode);
                     db.createCategory(newCategory);
                     count++;
 
