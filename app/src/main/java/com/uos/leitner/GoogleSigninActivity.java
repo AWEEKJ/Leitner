@@ -93,7 +93,6 @@ public class GoogleSigninActivity extends AppCompatActivity
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -118,10 +117,6 @@ public class GoogleSigninActivity extends AppCompatActivity
             GoogleSignInAccount acct = result.getSignInAccount();
 //            mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
 //            updateUI(true);
-
-            Intent intent = new Intent(this, MainActivity.class);
-
-            startActivity(intent);
         } else {
             // Signed out, show unauthenticated UI.
 //            updateUI(false);
@@ -145,9 +140,10 @@ public class GoogleSigninActivity extends AppCompatActivity
             if (result.isSuccess()) {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
+
                 firebaseAuthWithGoogle(account);
                 handleSignInResult(result);
-                Toast toast = Toast.makeText(this, "간단한 토스트메시지", Toast.LENGTH_SHORT );
+
 
                 Intent intent = new Intent(this, MainActivity.class);
 

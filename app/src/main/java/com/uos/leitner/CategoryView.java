@@ -112,6 +112,7 @@ public class CategoryView extends Fragment{
     public boolean onContextItemSelected(MenuItem item) {
         int db_id = categoryList.get(clicked).getSubject_ID();
 
+
         switch(item.getItemId()) {
             case R.id.edit: // 항목 편집
                 int i = 0;

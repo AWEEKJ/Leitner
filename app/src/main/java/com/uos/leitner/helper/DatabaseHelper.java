@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.uos.leitner.model.Category;
+import com.uos.leitner.model.CategoryCount;
+import com.uos.leitner.model.Sigmoid;
 import com.uos.leitner.model.Subject_log;
 
 import java.text.SimpleDateFormat;
@@ -33,12 +35,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String TABLE_SUBJECT_LOG = "subject_log";
     private static final String TABLE_SIGMOID = "sigmoid";
 
+    // View Table Names
+    private static final String VIEW_TABLE_CATEGORY_COUNT = "category_count";
+
     // CATEGORY Table - column names
     private static final String KEY_SUBJECT_ID = "subject_ID";
     private static final String KEY_SUBJECT_NAME = "subject_Name";
     private static final String KEY_CURRENT_LEVEL = "current_Level";
     private static final String KEY_MAX_TIME = "max_Time";
-
 
     // SUBJECT_LOG Table - column names
     private static final String KEY_LOG_NO = "log_no";
@@ -51,6 +55,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // SIGMOID Table - column names
     private static final String KEY_SIG_LEVEL = "sig_level";
     private static final String KEY_SIG_VALUE = "sig_value";
+
+    // CATEGORY_COUNT Table - colume name
+    private static final String KEY_VIEW_SUBJECT_NAME = "subject_Name";
+    private static final String KEY_VIEW_SUBJECT_COUNT = "subject_Count";
 
 
     // Table create statement
@@ -81,6 +89,23 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             + KEY_SIG_VALUE + " REAL"
             + ")";
 
+    // CATEGORY_COUNT view table create statement
+    private static final String CREATE_VIEW_TABLE_CATEGORY_COUNT = "CREATE VIEW "
+            + VIEW_TABLE_CATEGORY_COUNT
+            + " AS "
+            + "SELECT "
+            + KEY_VIEW_SUBJECT_NAME
+            + ", COUNT("
+            + KEY_VIEW_SUBJECT_NAME
+            + ") AS "
+            + KEY_VIEW_SUBJECT_COUNT
+            + " FROM "
+            + TABLE_SUBJECT_LOG + " s,"
+            + TABLE_CATEGORY + " c"
+            + " WHERE s.subject_id = c.subject_id"
+            + " GROUP BY "
+            + KEY_SUBJECT_NAME;
+
     // insert default sigmoid table values
     private static final String INSERT_SIGMOID_VALUE = "INSERT INTO " + TABLE_SIGMOID
             + "(" + KEY_SIG_VALUE + ")"
@@ -103,6 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_TABLE_CATEGORY);
         db.execSQL(CREATE_TABLE_SUBJECT_LOG);
         db.execSQL(CREATE_TABLE_SIGMOID);
+        db.execSQL(CREATE_VIEW_TABLE_CATEGORY_COUNT);
 
         // sigmoid 레벨과 값들을 초기에 생성시에 넣어줘야 한다.
         for(double value : sigmoid_values) {
@@ -307,6 +333,40 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*
+    * 모든 subject_log 가져오기
+    * */
+    public ArrayList<Subject_log> getAllSubject_log() {
+        ArrayList<Subject_log> sl = new ArrayList<Subject_log>();
+        String selectQuery = "SELECT * FROM " + TABLE_SUBJECT_LOG;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if(c.moveToFirst()) {
+            do {
+                Subject_log s = new Subject_log();
+                s.setLog_no(c.getInt(c.getColumnIndex(KEY_LOG_NO)));
+                s.setTime_to_try(c.getInt(c.getColumnIndex(KEY_TIME_TO_TRY)));
+                s.setTime_to_complete(c.getInt(c.getColumnIndex(KEY_TIME_TO_COMPLETE)));
+                s.setPass_or_fail(c.getInt(c.getColumnIndex(KEY_PASS_OR_FAIL)));
+                s.setDate(c.getString(c.getColumnIndex(KEY_DATE)));
+                s.setSubject_id(c.getInt(c.getColumnIndex(KEY_SUBJ_ID)));
+
+                // adding to subject_log list
+                sl.add(s);
+            } while(c.moveToNext());
+        }
+
+
+        db.close();
+
+        return sl;
+    }
+
+    /*
     * 특정 카테고리(maxTime)에 대해 현재 level에 맞는 도전시간 설정하기
     * */
     public long getTryTime(int currentLevel, double maxTime) {
@@ -347,6 +407,170 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.update(TABLE_CATEGORY, values, KEY_SUBJECT_ID + "='"+id+"'", null);
 
         db.close();
+    }
+
+    /*
+    * 모든 sigmoid 가져오기
+    * */
+    public ArrayList<Sigmoid> getAllSigmoid() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_SIGMOID;
+        ArrayList<Sigmoid> sds = new ArrayList<Sigmoid>();
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()) {
+            do {
+                Sigmoid sm = new Sigmoid();
+                sm.setLevel(c.getInt(c.getColumnIndex(KEY_SIG_LEVEL)));
+                sm.setValue(c.getFloat(c.getColumnIndex(KEY_SIG_VALUE)));
+
+                // adding to subject_log list
+                sds.add(sm);
+            } while(c.moveToNext());
+        }
+
+        db.close();
+
+        return sds;
+
+
+    }
+
+    /*
+    * 개별 카테고리별 총 시도횟수 가져오기
+    * */
+    public int getTryCount(int id) {
+        int count = 0;
+        String selectQuery = "SELECT COUNT(*) FROM "
+                + TABLE_SUBJECT_LOG
+                + " WHERE "
+                + KEY_SUBJ_ID + "=" + id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()) {
+            count = c.getInt(0);
+            c.close();
+        }
+
+        db.close();
+
+        return count;
+    }
+
+    /*
+    * 특정 카테고리 누적시간 가져오기
+    * */
+    public int getSumTime(int id) {
+        int sum = 0;
+        String selectQuery = "SELECT SUM(time_to_try) FROM "
+                + TABLE_SUBJECT_LOG
+                + " WHERE "
+                + KEY_SUBJ_ID + "=" + id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()) {
+            sum = c.getInt(0);
+            c.close();
+        }
+
+        db.close();
+
+        return sum;
+    }
+
+    /*
+    * Subject_log에 있는 모든 로그의 개수 가져오기
+    * */
+    public int totalLogCount() {
+        int count = 0;
+        String selectQuery = "SELECT COUNT(*) FROM "
+                + TABLE_SUBJECT_LOG;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()) {
+            count = c.getInt(0);
+            c.close();
+        }
+
+        db.close();
+
+        return count;
+    }
+
+    /*
+    *  Category_count에 있는 모든 데이터 가져오기
+    * */
+    public ArrayList<CategoryCount> getAllCategoryCount() {
+
+
+        ArrayList<CategoryCount> categoriesCount = new ArrayList<CategoryCount>();
+        String selectQuery = "SELECT * FROM " + VIEW_TABLE_CATEGORY_COUNT;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+
+        if(c.moveToFirst()) {
+            do {
+                CategoryCount cc = new CategoryCount();
+                cc.setSubject_Name(c.getString(c.getColumnIndex(KEY_VIEW_SUBJECT_NAME)));
+                cc.setSubject_count(c.getInt(c.getColumnIndex(KEY_VIEW_SUBJECT_COUNT)));
+
+                // adding to category list
+                categoriesCount.add(cc);
+            } while(c.moveToNext());
+        }
+
+
+        db.close();
+
+        return categoriesCount;
+    }
+
+
+    /*
+    * 개별 카테고리별 성공횟수 가져오기
+    * */
+    public int getSuccessCount(int id) {
+        int count = 0;
+        String selectQuery = "SELECT COUNT(*) FROM "
+                + TABLE_SUBJECT_LOG
+                + " WHERE "
+                + KEY_PASS_OR_FAIL + "= 1 AND "
+                + KEY_SUBJ_ID + "=" + id;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c.moveToFirst()) {
+            count = c.getInt(0);
+            c.close();
+        }
+
+        db.close();
+
+        return count;
+
     }
 
 }

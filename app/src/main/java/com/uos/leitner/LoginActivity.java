@@ -77,7 +77,7 @@ implements View.OnClickListener{
 //        signup_email_btn.setOnClickListener(this);
 
         findViewById(R.id.login_button).setOnClickListener(this);
-        findViewById(R.id.sign_in_email_button).setOnClickListener(this);
+//        findViewById(R.id.sign_in_email_button).setOnClickListener(this);
         findViewById(R.id.sign_in_google_button).setOnClickListener(this);
 
         mEmailField = (EditText) findViewById(R.id.login_email);
@@ -90,12 +90,12 @@ implements View.OnClickListener{
 
         int i = view.getId();
 
-        if (i == R.id.sign_in_email_button) {
-            Intent intent = new Intent(this, SigninActivity.class);
-
-            startActivity(intent);
-        } else if(i == R.id.login_button){
-
+//        if (i == R.id.sign_in_email_button) {
+//            Intent intent = new Intent(this, SigninActivity.class);
+//
+//            startActivity(intent);
+//        } else if(i == R.id.login_button){
+        if(i == R.id.login_button){
             /**
              * codes that
              * directly move to mainActivity.
