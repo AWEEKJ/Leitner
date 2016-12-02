@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_measure"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,14 +11,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.uos.leitner.MeasureView">
+    tools:context="com.uos.leitner.MeasureView"
+    tools:ignore="MissingPrefix"
+    android:background="@color/colorBackground">
 
     <TextView
         android:id="@+id/categoryNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:paddingTop="60dp"
+        android:textSize="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/colorAccent" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,27 +44,35 @@
                 android:id="@+id/minutesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="13"
-                android:textSize="60dp" />
+                android:textSize="70dp"
+                android:textColor="@color/colorText"
+                app:font="Slabo"
+                android:layout_weight="130" />
 
             <TextView android:id="@+id/minutes_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="m"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:text="' "
+                android:textSize="70dp"
+                android:textColor="@color/colorText"
+                app:font="Slabo"/>
 
             <TextView
                 android:id="@+id/secondsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="29"
-                android:textSize="60dp" />
+                android:textSize="70dp"
+                android:textColor="@color/colorText"
+                app:font="Slabo"
+                android:layout_weight="250" />
 
             <TextView android:id="@+id/seconds_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="s"
-                android:textAppearance="?android:textAppearanceMedium" />
+                android:text="''"
+                android:textSize="70dp"
+                android:textColor="@color/colorText"
+                app:font="Slabo"/>
 
         </LinearLayout>
 
@@ -66,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             custom:donut_progress="0"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:layout_below="@+id/linearLayout1"
             android:layout_centerHorizontal="true" />
 

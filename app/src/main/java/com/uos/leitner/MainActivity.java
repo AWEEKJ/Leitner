@@ -1,13 +1,17 @@
 package com.uos.leitner;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.helper.DatabaseHelper;
 import com.uos.leitner.model.Category;
 
@@ -21,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     private ViewPager viewPager;
 
     static int MAX = 5; // 생성 가능한 페이지 수
+
+    public static int getMAX() {
+        return MAX;
+    }
 
     protected boolean flag = false; // false-> CategoryView 생성.  true-> MeasureView 생성
 
@@ -87,5 +95,16 @@ public class MainActivity extends AppCompatActivity implements CategoryView.Comm
     public void delete(int position) {
         viewPager.removeViewAt(position + 1);
         pagerAdapter.remove(position + 1);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

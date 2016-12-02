@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.uos.leitner.helper.DatabaseHelper;
@@ -56,22 +55,8 @@ public class CategoryView extends Fragment{
         listView.setAdapter(adapter);
         registerForContextMenu(listView);   // 메뉴 입히기
 
-        // CategoryView 구성요소
-        final Button addButton = (Button)view.findViewById(R.id.addButton);
+
         hermes.initialize(categoryList);    // DB로 부터 정보를 읽어와 listView를 초기화
-
-        // 추가버튼을 클릭했을 때 새로운 창 생성
-        addButton.setOnClickListener(new View.OnClickListener() {   //항목 추가 버튼 눌렀을 때
-            @Override
-            public void onClick(View view) {
-                Log.d("Clicked button", "fragmentReplace");
-                getActivity().finish();
-                Intent intent = new Intent(getActivity(), newCategoryAddActivity.class);
-
-                intent.putExtra("count", count);
-                getActivity().startActivity(intent);
-            }
-        });
 
         // 항목을 클릭. 해당 페이지로 이동
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -114,11 +99,10 @@ public class CategoryView extends Fragment{
 
         switch(item.getItemId()) {
             case R.id.edit: // 항목 편집
-                int i = 0;
-                    Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
-                    intent.putExtra("categoryId", db_id);
-                    getActivity().finish();
-                    getActivity().startActivity(intent);
+                Intent intent = new Intent(getActivity(), ModifyCategoryActivity.class);
+                intent.putExtra("categoryId", db_id);
+                getActivity().finish();
+                getActivity().startActivity(intent);
 
                 return true;
 
@@ -147,8 +131,22 @@ public class CategoryView extends Fragment{
 
     // MainActivity에 정보를 전달하기 위한 인터페이스. Hermes로 호출
     public interface Communicator {
-        public void initialize(ArrayList<Category> list); // 앱 실행 시 DB 정보를 바탕으로 초기화
-        public void showNext(int position); // 항목 클릭했을 때
-        public void delete(int position); // 항목 삭제
+        void initialize(ArrayList<Category> list); // 앱 실행 시 DB 정보를 바탕으로 초기화
+        void showNext(int position); // 항목 클릭했을 때
+        void delete(int position); // 항목 삭제
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.newCategory){
+            Log.d("Clicked button", "fragmentReplace");
+            // getActivity().finish();
+            Intent intent = new Intent(getActivity(), CategoryAddActivity.class);
+
+            intent.putExtra("count", count);
+            getActivity().startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -36,18 +36,19 @@ class CategoryAdapter extends ArrayAdapter<Category> {
         Category c = items.get(position);
 
         if (c != null) {
-            TextView subject_Name = (TextView) view.findViewById(R.id.Category_Name);
-            TextView subject_Level = (TextView) view.findViewById(R.id.Category_Level);
-            TextView subject_MaxTime = (TextView) view.findViewById(R.id.Category_MaxTime);
+            TextView categoryName = (TextView) view.findViewById(R.id.categoryName);
+            TextView categoryLevel = (TextView) view.findViewById(R.id.categoryLevel);
+            TextView categoryGoalTime = (TextView) view.findViewById(R.id.categoryGoalTime);
 
-            if (subject_Name != null)
-                subject_Name.setText(c.getSubject_Name());
+            if (categoryName != null)
+                categoryName.setText(c.getSubject_Name());
 
-            if (subject_MaxTime != null)
-                subject_MaxTime.setText("목표 시간: " + c.getMaxTime());
+            if (categoryLevel != null)
+                categoryLevel.setText(c.getCurrentLevel()+" LV.");
 
-            if (subject_Level != null)
-                subject_Level.setText("현재 레벨: " + c.getCurrentLevel());
+            if (categoryGoalTime != null)
+                categoryGoalTime.setText(c.getMaxTime()+" M");
+
         }
 
         return view;
