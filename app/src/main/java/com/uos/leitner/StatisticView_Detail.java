@@ -96,7 +96,7 @@ public class StatisticView_Detail extends Fragment {
         createBarGraph(id);
         createPieChart((int)id);
         textView.setText("누적 시간\n");
-        textView.append(String.valueOf(db.getSumTime(1)));
+        textView.append(String.valueOf(db.getSumTime((int)id)));
 
         return view;
     }
