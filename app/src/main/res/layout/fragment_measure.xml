@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_measure"
     android:layout_width="match_parent"
@@ -20,11 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="60dp"
-        android:textSize="50dp"
+        android:textSize="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="40dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -36,9 +35,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_alignParentTop="true"
+            android:id="@+id/linearLayout1"
+            android:layout_centerVertical="false"
             android:layout_centerHorizontal="true"
-            android:id="@+id/linearLayout1">
+            android:layout_marginTop="100dp">
 
             <TextView
                 android:id="@+id/minutesTextView"
@@ -76,36 +76,29 @@
 
         </LinearLayout>
 
-        <com.github.lzyzsd.circleprogress.DonutProgress
-            android:layout_marginLeft="50dp"
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startButton"
+            android:text="@string/fa_icon_play"
+            android:textColor="@color/colorAccent"
+            android:background="@null"
+            app:font="Fontawesome"
+            android:layout_centerHorizontal="true"
+            android:textSize="50dp"
+            android:layout_marginTop="200dp" />
+
+        <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            custom:donut_progress="0"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_centerHorizontal="true" />
+            app:cpb_background_progressbar_color="@color/colorProgressbarBackground"
+            app:cpb_background_progressbar_width="13dp"
+            app:cpb_progressbar_color="@color/colorProgressbar"
+            app:cpb_progressbar_width="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
-        <LinearLayout android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:id="@+id/linearLayout2"
-            android:layout_below="@+id/progressBar"
-            android:layout_centerHorizontal="true">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/startButton"
-                android:text="start" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/stopButton"
-                android:text="stop" />
-
-        </LinearLayout>
 
     </RelativeLayout>
 </RelativeLayout>

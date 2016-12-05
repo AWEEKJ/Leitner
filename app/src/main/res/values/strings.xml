@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">LEITNER</string>
-    <string name="spinner_prompt1">목표 시간을 입력하시오.</string>
-    <string name="spinner_prompt2">목표 레벨을 입력하시오.</string>
+    <string name="fa_icon_play">&#xf04b;</string>
+    <string name="fa_icon_pause">&#xf04c;</string>
+    <string name="fa_icon_plus">&#xf067;</string>
+
 </resources>

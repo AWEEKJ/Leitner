@@ -29,7 +29,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v13:25.0.0'
 
-    compile 'com.github.lzyzsd:circleprogress:1.1.0@aar'
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
 
     compile 'com.tsengvn:typekit:1.0.1'
 
