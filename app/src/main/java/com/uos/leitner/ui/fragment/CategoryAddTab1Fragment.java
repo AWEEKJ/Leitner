@@ -33,8 +33,6 @@ public class CategoryAddTab1Fragment extends Fragment {
     private Intent intent;
     private int count;
 
-    static int MAX = new MainActivity().getMAX();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,19 +100,12 @@ public class CategoryAddTab1Fragment extends Fragment {
                 int goalTime = goalTimeSB.getProgress();
                 int mode = 1; // mode 1 is Leitner Timer
 
-                if(count<MAX) {
-                    Category newCategory = new Category(categoryName, level, goalTime, mode);
-                    db.createCategory(newCategory);
-                    count++;
-                    intent.putExtra("count", count);
-                    getActivity().finish();
-                    startActivity(intent);
-                }
-
-                else {
-                    Toast.makeText(getActivity(), "생성할 수 있는 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
-                }
-
+                Category newCategory = new Category(categoryName, level, goalTime, mode);
+                db.createCategory(newCategory);
+                count++;
+                intent.putExtra("count", count);
+                getActivity().finish();
+                startActivity(intent);
 
             }
 

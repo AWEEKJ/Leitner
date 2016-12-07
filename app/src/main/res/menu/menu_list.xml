@@ -4,21 +4,10 @@
 
     <item android:id="@+id/edit"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="수정" />
+        android:title="EDIT" />
 
     <item android:id="@+id/delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="삭제" />
+        android:title="DELETE" />
 
-    <!--<item android:id="@+id/backup"-->
-        <!--android:icon="@android:drawable/ic_menu_delete"-->
-        <!--android:title="백업" />-->
-
-    <!--<item android:id="@+id/recover"-->
-        <!--android:icon="@android:drawable/ic_menu_delete"-->
-        <!--android:title="불러오기" />-->
-
-    <!--<item android:id="@+id/logout"-->
-        <!--android:icon="@android:drawable/ic_menu_delete"-->
-        <!--android:title="로그아웃" />-->
 </menu>

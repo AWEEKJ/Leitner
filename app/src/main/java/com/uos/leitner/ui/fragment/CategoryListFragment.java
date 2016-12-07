@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.uos.leitner.R;
 import com.uos.leitner.database.DatabaseHelper;
@@ -32,8 +33,8 @@ import java.util.ArrayList;
 public class CategoryListFragment extends Fragment{
 
     private Communicator hermes = null; // 인터페이스로 구현한 메소드 전달자 (MainActivity와 CategoryView사이에 정보 교환
-    private int count = 0;
     private int clicked = 0;
+    private int categoryNum;
 
     private ArrayList<Category> categoryList;
     private CategoryListAdapter adapter;
@@ -44,7 +45,6 @@ public class CategoryListFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        count = getActivity().getIntent().getIntExtra("count", count);
     }
 
     @Override
@@ -55,6 +55,7 @@ public class CategoryListFragment extends Fragment{
 
         // ListView 생성
         categoryList = new ArrayList<Category>();
+
         adapter = new CategoryListAdapter(this.getActivity(), R.layout.item_category_list, categoryList);
         final ListView listView = (ListView)view.findViewById(R.id.ListView);
         listView.setAdapter(adapter);
@@ -108,15 +109,12 @@ public class CategoryListFragment extends Fragment{
                 intent.putExtra("categoryId", db_id);
                 getActivity().finish();
                 getActivity().startActivity(intent);
-
                 return true;
 
             case R.id.delete: // 항목 삭제
                 adapter.removeItem(clicked); // 리스트뷰에서 지우기
                 hermes.delete(clicked); // 페이지 지우기
                 db.deleteCategory(db_id); // DB에서 지우기
-                count--;
-
                 return true;
 
             default:
@@ -144,10 +142,16 @@ public class CategoryListFragment extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
         if(id == R.id.newCategory) {
-            Intent intent = new Intent(getActivity(), CategoryAddActivity.class);
-            intent.putExtra("count", count);
-            getActivity().startActivity(intent);
+            categoryNum = categoryList.size();
+            if (categoryNum == 5){
+                Toast.makeText(getActivity(), "최대 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
+            } else {
+                getActivity().finish();
+                Intent intent = new Intent(getActivity(), CategoryAddActivity.class);
+                getActivity().startActivity(intent);
+            }
         } else if (id == R.id.settings) {
             Intent intent = new Intent(getActivity(), SettingListActivity.class);
             getActivity().startActivity(intent);

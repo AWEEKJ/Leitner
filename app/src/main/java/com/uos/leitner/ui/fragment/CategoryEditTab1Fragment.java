@@ -35,8 +35,6 @@ public class CategoryEditTab1Fragment extends Fragment {
     private Intent intent;
     private int count;
 
-    static int MAX = new MainActivity().getMAX();
-
     private int categoryId;
 
     public static CategoryEditTab1Fragment newInstance(int categoryId) {

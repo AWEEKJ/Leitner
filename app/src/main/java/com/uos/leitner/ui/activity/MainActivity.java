@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
 
     static int MAX = 5; // 생성 가능한 페이지 수
 
-    public static int getMAX() {
-        return MAX;
-    }
-
     public boolean flag = false; // false-> CategoryListFragment 생성.  true-> MeasureFragment 생성
 
     @Override

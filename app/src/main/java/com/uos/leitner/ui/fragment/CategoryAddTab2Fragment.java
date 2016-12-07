@@ -31,8 +31,6 @@ public class CategoryAddTab2Fragment extends Fragment {
     private Intent intent;
     private int count;
 
-    static int MAX = new MainActivity().getMAX();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,16 +75,13 @@ public class CategoryAddTab2Fragment extends Fragment {
                 int goalTime = goalTimeSB.getProgress();
                 int mode = 2; // mode 2 is Pomodoro Timer
 
-                if(count<MAX) {
-                    Category newCategory = new Category(categoryName, 10, goalTime, mode);
-                    db.createCategory(newCategory);
-                    count++;
-                    intent.putExtra("count", count);
-                    getActivity().finish();
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), "생성할 수 있는 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
-                }
+                Category newCategory = new Category(categoryName, 10, goalTime, mode);
+                db.createCategory(newCategory);
+                count++;
+                intent.putExtra("count", count);
+                getActivity().finish();
+                startActivity(intent);
+
             }
 
         });
