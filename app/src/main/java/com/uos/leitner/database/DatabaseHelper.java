@@ -136,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         for(double value : sigmoid_values) {
             db.execSQL(INSERT_SIGMOID_VALUE + value + ");");
         }
-
+        /*
         db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('STUDY', 7, 60);");
         db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('CODING', 3, 40);");
         db.execSQL("insert into category (subject_Name, current_Level, max_Time) values ('CAPSTON', 8, 50);");
@@ -163,6 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (228,199,0,3);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (141,141,0,3);");
         db.execSQL("insert into subject_log (time_to_try, time_to_complete, pass_or_fail, subject_id) values (288,288,0,3);");
+        */
     }
 
     @Override
@@ -171,6 +172,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATEGORY);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBJECT_LOG);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SIGMOID);
+
+        Log.e("onUpgrade", "????");
 
         // create new tables
         onCreate(db);
@@ -577,6 +580,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
         return count;
 
+    }
+
+    /*
+    * 데이터베이스 초기화 하기(Category, Subject_log)
+    * */
+    public void clearTables() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_CATEGORY);
+        db.execSQL("DELETE FROM " + TABLE_SUBJECT_LOG);
+        db.execSQL("DELETE FROM sqlite_sequence where name = 'category'");
+        db.execSQL("DELETE FROM sqlite_sequence where name = 'subject_log'");
+
+        db.close();
     }
 
 }
