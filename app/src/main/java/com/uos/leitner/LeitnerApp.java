@@ -15,6 +15,7 @@ public class LeitnerApp extends Application {
                 .addNormal(Typekit.createFromAsset(this, "fonts/Slabo-Regular.ttf"))
                 .addBold(Typekit.createFromAsset(this, "fonts/NotoSansKR-Bold.otf"))
                 .add("Slabo", Typekit.createFromAsset(this, "fonts/Slabo-Regular.ttf"))
+                .add("Bungee", Typekit.createFromAsset(this, "fonts/Bungee-Regular.ttf"))
                 .add("Fontawesome", Typekit.createFromAsset(this, "fonts/fontawesome-webfont.ttf"));
     }
 }

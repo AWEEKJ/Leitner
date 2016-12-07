@@ -1,5 +1,6 @@
 package com.uos.leitner.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.R;
+import com.uos.leitner.database.DatabaseHelper;
 
 /**
  * Created by HANJU on 2016. 12. 7..
@@ -18,7 +24,13 @@ import com.uos.leitner.R;
 
 public class SettingListActivity extends AppCompatActivity {
 
-    static final String[] LIST_MENU = {"백업", "불러오기", "로그아웃"} ;
+    static final String[] LIST_MENU = {"Backup to cloud", "Sync from cloud", "Logout"} ;
+
+    DatabaseHelper db;
+    FirebaseDatabase database;
+    DatabaseReference ref;
+    FirebaseUser user;
+    DatabaseReference mSearchedLocationReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +40,12 @@ public class SettingListActivity extends AppCompatActivity {
         // Hide toolbar text
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, LIST_MENU) ;
+        db = new DatabaseHelper(getApplicationContext());
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_setting_list, R.id.item_setting, LIST_MENU) ;
 
         ListView listview = (ListView) findViewById(R.id.settingList) ;
         listview.setAdapter(adapter) ;
@@ -42,8 +59,19 @@ public class SettingListActivity extends AppCompatActivity {
 
                 // TODO : use strText
                 if (strText == LIST_MENU[0]) {
+                    ref.child(user.getUid()).child("category").setValue(db.getAllCategories());
+                    ref.child(user.getUid()).child("subject_log").setValue(db.getAllSubject_log());
+                    ref.child(user.getUid()).child("sigmoid_log").setValue(db.getAllSigmoid());
 
                 } else if (strText == LIST_MENU[1]) {
+
+                    ref.child(user.getUid()).getRef();
+                    ref.child(user.getUid()).getDatabase();
+
+                    mSearchedLocationReference = FirebaseDatabase
+                            .getInstance()
+                            .getReference()
+                            .child(user.getUid());
 
                 } else if (strText == LIST_MENU[2]) {
                     FirebaseAuth.getInstance().signOut();
@@ -54,5 +82,10 @@ public class SettingListActivity extends AppCompatActivity {
         }) ;
 
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

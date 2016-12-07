@@ -18,18 +18,20 @@
         android:id="@+id/categoryNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:font="Bungee"
         android:gravity="center_horizontal"
         android:textSize="70dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:textColor="@color/colorAccent"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="20dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="false"
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -38,41 +40,43 @@
             android:id="@+id/linearLayout1"
             android:layout_centerVertical="false"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="55dp">
 
             <TextView
                 android:id="@+id/minutesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="70dp"
+                android:textSize="60dp"
                 android:textColor="@color/colorText"
-                app:font="Slabo"
+                app:font="Bungee"
                 android:layout_weight="130" />
 
             <TextView android:id="@+id/minutes_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="' "
-                android:textSize="70dp"
+                android:text=":"
+                android:textSize="60dp"
                 android:textColor="@color/colorText"
-                app:font="Slabo"/>
+                app:font="Bungee"
+                android:gravity="top" />
 
             <TextView
                 android:id="@+id/secondsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="70dp"
+                android:textSize="60dp"
                 android:textColor="@color/colorText"
-                app:font="Slabo"
+                app:font="Bungee"
                 android:layout_weight="250" />
 
-            <TextView android:id="@+id/seconds_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="''"
-                android:textSize="70dp"
-                android:textColor="@color/colorText"
-                app:font="Slabo"/>
+            <!--<TextView android:id="@+id/seconds_unit"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text=""-->
+                <!--android:textSize="30dp"-->
+                <!--android:textColor="@color/colorText"-->
+                <!--app:font="Bungee"-->
+                <!--android:gravity="top" />-->
 
         </LinearLayout>
 
@@ -86,18 +90,18 @@
             app:font="Fontawesome"
             android:layout_centerHorizontal="true"
             android:textSize="50dp"
-            android:layout_marginTop="200dp" />
+            android:layout_marginTop="175dp" />
 
         <com.mikhaellopez.circularprogressbar.CircularProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             app:cpb_background_progressbar_color="@color/colorProgressbarBackground"
             app:cpb_background_progressbar_width="13dp"
             app:cpb_progressbar_color="@color/colorProgressbar"
             app:cpb_progressbar_width="15dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>

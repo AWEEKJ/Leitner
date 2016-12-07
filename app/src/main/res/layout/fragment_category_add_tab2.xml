@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <EditText
+        app:font="Bungee"
+        android:textColor="@color/colorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -15,54 +21,71 @@
         android:id="@+id/categoryNameEditText"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:gravity="center"/>
-
-
-    <TextView
-        android:text="GOALTIME"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:id="@+id/goalTimeTextView"
-        android:layout_alignBottom="@+id/goalTimeSeekBar"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="24dp" />
-
-    <SeekBar
-        android:layout_height="wrap_content"
-        android:layout_marginTop="107dp"
-        android:id="@+id/goalTimeSeekBar"
-        android:max="60"
-        android:layout_width="match_parent"
-        android:layout_below="@+id/categoryNameEditText" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layout_marginEnd="15dp"
-        android:layout_alignTop="@+id/goalTimeTextView" >
-
-        <TextView
-            android:text=""
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/goalTimeValueTextView" />
-
-        <TextView
-            android:text="m"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/minutesUnitTextView" />
-
-    </LinearLayout>
+        android:gravity="center"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip" />
 
     <Button
+        app:font="Bungee"
+        android:textColor="@color/colorText"
         android:text="Save"
+        android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/saveButton"
-        android:layout_marginTop="58dp"
-        android:layout_below="@+id/goalTimeSeekBar"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="140dp">
+
+        <TextView
+            app:font="Bungee"
+            android:textColor="@color/colorText"
+            android:text="GOALTIME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/goalTimeTextView"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="16dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="16dip">
+
+            <TextView
+                app:font="Bungee"
+                android:textColor="@color/colorAccent"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/goalTimeValueTextView" />
+
+            <TextView
+                app:font="Bungee"
+                android:textColor="@color/colorText"
+                android:text=" minutes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/minutesUnitTextView" />
+
+        </LinearLayout>
+
+        <SeekBar
+            android:layout_height="wrap_content"
+            android:id="@+id/goalTimeSeekBar"
+            android:max="60"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingTop="25dip" />
+    </RelativeLayout>
 </RelativeLayout>

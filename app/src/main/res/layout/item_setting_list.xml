@@ -11,12 +11,13 @@
     android:paddingRight="6dp">
 
     <TextView
-        android:id="@+id/settingItemName"
+        android:id="@+id/item_setting"
         android:text="이름"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
         android:textSize="20dp"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:layout_height="50dp"
+        app:font="Bungee"/>
 
 </RelativeLayout>

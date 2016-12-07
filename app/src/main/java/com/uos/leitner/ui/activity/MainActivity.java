@@ -10,13 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.R;
 import com.uos.leitner.database.DatabaseHelper;
@@ -36,11 +33,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
     private CategoryListPagerAdapter pagerAdapter;
     private ViewPager viewPager;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref = database.getReference();
     FirebaseUser user;
-
-    private DatabaseReference mSearchedLocationReference;
 
     static int MAX = 5; // 생성 가능한 페이지 수
 
@@ -75,10 +68,6 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
         viewPager = (ViewPager) findViewById(R.id.main_pager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(MAX);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference();
-
 
         pagerAdapter.add(new CategoryListVerticalPagerFragment());   // MainActivity의 Adapter는 VerticalViewPager를 항목으로 가짐.
 
@@ -116,42 +105,6 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
             }
         });
     }
-
-//      //메뉴 버튼이 눌렸을 때의 이벤트 처리.
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-////        // Handle presses on the action bar items
-////        switch (item.getItemId()) {
-////
-////            case R.id.backup:
-////
-////                ref.child(user.getUid()).child("category").setValue(db.getAllCategories());
-////                ref.child(user.getUid()).child("subject_log").setValue(db.getAllSubject_log());
-////                ref.child(user.getUid()).child("sigmoid_log").setValue(db.getAllSigmoid());
-////
-////                return true;
-////
-////            case R.id.recover:
-////                ref.child(user.getUid()).getRef();
-////                ref.child(user.getUid()).getDatabase();
-////
-////                mSearchedLocationReference = FirebaseDatabase
-////                        .getInstance()
-////                        .getReference()
-////                        .child(user.getUid());
-////
-////                return true;
-////
-////            case R.id.logout:
-////                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-////                FirebaseAuth.getInstance().signOut();
-////
-////                startActivity(new Intent(MainActivity.this, IntroLoginActivity.class)); //Go back to home page
-////                return true;
-////            default:
-////                return super.onOptionsItemSelected(item);
-////        }
-//    }
 
     //뒤로가기 클릭
     @Override
@@ -192,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
         pagerAdapter.remove(position + 1);
     }
 
-    // 어플에 메뉴 버튼 추가
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
