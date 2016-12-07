@@ -139,23 +139,4 @@ public class CategoryListFragment extends Fragment{
         void delete(int position); // 항목 삭제
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.newCategory) {
-            categoryNum = categoryList.size();
-            if (categoryNum == 5){
-                Toast.makeText(getActivity(), "최대 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
-            } else {
-                getActivity().finish();
-                Intent intent = new Intent(getActivity(), CategoryAddActivity.class);
-                getActivity().startActivity(intent);
-            }
-        } else if (id == R.id.settings) {
-            Intent intent = new Intent(getActivity(), SettingListActivity.class);
-            getActivity().startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

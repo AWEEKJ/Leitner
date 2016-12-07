@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -109,13 +111,14 @@ public class StatisticDetailFragment extends Fragment {
             }
 
             BarDataSet barDataSet = new BarDataSet(barEntries, ""/*db.getCategory(subject_id).getSubject_Name()*/);
-            barDataSet.setStackLabels(new String[] {"Success", "Fail"});
+//            barDataSet.setStackLabels(new String[] {"Success", "Fail"});
             barDataSet.setColors(getColors());
             barDataSet.setValueTextSize(12f);
             //barDataSet.setBarBorderWidth(1f);
             barDataSet.setValueFormatter(new MyValueFormatter());
 
             BarData barData = new BarData(barDataSet);
+            barData.setValueTextColor(Color.WHITE);
             barChart.setData(barData);
             XAxis xAxis = barChart.getXAxis();
             xAxis.setDrawGridLines(false);
@@ -152,6 +155,9 @@ public class StatisticDetailFragment extends Fragment {
             barChart.animateY(3000);
             barChart.setFitBars(true);
             barChart.setDescription(dsc);
+
+            Legend l = barChart.getLegend();
+            l.setTextColor(Color.WHITE);
             barChart.invalidate();
         }
 
@@ -166,7 +172,7 @@ public class StatisticDetailFragment extends Fragment {
         Description dsc = new Description();
         dsc.setText("");
 
-        pieEntries.add(new PieEntry(successRate, "HIT"));
+        pieEntries.add(new PieEntry(successRate, "SUCCESS"));
         pieEntries.add(new PieEntry(100-successRate, "FAIL"));
 
         PieDataSet set = new PieDataSet(pieEntries, "");
@@ -180,6 +186,9 @@ public class StatisticDetailFragment extends Fragment {
         pieChart.animateY(3000);
         pieChart.setCenterText(generateCenterSpannableText());
         pieChart.setDescription(dsc);
+        Legend l = pieChart.getLegend();
+        l.setTextColor(Color.WHITE);
+
         pieChart.invalidate(); // refresh
     }
 
@@ -189,10 +198,8 @@ public class StatisticDetailFragment extends Fragment {
         // have as many colors as stack-values per entry
         int[] colors = new int[stacksize];
 
-
-        colors[0] = Color.rgb(58,172,250);
-        colors[1] = Color.rgb(250,88,00);
-
+        colors[0] = ContextCompat.getColor(getContext(), R.color.colorDetailStatisticChart1);
+        colors[1] = ContextCompat.getColor(getContext(), R.color.colorDetailStatisticChart2);
 
         return colors;
     }
@@ -222,10 +229,9 @@ public class StatisticDetailFragment extends Fragment {
     }
 
     private SpannableString generateCenterSpannableText() {
-
-        SpannableString s = new SpannableString("HIT");
-        s.setSpan(new RelativeSizeSpan(2f), 0, 3, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 3, s.length(), 0);
+        SpannableString s = new SpannableString(""+db.getCategory(id).getSubject_Name());
+        //s.setSpan(new RelativeSizeSpan(2f), 0, 3, 0);
+        //s.setSpan(new StyleSpan(Typeface.NORMAL), 3, s.length(), 0);
 
         return s;
     }

@@ -1,5 +1,6 @@
 package com.uos.leitner.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,13 +9,16 @@ import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -32,6 +36,8 @@ import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
 import com.uos.leitner.model.CategoryCount;
 import com.uos.leitner.model.Subject_log;
+import com.uos.leitner.ui.activity.CategoryAddActivity;
+import com.uos.leitner.ui.activity.SettingListActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +114,10 @@ public class StatisticTotalFragment extends Fragment {
         pieChart.setDescription(dsc);
         pieChart.animateY(3000);
         pieChart.setCenterText(generateCenterSpannableText());
+
+        Legend l = pieChart.getLegend();
+        l.setTextColor(Color.WHITE);
+
         pieChart.invalidate(); // refresh
     }
 
@@ -161,6 +171,7 @@ public class StatisticTotalFragment extends Fragment {
         }
 
         LineData data = new LineData(dataSets);
+        data.setValueTextColor(Color.WHITE);
         lineChart.setData(data);
 
         XAxis xAxis = lineChart.getXAxis();
@@ -197,6 +208,10 @@ public class StatisticTotalFragment extends Fragment {
 
         lineChart.animateX(1000);
         lineChart.setDescription(dsc);
+
+        Legend l = lineChart.getLegend();
+        l.setTextColor(Color.WHITE);
+
         lineChart.invalidate();
 
     }

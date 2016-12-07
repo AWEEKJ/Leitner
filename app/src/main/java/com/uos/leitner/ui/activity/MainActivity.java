@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +20,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.R;
 import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
+import com.uos.leitner.model.CategoryCount;
 import com.uos.leitner.ui.adapter.CategoryListPagerAdapter;
 import com.uos.leitner.ui.fragment.CategoryListFragment;
 import com.uos.leitner.ui.fragment.CategoryListVerticalPagerFragment;
@@ -147,6 +150,26 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.newCategory) {
+            ArrayList<CategoryCount> categoryList = db.getAllCategoryCount();
+            int categoryNum = categoryList.size();
+            if (categoryNum == 5){
+                Toast.makeText(getApplicationContext(), "최대 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
+            } else {
+                finish();
+                Intent intent = new Intent(getApplicationContext(), CategoryAddActivity.class);
+                startActivity(intent);
+            }
+        } else if (id == R.id.settings) {
+            Intent intent = new Intent(getApplicationContext(), SettingListActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

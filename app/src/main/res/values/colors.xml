@@ -7,4 +7,6 @@
     <color name="colorBackground">#393e46</color>
     <color name="colorProgressbarBackground">#59606c</color>
     <color name="colorProgressbar">#00ADB5</color>
+    <color name="colorDetailStatisticChart1">#00acc1</color>
+    <color name="colorDetailStatisticChart2">#b0bec5</color>
 </resources>
