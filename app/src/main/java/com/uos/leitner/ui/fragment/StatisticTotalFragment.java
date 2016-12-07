@@ -1,5 +1,6 @@
 package com.uos.leitner.ui.fragment;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -166,9 +167,10 @@ public class StatisticTotalFragment extends Fragment {
         xAxis.setDrawGridLines(false);
 //            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //            xAxis.setTextSize(10f);
-//            xAxis.setTextColor(Color.RED);
+        xAxis.setTextColor(Color.WHITE);
 //            xAxis.setDrawAxisLine(true);
         YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setTextColor(Color.WHITE);
 //            leftAxis.setGridColor(Color.parseColor("#E6D4D4"));
 //            leftAxis.setTextSize(14 /*textSize*/);
         leftAxis.setLabelCount(4);

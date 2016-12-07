@@ -121,9 +121,10 @@ public class StatisticDetailFragment extends Fragment {
             xAxis.setDrawGridLines(false);
 //            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //            xAxis.setTextSize(10f);
-//            xAxis.setTextColor(Color.RED);
+            xAxis.setTextColor(Color.WHITE);
 //            xAxis.setDrawAxisLine(true);
             YAxis leftAxis = barChart.getAxisLeft();
+            leftAxis.setTextColor(Color.WHITE);
             leftAxis.setLabelCount(4);
 //            leftAxis.setGridColor(Color.parseColor("#E6D4D4"));
 //            leftAxis.setTextSize(14 /*textSize*/);
