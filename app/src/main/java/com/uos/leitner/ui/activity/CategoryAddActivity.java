@@ -1,10 +1,12 @@
 package com.uos.leitner.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.uos.leitner.R;
 import com.uos.leitner.ui.adapter.CategoryAddTabPagerAdapter;
 
@@ -22,11 +24,8 @@ public class CategoryAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_add);
 
-//        // Adding Toolbar to the activity
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-        // ActionBar에 타이틀 변경
-        getSupportActionBar().setTitle("ADD NEW CATEGORY");
+        // Hide toolbar text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Initializing the TabLayout
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -61,5 +60,10 @@ public class CategoryAddActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 }

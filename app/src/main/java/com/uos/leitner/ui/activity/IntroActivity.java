@@ -29,13 +29,13 @@ public class IntroActivity extends Activity {
         public void onClick(View v){
             switch(v.getId()) {
                 case R.id.sign_in:
-                    finish();
+                    //finish();
                     Intent intent1 = new Intent(getApplication(), IntroSigninActivity.class);
                     startActivity(intent1);
                     break;
 
                 case R.id.login_button:
-                    finish();
+                    //finish();
                     Intent intent2 = new Intent(getApplication(), IntroLoginActivity.class);
                     startActivity(intent2);
                     break;

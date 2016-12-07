@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
 
     private DatabaseReference mSearchedLocationReference;
 
-
     static int MAX = 5; // 생성 가능한 페이지 수
 
     public static int getMAX() {
@@ -55,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Hide toolbar text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
@@ -115,104 +117,41 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
         });
     }
 
-
-
-//    private void writeNewUser(String userId, String name, String email) {
-//        User user = new User(name, email);
-//
-//        mDatabase.child("users").child(userId).setValue(user);
+//      //메뉴 버튼이 눌렸을 때의 이벤트 처리.
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+////        // Handle presses on the action bar items
+////        switch (item.getItemId()) {
+////
+////            case R.id.backup:
+////
+////                ref.child(user.getUid()).child("category").setValue(db.getAllCategories());
+////                ref.child(user.getUid()).child("subject_log").setValue(db.getAllSubject_log());
+////                ref.child(user.getUid()).child("sigmoid_log").setValue(db.getAllSigmoid());
+////
+////                return true;
+////
+////            case R.id.recover:
+////                ref.child(user.getUid()).getRef();
+////                ref.child(user.getUid()).getDatabase();
+////
+////                mSearchedLocationReference = FirebaseDatabase
+////                        .getInstance()
+////                        .getReference()
+////                        .child(user.getUid());
+////
+////                return true;
+////
+////            case R.id.logout:
+////                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+////                FirebaseAuth.getInstance().signOut();
+////
+////                startActivity(new Intent(MainActivity.this, IntroLoginActivity.class)); //Go back to home page
+////                return true;
+////            default:
+////                return super.onOptionsItemSelected(item);
+////        }
 //    }
-
-    //메뉴 버튼이 눌렸을 때의 이벤트 처리.
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-
-            // 백업 구현 완료!!.
-            case R.id.backup:
-
-
-                ref.child(user.getUid()).child("category").setValue(db.getAllCategories());
-                ref.child(user.getUid()).child("subject_log").setValue(db.getAllSubject_log());
-                ref.child(user.getUid()).child("sigmoid_log").setValue(db.getAllSigmoid());
-
-//                writeNewUser(user.getUid(), username, user.getEmail());
-                /*
-                현재 SQLlite 정보를 json파일에 저장할 수 있도록 변환.
-
-                Firebase DB에 저장.
-                 */
-
-                return true;
-
-            case R.id.recover:
-
-                //1. 기존 DB 드랍.
-
-                //2. Firebase DB에서 현재 상태를 불러오고,
-                ref.child(user.getUid()).getRef();
-                Log.e("test1", "" + ref.child(user.getUid()).getRef());
-                ref.child(user.getUid()).getDatabase();
-
-                Log.e("test2", "" + ref.child(user.getUid()).getDatabase());
-
-
-                mSearchedLocationReference = FirebaseDatabase
-                        .getInstance()
-                        .getReference()
-                        .child(user.getUid());
-
-                Log.e("test3", "" + mSearchedLocationReference);
-                Log.e("test4", "" + mSearchedLocationReference.child("category"));
-                //String t = ((String) mSearchedLocationReference.child("category").child("0").child("subject_Name"));
-
-                Log.e("test6", "" + mSearchedLocationReference.child("sigmoid_log"));
-
-                //Log.e("test6", "" + t);
-
-
-
-
-                //3. 이를 SQLlite 파일로 저장할 수 있어야 함.
-
-
-
-
-                return true;
-
-            case R.id.logout:
-
-                //logout related Firebase actions.
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                FirebaseAuth.getInstance().signOut();
-
-                //logut related Google actions.
-
-                /*
-                GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-                GoogleSignInAccount acct = result.getSignInAccount();
-                String personName = acct.getDisplayName();
-                String personGivenName = acct.getGivenName();
-                String personFamilyName = acct.getFamilyName();
-                String personEmail = acct.getEmail();
-                String personId = acct.getId();
-                Uri personPhoto = acct.getPhotoUrl();
-                */
-
-
-                startActivity(new Intent(MainActivity.this, IntroLoginActivity.class)); //Go back to home page
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-//    if (id == R.id.action_log_out) {
-//        ref.unauth(); //End user session
-//
-//    }
-
 
     //뒤로가기 클릭
     @Override
@@ -253,13 +192,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
         pagerAdapter.remove(position + 1);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
-    //어플에 메뉴 버튼 추가
+    // 어플에 메뉴 버튼 추가
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar

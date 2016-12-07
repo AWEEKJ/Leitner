@@ -26,6 +26,7 @@
         <activity android:name=".ui.activity.CategoryEditActivity" />
         <activity android:name=".ui.activity.IntroActivity" />
         <activity android:name=".ui.activity.CategoryAddActivity"></activity>
+        <activity android:name=".ui.activity.SettingListActivity"></activity>
 
         <activity android:name=".ui.activity.MeasureResultActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>

@@ -20,6 +20,7 @@ import com.uos.leitner.database.DatabaseHelper;
 import com.uos.leitner.model.Category;
 import com.uos.leitner.ui.activity.CategoryAddActivity;
 import com.uos.leitner.ui.activity.CategoryEditActivity;
+import com.uos.leitner.ui.activity.SettingListActivity;
 import com.uos.leitner.ui.adapter.CategoryListAdapter;
 
 import java.util.ArrayList;
@@ -143,12 +144,12 @@ public class CategoryListFragment extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.newCategory){
-            Log.d("Clicked button", "fragmentReplace");
-            // getActivity().finish();
+        if(id == R.id.newCategory) {
             Intent intent = new Intent(getActivity(), CategoryAddActivity.class);
-
             intent.putExtra("count", count);
+            getActivity().startActivity(intent);
+        } else if (id == R.id.settings) {
+            Intent intent = new Intent(getActivity(), SettingListActivity.class);
             getActivity().startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

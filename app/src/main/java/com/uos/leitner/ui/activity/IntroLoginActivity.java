@@ -25,11 +25,11 @@ import com.uos.leitner.R;
  */
 
 public class IntroLoginActivity extends AppCompatActivity
-implements View.OnClickListener{
+        implements View.OnClickListener{
 
     private static final String TAG = "Activity_login";
 
-//    private TextView mStatusTextView;
+    //    private TextView mStatusTextView;
 //    private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
@@ -120,7 +120,7 @@ implements View.OnClickListener{
                             Toast.makeText(getApplicationContext(), "Log in Failed.", Toast.LENGTH_LONG).show();
 
                         }
-                     }
+                    }
                 });
         // [END sign_in_with_email]
     }

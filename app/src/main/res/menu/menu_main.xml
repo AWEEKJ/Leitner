@@ -7,19 +7,14 @@
 
     <item
         android:id="@+id/newCategory"
-        android:title="+"
-        app:showAsAction="always"
-        app:font="Fontawesome"/>
+        android:title="add"
+        android:icon="@drawable/ic_fa_plus"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/backup"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="백업" />
+    <item
+        android:id="@+id/settings"
+        android:title="settings"
+        android:icon="@drawable/ic_fa_gear"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/recover"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="불러오기" />
-
-    <item android:id="@+id/logout"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="로그아웃" />
 </menu>
