@@ -54,6 +54,10 @@ public class CategoryAddTab1Fragment extends Fragment {
         goalTimeSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                int min = 1;
+                if (progress < min) {
+                    goalTimeTV.setText(String.valueOf(1));
+                }
                 goalTimeTV.setText(String.valueOf(progress));
             }
 
@@ -76,6 +80,10 @@ public class CategoryAddTab1Fragment extends Fragment {
         levelSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                int min = 1;
+                if (progress < min) {
+                    levelTV.setText(String.valueOf(1));
+                }
                 levelTV.setText(String.valueOf(progress));
             }
 

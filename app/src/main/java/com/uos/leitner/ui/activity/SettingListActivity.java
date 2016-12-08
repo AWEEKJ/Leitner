@@ -104,7 +104,7 @@ public class SettingListActivity extends AppCompatActivity {
                         }
                     });
 
-                    finish();
+                    finishAffinity();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
 

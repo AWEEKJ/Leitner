@@ -52,6 +52,10 @@ public class CategoryAddTab2Fragment extends Fragment {
         goalTimeSB.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                int min = 1;
+                if (progress < min) {
+                    goalTimeTV.setText(String.valueOf(1));
+                }
                 goalTimeTV.setText(String.valueOf(progress));
             }
 
