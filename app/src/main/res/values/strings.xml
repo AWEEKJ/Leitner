@@ -3,5 +3,5 @@
     <string name="fa_icon_play">&#xf04b;</string>
     <string name="fa_icon_pause">&#xf04c;</string>
     <string name="fa_icon_plus">&#xf067;</string>
-
+    <string name="fa_icon_arrow_down">&#xf063;</string>
 </resources>

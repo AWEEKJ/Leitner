@@ -194,7 +194,9 @@ public class MeasureFragment extends Fragment {
         Intent intent = new Intent(this.getActivity(), MeasureResultActivity.class);
         intent.putExtra("time_to_complete", time_to_complete);
         intent.putExtra("time_to_try", time_remaining);
-        intent.putExtra("present_level", category.getCurrentLevel());
+        intent.putExtra("present_level", level);
+        intent.putExtra("next_level", category.getCurrentLevel());
+        intent.putExtra("mode", category.getMode());
 
         if(time_remaining==0) { //성공
             next_goal = (int)(this.db.getTryTime(currentLevel+1, maxTime/1000));        }

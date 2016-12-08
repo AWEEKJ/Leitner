@@ -5,6 +5,7 @@
     <color name="colorAccent">#00ADB5</color>
     <color name="colorText">#eeeeee</color>
     <color name="colorBackground">#393e46</color>
+    <color name="colorPopupBackground">#636c7b</color>
     <color name="colorProgressbarBackground">#59606c</color>
     <color name="colorProgressbar">#00ADB5</color>
     <color name="colorDetailStatisticChart1">#00acc1</color>

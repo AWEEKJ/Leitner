@@ -69,7 +69,7 @@ public class CategoryAddTab1Fragment extends Fragment {
         });
 
         levelSB = (SeekBar) view.findViewById(R.id.levelSeekBar);
-        levelSB.setProgress(5);     // 초기레벨로 5단계
+        levelSB.setProgress(10);     // 초기레벨로 5단계
         levelTV = (TextView) view.findViewById(R.id.levelValueTextView);
         levelTV.setText(String.valueOf(levelSB.getProgress()));
 

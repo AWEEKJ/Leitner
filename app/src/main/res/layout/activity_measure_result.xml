@@ -1,80 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical|center_horizontal">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingPrefix"
+    android:background="@color/colorPopupBackground"
+    android:layout_width="match_parent"
+    android:layout_gravity="center_vertical|center_horizontal"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:orientation="vertical"
-        android:background="@drawable/popup_border">
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
 
         <TextView
             android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="메시지"
+            android:text="RESULT"
             android:textSize="22dp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="5dp"
-
-            />
+            android:textColor="@color/colorText"
+            app:font="Bungee"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal" />
 
         <TextView
-            android:id="@+id/present_Goal"
+            android:id="@+id/measureResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="현재 목표"
-            android:textSize="17dp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:textSize="22dp"
+            android:textColor="@color/colorText"
+            app:font="Bungee"
             />
 
-        <TextView
-            android:id="@+id/present_State"
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="실시 결과"
-            android:textSize="17dp"
-            android:textColor="#FFFFFF"
-            />
+            android:layout_height="wrap_content">
+            <!--<TextView-->
+                <!--android:id="@+id/textView1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical|center_horizontal"-->
+                <!--android:text="NOW"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textColor="@color/colorText"-->
+                <!--app:font="Bungee"-->
+                <!--/>-->
+
+            <TextView
+                android:id="@+id/present_Goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+                android:textColor="@color/colorText"
+                app:font="Bungee"
+                />
+
+            <TextView
+                android:id="@+id/present_Level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+                android:textColor="@color/colorText"
+                app:font="Bungee"
+                android:paddingLeft="10dp"
+                />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/next_Goal"
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="5dp"
-            android:text="다음 목표"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="@string/fa_icon_arrow_down"
             android:textSize="17dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/colorText"
+            app:font="Fontawesome"
             />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical|center_horizontal"-->
+                <!--android:text="NEXT"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textColor="@color/colorText"-->
+                <!--app:font="Bungee"-->
+                <!--/>-->
+
+            <TextView
+                android:id="@+id/next_Goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+                android:textColor="@color/colorText"
+                app:font="Bungee" />
+
+            <TextView
+                android:id="@+id/next_Level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+                android:textColor="@color/colorText"
+                app:font="Bungee"
+                android:paddingLeft="10dp"
+                />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/button_StartAgain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="5dp"
-            android:background="#00000000"
-            android:text="확인"
-            android:textSize="15dp"
-            android:textColor="#FFFFFF"/>
+            app:font="Bungee"
+            android:background="@null"
+            android:textSize="17dp"
+            android:textColor="@color/colorAccent" />
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
