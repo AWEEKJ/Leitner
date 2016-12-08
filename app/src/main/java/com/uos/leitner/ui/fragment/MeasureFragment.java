@@ -189,14 +189,23 @@ public class MeasureFragment extends Fragment {
         }
 
         startBtn.setText(R.string.fa_icon_play);
+        int next_goal;
 
         Intent intent = new Intent(this.getActivity(), MeasureResultActivity.class);
-
         intent.putExtra("time_to_complete", time_to_complete);
         intent.putExtra("time_to_try", time_remaining);
+        intent.putExtra("present_level", category.getCurrentLevel());
 
+        if(time_remaining==0) { //성공
+            next_goal = (int)(this.db.getTryTime(currentLevel+1, maxTime/1000));        }
+        else {
+            if(currentLevel==1)
+                next_goal = (int)(this.db.getTryTime(currentLevel, maxTime/1000));
+            else
+                next_goal = (int)(this.db.getTryTime(currentLevel-1, maxTime/1000));
+        }
+        intent.putExtra("next_goal", next_goal);
         startActivity(intent);
-
         getActivity().recreate();
     }
 
