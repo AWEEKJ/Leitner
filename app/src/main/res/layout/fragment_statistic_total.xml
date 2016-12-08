@@ -6,31 +6,34 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="204dp"
-        android:weightSum="1">
+        android:layout_height="255dp"
+        android:weightSum="1"
+        android:layout_marginTop="20dp">
 
         <com.github.mikephil.charting.charts.PieChart
             android:layout_width="198dp"
             android:layout_height="match_parent"
             android:id="@+id/pie_chart"
-            android:layout_above="@+id/line_chart"
-            android:layout_alignStart="@+id/line_chart"
-            android:layout_marginStart="19dp"
-            android:layout_weight="0.23">
+            android:layout_weight="0.23"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
         </com.github.mikephil.charting.charts.PieChart>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/line_chart"
-        android:layout_marginBottom="44dp"
+        android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:paddingTop="20dp">
     </com.github.mikephil.charting.charts.LineChart>
 
 </LinearLayout>

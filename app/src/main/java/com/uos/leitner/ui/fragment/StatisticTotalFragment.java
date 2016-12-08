@@ -113,7 +113,7 @@ public class StatisticTotalFragment extends Fragment {
         pieChart.setData(data);
         pieChart.setDescription(dsc);
         pieChart.animateY(3000);
-        pieChart.setCenterText(generateCenterSpannableText());
+        pieChart.setCenterText("TOTAL");
 
         Legend l = pieChart.getLegend();
         l.setTextColor(Color.WHITE);
@@ -121,15 +121,14 @@ public class StatisticTotalFragment extends Fragment {
         pieChart.invalidate(); // refresh
     }
 
-
-    private SpannableString generateCenterSpannableText() {
-
-        SpannableString s = new SpannableString("A+");
-        s.setSpan(new RelativeSizeSpan(2f), 0, 2, 0);
-        s.setSpan(new StyleSpan(Typeface.NORMAL), 2, s.length(), 0);
-
-        return s;
-    }
+//    private SpannableString generateCenterSpannableText() {
+//
+//        SpannableString s = new SpannableString("TOTAL");
+//        s.setSpan(new RelativeSizeSpan(2f), 0, 2, 0);
+//        s.setSpan(new StyleSpan(Typeface.NORMAL), 2, s.length(), 0);
+//
+//        return s;
+//    }
 
     public LineDataSet createSingleLineGraph(long subject_id) {
         int index = 1;

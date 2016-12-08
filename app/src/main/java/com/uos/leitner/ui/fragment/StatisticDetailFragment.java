@@ -87,31 +87,44 @@ public class StatisticDetailFragment extends Fragment {
         textView = (TextView) view.findViewById(R.id.textView);
         db = new DatabaseHelper(getContext());
 
+        int min = 0, sec = 0;
+        min = (db.getSumTime((int)id))/60;
+        sec = (db.getSumTime((int)id))%60;
+
         createBarGraph(id);
         createPieChart((int)id);
-        textView.setText("누적 시간\n");
-        textView.append(String.valueOf(db.getSumTime((int)id)));
+        textView.setText("TOTAL TIME : " + min + "분 " + sec + "초");
+//        textView.append(String.valueOf(db.getSumTime((int)id)));
 
         return view;
     }
+
     public void createBarGraph(long subject_id) {
 
         barEntries = new ArrayList<>();
         Description dsc = new Description();
         dsc.setText("");
 
+        // id에 해당하는 로그 개수 만큼 생성
+        final String date[] = new String[db.getTryCount((int)subject_id)];
+        int i = 0;
+        String tempDate = "";
+
+
         List<Subject_log> sls = db.getSomeSubject_log(subject_id);
-        int index = 1;
+        int index = 0;
 
         if (!sls.isEmpty()) {
             for (Subject_log sl : sls) {
                 // 그래프 그릴 값을 할당
                 barEntries.add(new BarEntry(index++, new float[]{sl.getTime_to_try(),
                         Math.abs(sl.getTime_to_try() - sl.getTime_to_complete()) }));
+                tempDate = sl.getDate();
+                date[i++] = tempDate.substring(5,7) +"/"+ tempDate.substring(8, 10);
             }
 
             BarDataSet barDataSet = new BarDataSet(barEntries, ""/*db.getCategory(subject_id).getSubject_Name()*/);
-//            barDataSet.setStackLabels(new String[] {"Success", "Fail"});
+            barDataSet.setStackLabels(new String[] {"SUCCESS", "FAIL"});
             barDataSet.setColors(getColors());
             barDataSet.setValueTextSize(12f);
             //barDataSet.setBarBorderWidth(1f);
@@ -120,7 +133,26 @@ public class StatisticDetailFragment extends Fragment {
             BarData barData = new BarData(barDataSet);
             barData.setValueTextColor(Color.WHITE);
             barChart.setData(barData);
+
+            IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+                @Override
+                public String getFormattedValue(float value, AxisBase axis) {
+                    //return quarters[(int) value];
+                    return date[(int) value];
+                }
+
+                // we don't draw numbers, so no decimal digits needed
+                @Override
+                public int getDecimalDigits() {  return 0; }
+            };
+
             XAxis xAxis = barChart.getXAxis();
+            xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+            xAxis.setValueFormatter(formatter);
+
+
+            //XAxis xAxis = barChart.getXAxis();
             xAxis.setDrawGridLines(false);
 //            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 //            xAxis.setTextSize(10f);

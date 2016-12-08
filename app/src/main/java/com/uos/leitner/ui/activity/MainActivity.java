@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListFragm
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.newCategory) {
-            ArrayList<CategoryCount> categoryList = db.getAllCategoryCount();
-            int categoryNum = categoryList.size();
+            int categoryNum = db.categoryCounts();
+            Log.d("Category Number", ""+categoryNum);
             if (categoryNum == 5){
                 Toast.makeText(getApplicationContext(), "최대 카테고리 개수는 5개입니다.", Toast.LENGTH_LONG).show();
             } else {

@@ -287,6 +287,26 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /*
+    * category 개수 가져오기
+    * */
+    public int categoryCounts() {
+        String selectQuery = "SELECT count(*) AS COUNT FROM " + TABLE_CATEGORY;
+
+        Log.e(LOG, selectQuery);
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if(c != null) {
+            c.moveToFirst();
+        }
+
+        db.close();
+
+        return c.getInt(c.getColumnIndex("COUNT"));
+    }
+
+    /*
     * Create a Subject_log
     * */
     public long createSubjectLog(Subject_log slog) {

@@ -110,7 +110,7 @@ public class SettingListActivity extends AppCompatActivity {
 
                 } else if (strText == LIST_MENU[2]) {
                     FirebaseAuth.getInstance().signOut();
-                    finish();
+                    finishAffinity();
                     startActivity(new Intent(getApplicationContext(), IntroLoginActivity.class)); //Go back to home page
                 }
             }

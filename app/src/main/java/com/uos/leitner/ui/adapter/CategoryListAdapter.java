@@ -39,18 +39,20 @@ public class CategoryListAdapter extends ArrayAdapter<Category> {
 
         if (c != null) {
             TextView categoryName = (TextView) view.findViewById(R.id.categoryName);
+            TextView categoryMode = (TextView) view.findViewById(R.id.categoryMode);
             TextView categoryLevel = (TextView) view.findViewById(R.id.categoryLevel);
             TextView categoryGoalTime = (TextView) view.findViewById(R.id.categoryGoalTime);
 
-            if (categoryName != null)
-                categoryName.setText(c.getSubject_Name());
+            int mode = c.getMode();
+            categoryName.setText(c.getSubject_Name());
 
-            if (categoryLevel != null)
-                categoryLevel.setText(c.getCurrentLevel()+" LV.");
-
-            if (categoryGoalTime != null)
-                categoryGoalTime.setText(c.getMaxTime()+" M");
-
+            if (mode == 1) {
+                categoryMode.setText("LEITNER");
+                categoryLevel.setText("LEVEL : "+c.getCurrentLevel()+"");
+            } else if (mode == 2) {
+                categoryMode.setText("POMODORO");
+            }
+            categoryGoalTime.setText("GOAL TIME : "+c.getMaxTime()+"M");
         }
 
         return view;
